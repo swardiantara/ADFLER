@@ -173,6 +173,7 @@ class DroneLogNER:
         )
         
         return total_val_loss / len(data_loader), metrics
+    
 
     def predict(self, text):
         """Predict NER tags for a single text input"""
@@ -180,7 +181,9 @@ class DroneLogNER:
         
         # Tokenize input
         tokens = text.split()  # Simple splitting, you might want to use more sophisticated tokenization
-        encoded = self.tokenizer(
+        
+        # Get the tokenized input
+        inputs = self.tokenizer(
             tokens,
             is_split_into_words=True,
             return_tensors='pt',
@@ -188,23 +191,64 @@ class DroneLogNER:
             truncation=True
         ).to(self.device)
         
+        # Get predictions
         with torch.no_grad():
-            outputs = self.model(**encoded)
-            predictions = torch.argmax(outputs.logits, dim=2)
+            outputs = self.model(**inputs)
+            predictions = torch.argmax(outputs.logits, dim=2)[0].cpu().numpy()
         
         # Convert predictions to labels
         pred_labels = []
-        word_ids = encoded.word_ids()
-        last_word_idx = None
-        id2label = DroneLogDataset(None, self.tokenizer).id2label
+        previous_word_idx = None
+        word_ids = []
         
-        for token_idx, word_idx in enumerate(word_ids[0]):
-            if word_idx is None or word_idx == last_word_idx:
-                continue
-            pred_labels.append(id2label[predictions[0][token_idx].item()])
-            last_word_idx = word_idx
+        # Get word IDs for each token
+        for i, token in enumerate(tokens):
+            token_word_ids = []
+            tokenized = self.tokenizer.tokenize(token)
+            for _ in tokenized:
+                token_word_ids.append(i)
+            word_ids.extend(token_word_ids)
+        
+        # Map predictions back to original tokens
+        for token_idx, word_idx in enumerate(word_ids):
+            if word_idx != previous_word_idx:
+                id2label = DroneLogDataset(None, self.tokenizer).id2label
+                pred_labels.append(id2label[predictions[token_idx]])
+                previous_word_idx = word_idx
         
         return list(zip(tokens, pred_labels))
+
+    # def predict(self, text):
+    #     """Predict NER tags for a single text input"""
+    #     self.model.eval()
+        
+    #     # Tokenize input
+    #     tokens = text.split()  # Simple splitting, you might want to use more sophisticated tokenization
+    #     encoded = self.tokenizer(
+    #         tokens,
+    #         is_split_into_words=True,
+    #         return_tensors='pt',
+    #         padding=True,
+    #         truncation=True
+    #     ).to(self.device)
+        
+    #     with torch.no_grad():
+    #         outputs = self.model(**encoded)
+    #         predictions = torch.argmax(outputs.logits, dim=2)
+        
+    #     # Convert predictions to labels
+    #     pred_labels = []
+    #     word_ids = encoded.word_ids()
+    #     last_word_idx = None
+    #     id2label = DroneLogDataset(None, self.tokenizer).id2label
+        
+    #     for token_idx, word_idx in enumerate(word_ids[0]):
+    #         if word_idx is None or word_idx == last_word_idx:
+    #             continue
+    #         pred_labels.append(id2label[predictions[0][token_idx].item()])
+    #         last_word_idx = word_idx
+        
+    #     return list(zip(tokens, pred_labels))
 
 # Example usage
 if __name__ == "__main__":
@@ -220,8 +264,11 @@ if __name__ == "__main__":
         epochs=5
     )
     
+    
     # Make predictions
-    sample_text = "Drone takeoff initiated at coordinates 42.123, -71.456"
+    # Load your trained model if necessary
+    # ner_model.model.load_state_dict(torch.load('best_model.pt'))
+    sample_text = "Motor speed error. Land or return to home promptly. After powering off the aircraft, replace the propeller on the beeping ESC. If the issue persists, contact DJI Support."
     predictions = ner_model.predict(sample_text)
     print("\nPredictions:")
     for token, label in predictions:
