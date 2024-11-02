@@ -72,7 +72,7 @@ class DroneLogDataset(Dataset):
         }
 
 class DroneLogNER:
-    def __init__(self, model_name='bert-base-uncased', num_labels=9, device='cuda'):
+    def __init__(self, model_name='bert-base-cased', num_labels=9, device='cuda'):
         self.device = device
         self.tokenizer = BertTokenizerFast.from_pretrained(model_name)
         self.model = BertForTokenClassification.from_pretrained(
@@ -212,6 +212,8 @@ if __name__ == "__main__":
     ner_model = DroneLogNER(device='cuda' if torch.cuda.is_available() else 'cpu')
     train_path = os.path.join('dataset', 'train_conll_data.txt')
     test_path = os.path.join('dataset', 'test_conll_data.txt')
+    print(f"train_path: {train_path}")
+    print(f"test_path: {test_path}")
     # Train the model
     ner_model.train(
         train_path=train_path,
