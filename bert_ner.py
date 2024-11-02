@@ -168,7 +168,7 @@ class DroneLogNER:
         metrics = classification_report(
             all_labels,
             all_preds,
-            target_names=list(label2id.keys()),
+            labels=list(label2id.values()),
             zero_division=0
         )
         
