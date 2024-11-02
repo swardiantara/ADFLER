@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 class DroneLogDataset(Dataset):
     def __init__(self, data_path, tokenizer, max_len=128):
-        self.data = self.read_conll_file(data_path)
+        self.data = self.read_conll_file(data_path) if data_path is not None else None
         self.tokenizer = tokenizer
         self.max_len = max_len
         self.label2id = {'O': 0, 'B-Event': 1, 'I-Event': 2, 'E-Event': 3, 'S-Event': 4, 'B-NonEvent': 5, 'I-NonEvent': 6, 'E-NonEvent': 7, 'S-NonEvent': 8}
