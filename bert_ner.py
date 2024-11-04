@@ -1,4 +1,5 @@
 import os
+import json
 
 import torch
 from torch import nn
@@ -7,6 +8,8 @@ from transformers import BertTokenizerFast, BertForTokenClassification
 from sklearn.metrics import classification_report
 import numpy as np
 from tqdm import tqdm
+
+from src.eval_utils import log_errors_for_analysis
 
 class DroneLogDataset(Dataset):
     def __init__(self, data_path, tokenizer, max_len=128):
@@ -120,7 +123,7 @@ class DroneLogNER:
             avg_train_loss = total_train_loss / len(train_loader)
             
             # Validation
-            val_loss, val_metrics = self.evaluate(val_loader)
+            val_loss, val_metrics, _ = self.evaluate(val_loader)
             
             print(f'Epoch {epoch + 1}:')
             print(f'Average training loss: {avg_train_loss:.4f}')
@@ -172,7 +175,7 @@ class DroneLogNER:
             zero_division=0
         )
         
-        return total_val_loss / len(data_loader), metrics
+        return total_val_loss / len(data_loader), metrics, all_preds
     
 
     def predict(self, text):
@@ -263,8 +266,15 @@ if __name__ == "__main__":
         val_path=test_path,
         epochs=5
     )
-    
-    
+
+    # Evaluation
+    val_dataset = DroneLogDataset(test_path, ner_model.tokenizer)
+    val_loader = DataLoader(val_dataset, batch_size=16)
+    _, _, all_pred_tags = ner_model.evaluate(val_loader)
+    logs = log_errors_for_analysis(all_pred_tags, val_dataset.data)
+    with open("error_analysis_logs.json", "w") as f:
+        json.dump(logs, f, indent=4)
+        
     # Make predictions
     # Load your trained model if necessary
     # ner_model.model.load_state_dict(torch.load('best_model.pt'))
