@@ -259,7 +259,7 @@ def main():
     ner_model = DroneLogNER(device='cuda' if torch.cuda.is_available() else 'cpu')
     train_path = os.path.join('dataset', 'train_conll_data.txt')
     test_path = os.path.join('dataset', 'test_conll_data.txt')
-    
+
     # Train the model
     ner_model.train(
         train_path=train_path,
@@ -268,9 +268,10 @@ def main():
     )
 
     # Evaluation
-    val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
+    val_dataset = DroneLogDataset(test_path, ner_model.tokenizer)
     val_loader = DataLoader(val_dataset, batch_size=16)
     _, _, all_pred_tags = ner_model.evaluate(val_loader)
+    val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
     logs = log_errors_for_analysis(all_pred_tags, val_dataset.data)
     with open("error_analysis_logs.json", "w") as f:
         json.dump(logs, f, indent=4)
