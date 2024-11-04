@@ -166,9 +166,7 @@ class DroneLogNER:
                     all_preds.append(pred[valid_indices].cpu().numpy())
                     all_labels.append(label[valid_indices].cpu().numpy())
 
-        print(f'previous: {all_preds}')
         all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
-        print(f'after: {all_preds}')
 
         return total_val_loss / len(data_loader), all_preds
     
@@ -265,7 +263,7 @@ def main():
     # Evaluation
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer)
     val_loader = DataLoader(val_dataset, batch_size=16)
-    _, _, all_pred_tags = ner_model.evaluate(val_loader)
+    _, all_pred_tags = ner_model.evaluate(val_loader)
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
     logs = log_errors_for_analysis(all_pred_tags, val_dataset)
     with open("error_analysis_logs.json", "w") as f:
