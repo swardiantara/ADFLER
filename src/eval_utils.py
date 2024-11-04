@@ -183,6 +183,7 @@ def log_errors_for_analysis(all_pred_tags, raw_inputs):
     }
 
     for idx, (pred_tags, raw_input_tuples) in enumerate(zip(all_pred_tags, raw_inputs)):
+        print(f'raw_input_tuples: {raw_input_tuples}')
         # Extract words from raw input tuples
         words = [word for word, _ in raw_input_tuples]
         true_tags = [label for _, label in raw_input_tuples]
