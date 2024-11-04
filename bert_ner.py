@@ -272,7 +272,7 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=16)
     _, _, all_pred_tags = ner_model.evaluate(val_loader)
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
-    logs = log_errors_for_analysis(all_pred_tags, val_dataset.data)
+    logs = log_errors_for_analysis(all_pred_tags, val_dataset)
     with open("error_analysis_logs.json", "w") as f:
         json.dump(logs, f, indent=4)
 
