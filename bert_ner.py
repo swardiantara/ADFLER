@@ -2,6 +2,7 @@ import os
 import json
 
 import torch
+from itertools import chain
 from torch import nn
 from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizerFast, BertForTokenClassification
@@ -123,13 +124,11 @@ class DroneLogNER:
             avg_train_loss = total_train_loss / len(train_loader)
             
             # Validation
-            val_loss, val_metrics, _ = self.evaluate(val_loader)
+            val_loss, _ = self.evaluate(val_loader)
             
             print(f'Epoch {epoch + 1}:')
             print(f'Average training loss: {avg_train_loss:.4f}')
             print(f'Validation loss: {val_loss:.4f}')
-            print('Validation metrics:')
-            print(val_metrics)
             
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
@@ -164,18 +163,14 @@ class DroneLogNER:
                 # Convert predictions and labels to list, filtering out padding (-100)
                 for pred, label in zip(preds, labels):
                     valid_indices = label != -100
-                    all_preds.extend(pred[valid_indices].cpu().numpy())
-                    all_labels.extend(label[valid_indices].cpu().numpy())
-        
-        # Calculate metrics
-        metrics = classification_report(
-            all_labels,
-            all_preds,
-            labels=list(label2id.values()),
-            zero_division=0
-        )
-        
-        return total_val_loss / len(data_loader), metrics, all_preds
+                    all_preds.append(pred[valid_indices].cpu().numpy())
+                    all_labels.append(label[valid_indices].cpu().numpy())
+
+        print(f'previous: {all_preds}')
+        all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
+        print(f'after: {all_preds}')
+
+        return total_val_loss / len(data_loader), all_preds
     
 
     def predict(self, text):
@@ -271,7 +266,6 @@ def main():
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer)
     val_loader = DataLoader(val_dataset, batch_size=16)
     _, _, all_pred_tags = ner_model.evaluate(val_loader)
-    all_pred_tags = [[val_dataset.id2label[idx] for idx in sample] for sample in all_pred_tags]
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
     logs = log_errors_for_analysis(all_pred_tags, val_dataset)
     with open("error_analysis_logs.json", "w") as f:
