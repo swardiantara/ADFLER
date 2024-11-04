@@ -254,7 +254,7 @@ class DroneLogNER:
     #     return list(zip(tokens, pred_labels))
 
 # Example usage
-if __name__ == "__main__":
+def main():
     # Initialize the model
     ner_model = DroneLogNER(device='cuda' if torch.cuda.is_available() else 'cpu')
     train_path = os.path.join('dataset', 'train_conll_data.txt')
@@ -268,13 +268,13 @@ if __name__ == "__main__":
     )
 
     # Evaluation
-    val_dataset = DroneLogDataset(test_path, ner_model.tokenizer)
+    val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
     val_loader = DataLoader(val_dataset, batch_size=16)
     _, _, all_pred_tags = ner_model.evaluate(val_loader)
     logs = log_errors_for_analysis(all_pred_tags, val_dataset.data)
     with open("error_analysis_logs.json", "w") as f:
         json.dump(logs, f, indent=4)
-        
+
     # Make predictions
     # Load your trained model if necessary
     # ner_model.model.load_state_dict(torch.load('best_model.pt'))
@@ -283,3 +283,7 @@ if __name__ == "__main__":
     print("\nPredictions:")
     for token, label in predictions:
         print(f"{token}: {label}")
+
+
+if __name__ == "__main__":
+    main()
