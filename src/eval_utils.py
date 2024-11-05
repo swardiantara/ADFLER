@@ -212,12 +212,12 @@ def log_errors_for_analysis(all_pred_tags, raw_inputs):
 
             log_entry = {
                 "sample_index": idx,
-                "raw_input": words[start:end],
+                "raw_input": words[start:end+1],
                 "boundary": (start, end),
                 "true_type": true_type,
                 "pred_type": pred_type,
-                "true_tags": true_tags[start:end],
-                "pred_tags": pred_tags[start:end]
+                "true_tags": true_tags[start:end+1],
+                "pred_tags": pred_tags[start:end+1]
             }
 
             if true_type == pred_type:
