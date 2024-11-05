@@ -1,25 +1,79 @@
+# def extract_boundaries_with_types(tags):
+#     """
+#     Extract sentence boundaries with entity types (Event or NonEvent) using BIOES tagging.
+#     """
+#     boundaries = []
+#     start_idx = None
+#     entity_type = None
+#     for idx, tag in enumerate(tags):
+#         if tag.startswith("B-"):
+#             start_idx = idx
+#             entity_type = tag[2:]
+#         elif tag.startswith("E-") and start_idx is not None and entity_type == tag[2:]:
+#             end_idx = idx
+#             boundaries.append((start_idx, end_idx, entity_type))
+#             start_idx = None
+#             entity_type = None
+#         elif tag.startswith("S-"):
+#             single_idx = idx
+#             entity_type = tag[2:]
+#             boundaries.append((single_idx, single_idx, entity_type))
+#         elif tag.startswith("I-") and start_idx is not None and entity_type != tag[2:]:
+#             print('Intermediary tag is not the same!')
+#     return boundaries
+
+
 def extract_boundaries_with_types(tags):
     """
-    Extract sentence boundaries with entity types (Event or NonEvent) using BIOES tagging.
+    Extracts boundaries with entity types based on specified rules for sentence boundaries.
+    
+    Args:
+    - tags: List of BIOES tags for a single input sample.
+    
+    Returns:
+    - boundaries: List of tuples (start_idx, end_idx, entity_type) representing each boundary.
     """
     boundaries = []
     start_idx = None
-    entity_type = None
+    current_entity_type = None
+
     for idx, tag in enumerate(tags):
-        if tag.startswith("B-"):
+        if tag == "O":  # Separator tag; close the current boundary if one is open
+            if start_idx is not None:
+                boundaries.append((start_idx, idx - 1, current_entity_type))
+                start_idx = None
+                current_entity_type = None
+            continue
+
+        tag_parts = tag.split("-")
+        if len(tag_parts) == 2:
+            prefix, entity_type = tag_parts
+        else:
+            # Handle cases where the tag might not follow the "B-", "I-", "E-", "S-" structure
+            continue
+
+        if start_idx is None:
+            # Begin a new boundary
             start_idx = idx
-            entity_type = tag[2:]
-        elif tag.startswith("E-") and start_idx is not None and entity_type == tag[2:]:
-            end_idx = idx
-            boundaries.append((start_idx, end_idx, entity_type))
-            start_idx = None
-            entity_type = None
-        elif tag.startswith("S-"):
-            single_idx = idx
-            entity_type = tag[2:]
-            boundaries.append((single_idx, single_idx, entity_type))
-        elif tag.startswith("I-") and start_idx is not None and entity_type != tag[2:]:
-            print('Intermediary tag is not the same!')
+            current_entity_type = entity_type
+
+        elif entity_type != current_entity_type:
+            # Different entity type encountered, close current boundary and start new
+            boundaries.append((start_idx, idx - 1, current_entity_type))
+            start_idx = idx
+            current_entity_type = entity_type
+
+        elif prefix == "B":
+            # B tag appears; start new boundary
+            if start_idx is not None:
+                boundaries.append((start_idx, idx - 1, current_entity_type))
+            start_idx = idx
+            current_entity_type = entity_type
+
+    # Close any remaining boundary
+    if start_idx is not None:
+        boundaries.append((start_idx, len(tags) - 1, current_entity_type))
+
     return boundaries
 
 
