@@ -62,10 +62,10 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event",
                 "O"
             ],
             "true_boundaries": [
@@ -568,6 +568,106 @@
             ]
         },
         {
+            "sample_index": 113,
+            "raw_input": [
+                "Low",
+                "power",
+                ",",
+                "please",
+                "replace",
+                "the",
+                "battery",
+                "."
+            ],
+            "true_tags": [
+                "B-Event",
+                "E-Event",
+                "O",
+                "B-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "E-NonEvent",
+                "O"
+            ],
+            "pred_tags": [
+                "B-NonEvent",
+                "E-NonEvent",
+                "O",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "E-NonEvent",
+                "O"
+            ],
+            "true_boundaries": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    3,
+                    6
+                ]
+            ],
+            "predicted_boundaries": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    3,
+                    6
+                ]
+            ]
+        },
+        {
+            "sample_index": 114,
+            "raw_input": [
+                "Low",
+                "Power",
+                ".",
+                "Returning",
+                "home",
+                "."
+            ],
+            "true_tags": [
+                "B-Event",
+                "E-Event",
+                "O",
+                "B-Event",
+                "E-Event",
+                "O"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "E-Event",
+                "O",
+                "B-Event",
+                "E-Event",
+                "O"
+            ],
+            "true_boundaries": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    3,
+                    4
+                ]
+            ],
+            "predicted_boundaries": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    3,
+                    4
+                ]
+            ]
+        },
+        {
             "sample_index": 120,
             "raw_input": [
                 "Motor",
@@ -656,6 +756,39 @@
                 [
                     0,
                     4
+                ]
+            ]
+        },
+        {
+            "sample_index": 144,
+            "raw_input": [
+                "Starting",
+                "Smart",
+                "Track",
+                "."
+            ],
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event",
+                "O"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event",
+                "O"
+            ],
+            "true_boundaries": [
+                [
+                    0,
+                    2
+                ]
+            ],
+            "predicted_boundaries": [
+                [
+                    0,
+                    2
                 ]
             ]
         },
@@ -929,12 +1062,12 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "B-Event",
+                "B-Event",
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "O",
                 "B-Event",
@@ -946,8 +1079,8 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "E-NonEvent",
-                "E-NonEvent",
+                "E-Event",
+                "E-Event",
                 "O",
                 "B-NonEvent",
                 "I-NonEvent",
@@ -980,18 +1113,10 @@
                 ],
                 [
                     2,
-                    5
-                ],
-                [
-                    6,
                     6
                 ],
                 [
                     8,
-                    16
-                ],
-                [
-                    17,
                     18
                 ],
                 [
@@ -1001,20 +1126,16 @@
             ],
             "incorrect_boundaries": [
                 [
-                    17,
-                    18
-                ],
-                [
                     2,
-                    5
+                    6
                 ],
                 [
                     0,
                     0
                 ],
                 [
-                    6,
-                    6
+                    8,
+                    18
                 ],
                 [
                     1,
@@ -1023,10 +1144,6 @@
                 [
                     20,
                     23
-                ],
-                [
-                    8,
-                    16
                 ]
             ]
         },
@@ -1175,10 +1292,10 @@
                 "I-NonEvent",
                 "E-NonEvent",
                 "I-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
@@ -1205,49 +1322,17 @@
                 ],
                 [
                     10,
-                    14
-                ],
-                [
-                    15,
-                    15
-                ],
-                [
-                    16,
-                    16
-                ],
-                [
-                    17,
-                    17
-                ],
-                [
-                    18,
                     25
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    17,
-                    17
-                ],
-                [
-                    16,
-                    16
-                ],
-                [
-                    18,
-                    25
-                ],
-                [
-                    10,
-                    14
-                ],
-                [
                     0,
                     8
                 ],
                 [
-                    15,
-                    15
+                    10,
+                    25
                 ]
             ]
         },
@@ -1296,7 +1381,7 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "B-NonEvent",
+                "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
@@ -1314,20 +1399,12 @@
             "predicted_boundaries": [
                 [
                     0,
-                    13
-                ],
-                [
-                    14,
                     20
                 ]
             ],
             "incorrect_boundaries": [
                 [
                     0,
-                    13
-                ],
-                [
-                    14,
                     20
                 ]
             ]
@@ -1371,18 +1448,18 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event",
                 "O",
                 "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "E-NonEvent",
                 "E-NonEvent",
                 "O",
@@ -1414,6 +1491,14 @@
                 ],
                 [
                     8,
+                    8
+                ],
+                [
+                    9,
+                    11
+                ],
+                [
+                    12,
                     13
                 ],
                 [
@@ -1424,11 +1509,19 @@
             "incorrect_boundaries": [
                 [
                     8,
-                    13
+                    8
                 ],
                 [
                     15,
                     19
+                ],
+                [
+                    9,
+                    11
+                ],
+                [
+                    12,
+                    13
                 ],
                 [
                     0,
@@ -1471,7 +1564,7 @@
             "pred_tags": [
                 "B-Event",
                 "I-Event",
-                "E-Event",
+                "I-Event",
                 "E-Event",
                 "I-Event",
                 "E-Event",
@@ -1566,7 +1659,7 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
+                "B-Event",
                 "I-Event",
                 "I-Event",
                 "I-Event",
@@ -1596,10 +1689,6 @@
             "predicted_boundaries": [
                 [
                     0,
-                    0
-                ],
-                [
-                    1,
                     4
                 ],
                 [
@@ -1619,14 +1708,6 @@
                 [
                     7,
                     14
-                ],
-                [
-                    1,
-                    4
-                ],
-                [
-                    0,
-                    0
                 ]
             ]
         },
@@ -1780,25 +1861,25 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
-                "O",
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
+                "B-Event",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-Event",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
+                "E-Event",
+                "O",
+                "B-Event",
+                "B-Event",
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event",
                 "O"
             ],
             "true_boundaries": [
@@ -1814,6 +1895,14 @@
             "predicted_boundaries": [
                 [
                     0,
+                    0
+                ],
+                [
+                    1,
+                    4
+                ],
+                [
+                    5,
                     6
                 ],
                 [
@@ -1826,37 +1915,33 @@
                 ],
                 [
                     10,
-                    14
-                ],
-                [
-                    15,
-                    15
-                ],
-                [
-                    16,
                     18
                 ]
             ],
             "incorrect_boundaries": [
                 [
+                    0,
+                    0
+                ],
+                [
                     8,
                     8
                 ],
                 [
-                    10,
-                    14
+                    5,
+                    6
                 ],
                 [
                     9,
                     9
                 ],
                 [
-                    16,
+                    10,
                     18
                 ],
                 [
-                    15,
-                    15
+                    1,
+                    4
                 ]
             ]
         },
@@ -2469,9 +2554,9 @@
             "pred_tags": [
                 "B-Event",
                 "I-Event",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "O"
             ],
@@ -2484,28 +2569,12 @@
             "predicted_boundaries": [
                 [
                     0,
-                    1
-                ],
-                [
-                    2,
-                    4
-                ],
-                [
-                    5,
                     5
                 ]
             ],
             "incorrect_boundaries": [
                 [
                     0,
-                    1
-                ],
-                [
-                    2,
-                    4
-                ],
-                [
-                    5,
                     5
                 ]
             ]
@@ -2633,17 +2702,17 @@
                 "I-Event",
                 "E-Event",
                 "O",
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "E-Event",
+                "B-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "E-NonEvent",
                 "O",
                 "B-NonEvent",
                 "I-NonEvent",
@@ -2724,9 +2793,9 @@
                 "O"
             ],
             "pred_tags": [
-                "B-Event",
-                "B-Event",
-                "I-Event",
+                "B-NonEvent",
+                "B-NonEvent",
+                "I-NonEvent",
                 "E-Event",
                 "E-Event",
                 "O"
@@ -2744,12 +2813,20 @@
                 ],
                 [
                     1,
+                    2
+                ],
+                [
+                    3,
                     4
                 ]
             ],
             "incorrect_boundaries": [
                 [
                     1,
+                    2
+                ],
+                [
+                    3,
                     4
                 ],
                 [
@@ -2798,9 +2875,9 @@
                 "B-Event",
                 "B-Event",
                 "I-Event",
-                "I-NonEvent",
                 "I-Event",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "O",
                 "B-NonEvent",
@@ -2843,22 +2920,6 @@
                 ],
                 [
                     3,
-                    4
-                ],
-                [
-                    5,
-                    5
-                ],
-                [
-                    6,
-                    6
-                ],
-                [
-                    7,
-                    7
-                ],
-                [
-                    8,
                     8
                 ],
                 [
@@ -2876,44 +2937,28 @@
             ],
             "incorrect_boundaries": [
                 [
-                    8,
-                    8
-                ],
-                [
-                    16,
-                    18
-                ],
-                [
-                    5,
-                    5
-                ],
-                [
-                    3,
-                    4
-                ],
-                [
-                    7,
-                    7
-                ],
-                [
                     0,
                     0
-                ],
-                [
-                    1,
-                    1
                 ],
                 [
                     10,
                     10
                 ],
                 [
+                    3,
+                    8
+                ],
+                [
                     2,
                     2
                 ],
                 [
-                    6,
-                    6
+                    16,
+                    18
+                ],
+                [
+                    1,
+                    1
                 ],
                 [
                     11,
@@ -3526,7 +3571,7 @@
             ],
             "pred_tags": [
                 "B-Event",
-                "B-NonEvent",
+                "B-Event",
                 "I-Event",
                 "I-Event",
                 "I-Event",
@@ -3546,25 +3591,17 @@
                 ],
                 [
                     1,
-                    1
-                ],
-                [
-                    2,
                     5
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    1,
-                    1
-                ],
-                [
-                    2,
-                    5
-                ],
-                [
                     0,
                     0
+                ],
+                [
+                    1,
+                    5
                 ]
             ]
         },
@@ -3704,7 +3741,7 @@
                 "E-Event",
                 "E-Event",
                 "O",
-                "B-NonEvent",
+                "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
@@ -4655,7 +4692,7 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "E-NonEvent",
+                "E-Event",
                 "E-Event",
                 "O"
             ],
@@ -4676,37 +4713,21 @@
                 ],
                 [
                     2,
-                    8
-                ],
-                [
-                    9,
-                    9
-                ],
-                [
-                    10,
                     10
                 ]
             ],
             "incorrect_boundaries": [
-                [
-                    0,
-                    0
-                ],
-                [
-                    10,
-                    10
-                ],
-                [
-                    9,
-                    9
-                ],
                 [
                     1,
                     1
                 ],
                 [
                     2,
-                    8
+                    10
+                ],
+                [
+                    0,
+                    0
                 ]
             ]
         },
@@ -4733,11 +4754,11 @@
                 "B-Event",
                 "B-Event",
                 "E-Event",
-                "O",
-                "I-NonEvent",
-                "I-NonEvent",
                 "I-Event",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "O"
             ],
@@ -4762,53 +4783,21 @@
                 ],
                 [
                     2,
-                    3
-                ],
-                [
-                    5,
-                    6
-                ],
-                [
-                    7,
-                    7
-                ],
-                [
-                    8,
-                    8
-                ],
-                [
-                    9,
                     9
                 ]
             ],
             "incorrect_boundaries": [
                 [
                     2,
-                    3
-                ],
-                [
-                    8,
-                    8
-                ],
-                [
-                    7,
-                    7
-                ],
-                [
-                    5,
-                    6
-                ],
-                [
-                    0,
-                    0
+                    9
                 ],
                 [
                     1,
                     1
                 ],
                 [
-                    9,
-                    9
+                    0,
+                    0
                 ]
             ]
         },
@@ -4994,8 +4983,8 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-NonEvent",
-                "E-NonEvent",
+                "I-Event",
+                "E-Event",
                 "E-Event",
                 "O"
             ],
@@ -5032,14 +5021,6 @@
                 ],
                 [
                     9,
-                    14
-                ],
-                [
-                    15,
-                    16
-                ],
-                [
-                    17,
                     17
                 ]
             ],
@@ -5049,7 +5030,7 @@
                     8
                 ],
                 [
-                    17,
+                    9,
                     17
                 ],
                 [
@@ -5063,14 +5044,6 @@
                 [
                     1,
                     1
-                ],
-                [
-                    15,
-                    16
-                ],
-                [
-                    9,
-                    14
                 ],
                 [
                     2,
@@ -5608,7 +5581,7 @@
                 "E-Event",
                 "O",
                 "B-NonEvent",
-                "B-NonEvent",
+                "B-Event",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
@@ -5646,13 +5619,25 @@
                 ],
                 [
                     7,
+                    7
+                ],
+                [
+                    8,
                     13
                 ]
             ],
             "incorrect_boundaries": [
                 [
+                    8,
+                    13
+                ],
+                [
                     2,
                     4
+                ],
+                [
+                    7,
+                    7
                 ],
                 [
                     0,
@@ -5665,10 +5650,6 @@
                 [
                     1,
                     1
-                ],
-                [
-                    7,
-                    13
                 ]
             ]
         },
@@ -6436,7 +6417,7 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "E-Event",
+                "I-Event",
                 "I-Event",
                 "E-Event",
                 "O"
@@ -7103,7 +7084,7 @@
             "pred_tags": [
                 "B-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent",
+                "E-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
@@ -7180,7 +7161,7 @@
                 "B-Event",
                 "B-Event",
                 "B-Event",
-                "O",
+                "B-Event",
                 "B-Event",
                 "I-Event",
                 "I-Event",
@@ -7223,6 +7204,10 @@
                     2
                 ],
                 [
+                    3,
+                    3
+                ],
+                [
                     4,
                     7
                 ],
@@ -7232,6 +7217,10 @@
                 ]
             ],
             "incorrect_boundaries": [
+                [
+                    3,
+                    3
+                ],
                 [
                     2,
                     2
@@ -7568,7 +7557,7 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event",
+                "I-NonEvent",
                 "I-Event",
                 "E-Event",
                 "O",
@@ -7600,6 +7589,14 @@
                 ],
                 [
                     1,
+                    5
+                ],
+                [
+                    6,
+                    6
+                ],
+                [
+                    7,
                     8
                 ],
                 [
@@ -7609,16 +7606,24 @@
             ],
             "incorrect_boundaries": [
                 [
+                    0,
+                    0
+                ],
+                [
                     1,
-                    8
+                    5
+                ],
+                [
+                    6,
+                    6
                 ],
                 [
                     10,
                     18
                 ],
                 [
-                    0,
-                    0
+                    7,
+                    8
                 ]
             ]
         },
@@ -7971,19 +7976,19 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "E-Event",
                 "O",
@@ -8017,10 +8022,10 @@
                 ],
                 [
                     3,
-                    19
+                    6
                 ],
                 [
-                    20,
+                    7,
                     21
                 ],
                 [
@@ -8030,12 +8035,12 @@
             ],
             "incorrect_boundaries": [
                 [
-                    3,
-                    19
-                ],
-                [
                     2,
                     2
+                ],
+                [
+                    3,
+                    6
                 ],
                 [
                     23,
@@ -8046,12 +8051,12 @@
                     0
                 ],
                 [
-                    1,
-                    1
+                    7,
+                    21
                 ],
                 [
-                    20,
-                    21
+                    1,
+                    1
                 ]
             ]
         },
@@ -8199,14 +8204,14 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "B-Event",
+                "B-Event",
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "E-Event",
                 "O"
@@ -8228,25 +8233,17 @@
                 ],
                 [
                     2,
-                    7
-                ],
-                [
-                    8,
                     9
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    1,
-                    1
-                ],
-                [
-                    8,
+                    2,
                     9
                 ],
                 [
-                    2,
-                    7
+                    1,
+                    1
                 ],
                 [
                     0,
@@ -8376,12 +8373,12 @@
                 "I-NonEvent",
                 "E-NonEvent",
                 "O",
-                "B-NonEvent",
+                "B-Event",
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "E-NonEvent",
-                "E-NonEvent",
+                "E-Event",
+                "E-Event",
                 "O"
             ],
             "true_boundaries": [
@@ -8417,28 +8414,12 @@
                 ],
                 [
                     14,
-                    14
-                ],
-                [
-                    15,
-                    17
-                ],
-                [
-                    18,
                     19
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    15,
-                    17
-                ],
-                [
                     14,
-                    14
-                ],
-                [
-                    18,
                     19
                 ],
                 [
@@ -8745,9 +8726,9 @@
                 "I-NonEvent",
                 "E-NonEvent",
                 "O",
-                "B-NonEvent",
+                "B-Event",
                 "I-NonEvent",
-                "E-NonEvent",
+                "E-Event",
                 "O",
                 "B-NonEvent",
                 "I-NonEvent",
@@ -8795,6 +8776,14 @@
                 ],
                 [
                     19,
+                    19
+                ],
+                [
+                    20,
+                    20
+                ],
+                [
+                    21,
                     21
                 ],
                 [
@@ -8816,7 +8805,15 @@
                     17
                 ],
                 [
+                    20,
+                    20
+                ],
+                [
                     19,
+                    19
+                ],
+                [
+                    21,
                     21
                 ]
             ]
@@ -8928,7 +8925,7 @@
             ],
             "pred_tags": [
                 "B-Event",
-                "I-NonEvent",
+                "I-Event",
                 "E-Event",
                 "O",
                 "B-NonEvent",
@@ -8956,14 +8953,6 @@
             "predicted_boundaries": [
                 [
                     0,
-                    0
-                ],
-                [
-                    1,
-                    1
-                ],
-                [
-                    2,
                     2
                 ],
                 [
@@ -9001,20 +8990,8 @@
                     7
                 ],
                 [
-                    0,
-                    0
-                ],
-                [
-                    1,
-                    1
-                ],
-                [
                     8,
                     13
-                ],
-                [
-                    2,
-                    2
                 ],
                 [
                     6,
@@ -9051,11 +9028,11 @@
                 "I-Event",
                 "E-Event",
                 "O",
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "E-NonEvent",
-                "E-NonEvent",
+                "B-Event",
+                "B-Event",
+                "B-Event",
+                "E-Event",
+                "E-Event",
                 "O"
             ],
             "true_boundaries": [
@@ -9142,9 +9119,9 @@
                 "E-Event",
                 "E-Event",
                 "O",
+                "B-Event",
                 "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
+                "B-Event",
                 "E-NonEvent",
                 "E-NonEvent",
                 "O"
@@ -9178,6 +9155,10 @@
                 ],
                 [
                     10,
+                    10
+                ],
+                [
+                    11,
                     12
                 ]
             ],
@@ -9191,16 +9172,20 @@
                     8
                 ],
                 [
+                    11,
+                    12
+                ],
+                [
+                    10,
+                    10
+                ],
+                [
                     9,
                     9
                 ],
                 [
                     1,
                     6
-                ],
-                [
-                    10,
-                    12
                 ]
             ]
         },
@@ -9314,10 +9299,10 @@
             "pred_tags": [
                 "B-Event",
                 "B-Event",
-                "B-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "B-Event",
+                "B-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "O",
                 "B-NonEvent",
@@ -9358,10 +9343,6 @@
                 ],
                 [
                     3,
-                    5
-                ],
-                [
-                    6,
                     6
                 ],
                 [
@@ -9375,12 +9356,12 @@
                     2
                 ],
                 [
-                    0,
-                    0
+                    3,
+                    6
                 ],
                 [
-                    6,
-                    6
+                    0,
+                    0
                 ],
                 [
                     8,
@@ -9389,10 +9370,6 @@
                 [
                     1,
                     1
-                ],
-                [
-                    3,
-                    5
                 ]
             ]
         },
@@ -9842,126 +9819,6 @@
                 [
                     5,
                     6
-                ]
-            ]
-        },
-        {
-            "sample_index": 113,
-            "raw_input": [
-                "Low",
-                "power",
-                ",",
-                "please",
-                "replace",
-                "the",
-                "battery",
-                "."
-            ],
-            "true_tags": [
-                "B-Event",
-                "E-Event",
-                "O",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
-                "O"
-            ],
-            "pred_tags": [
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
-                "O"
-            ],
-            "true_boundaries": [
-                [
-                    0,
-                    1
-                ],
-                [
-                    3,
-                    6
-                ]
-            ],
-            "predicted_boundaries": [
-                [
-                    0,
-                    2
-                ],
-                [
-                    3,
-                    6
-                ]
-            ],
-            "incorrect_boundaries": [
-                [
-                    0,
-                    2
-                ]
-            ]
-        },
-        {
-            "sample_index": 114,
-            "raw_input": [
-                "Low",
-                "Power",
-                ".",
-                "Returning",
-                "home",
-                "."
-            ],
-            "true_tags": [
-                "B-Event",
-                "E-Event",
-                "O",
-                "B-Event",
-                "E-Event",
-                "O"
-            ],
-            "pred_tags": [
-                "B-Event",
-                "E-Event",
-                "O",
-                "B-NonEvent",
-                "E-Event",
-                "O"
-            ],
-            "true_boundaries": [
-                [
-                    0,
-                    1
-                ],
-                [
-                    3,
-                    4
-                ]
-            ],
-            "predicted_boundaries": [
-                [
-                    0,
-                    1
-                ],
-                [
-                    3,
-                    3
-                ],
-                [
-                    4,
-                    4
-                ]
-            ],
-            "incorrect_boundaries": [
-                [
-                    4,
-                    4
-                ],
-                [
-                    3,
-                    3
                 ]
             ]
         },
@@ -10495,13 +10352,13 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
+                "B-Event",
                 "I-NonEvent",
                 "E-NonEvent",
                 "O",
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
+                "B-Event",
+                "B-Event",
+                "B-Event",
                 "E-NonEvent",
                 "O"
             ],
@@ -10518,6 +10375,10 @@
             "predicted_boundaries": [
                 [
                     0,
+                    0
+                ],
+                [
+                    1,
                     2
                 ],
                 [
@@ -10530,6 +10391,10 @@
                 ],
                 [
                     6,
+                    6
+                ],
+                [
+                    7,
                     7
                 ]
             ],
@@ -10539,12 +10404,24 @@
                     4
                 ],
                 [
-                    6,
+                    5,
+                    5
+                ],
+                [
+                    1,
+                    2
+                ],
+                [
+                    7,
                     7
                 ],
                 [
-                    5,
-                    5
+                    0,
+                    0
+                ],
+                [
+                    6,
+                    6
                 ]
             ]
         },
@@ -10780,11 +10657,11 @@
                 "B-Event",
                 "E-Event",
                 "O",
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
+                "B-Event",
+                "B-Event",
+                "B-Event",
+                "I-Event",
+                "E-Event",
                 "O"
             ],
             "true_boundaries": [
@@ -10942,25 +10819,25 @@
                 "B-Event",
                 "B-Event",
                 "I-Event",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "I-Event",
                 "E-Event",
                 "O",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event",
                 "O"
             ],
             "true_boundaries": [
@@ -10984,14 +10861,6 @@
                 ],
                 [
                     2,
-                    3
-                ],
-                [
-                    4,
-                    7
-                ],
-                [
-                    8,
                     9
                 ],
                 [
@@ -11002,27 +10871,19 @@
             "incorrect_boundaries": [
                 [
                     2,
-                    3
-                ],
-                [
-                    8,
                     9
-                ],
-                [
-                    0,
-                    0
                 ],
                 [
                     1,
                     1
                 ],
                 [
-                    4,
-                    7
-                ],
-                [
                     11,
                     22
+                ],
+                [
+                    0,
+                    0
                 ]
             ]
         },
@@ -11618,13 +11479,13 @@
             "pred_tags": [
                 "B-NonEvent",
                 "B-NonEvent",
-                "B-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "I-Event",
                 "E-NonEvent",
                 "O"
             ],
@@ -11645,21 +11506,45 @@
                 ],
                 [
                     2,
+                    6
+                ],
+                [
+                    7,
+                    7
+                ],
+                [
+                    8,
+                    8
+                ],
+                [
+                    9,
                     9
                 ]
             ],
             "incorrect_boundaries": [
                 [
+                    8,
+                    8
+                ],
+                [
                     2,
-                    9
+                    6
+                ],
+                [
+                    7,
+                    7
+                ],
+                [
+                    0,
+                    0
                 ],
                 [
                     1,
                     1
                 ],
                 [
-                    0,
-                    0
+                    9,
+                    9
                 ]
             ]
         },
@@ -11726,13 +11611,13 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "E-NonEvent",
-                "E-NonEvent",
-                "E-NonEvent",
-                "E-NonEvent",
+                "B-Event",
+                "B-Event",
+                "I-NonEvent",
+                "E-Event",
+                "E-Event",
+                "E-Event",
+                "E-Event",
                 "O"
             ],
             "true_boundaries": [
@@ -11752,6 +11637,10 @@
                 ],
                 [
                     2,
+                    2
+                ],
+                [
+                    3,
                     6
                 ]
             ],
@@ -11762,6 +11651,10 @@
                 ],
                 [
                     2,
+                    2
+                ],
+                [
+                    3,
                     6
                 ],
                 [
@@ -11817,10 +11710,10 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "B-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
+                "B-Event",
+                "B-Event",
+                "B-Event",
+                "I-Event",
                 "I-Event",
                 "I-Event",
                 "I-Event",
@@ -11862,10 +11755,6 @@
                 ],
                 [
                     2,
-                    3
-                ],
-                [
-                    4,
                     8
                 ],
                 [
@@ -11875,24 +11764,20 @@
             ],
             "incorrect_boundaries": [
                 [
-                    2,
-                    3
-                ],
-                [
                     10,
                     21
                 ],
                 [
-                    4,
+                    1,
+                    1
+                ],
+                [
+                    2,
                     8
                 ],
                 [
                     0,
                     0
-                ],
-                [
-                    1,
-                    1
                 ]
             ]
         },
@@ -11924,7 +11809,7 @@
             ],
             "pred_tags": [
                 "B-Event",
-                "I-NonEvent",
+                "I-Event",
                 "E-Event",
                 "O",
                 "B-NonEvent",
@@ -11948,14 +11833,6 @@
             "predicted_boundaries": [
                 [
                     0,
-                    0
-                ],
-                [
-                    1,
-                    1
-                ],
-                [
-                    2,
                     2
                 ],
                 [
@@ -11967,18 +11844,6 @@
                 [
                     4,
                     9
-                ],
-                [
-                    1,
-                    1
-                ],
-                [
-                    2,
-                    2
-                ],
-                [
-                    0,
-                    0
                 ]
             ]
         },
@@ -12005,12 +11870,12 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "I-NonEvent",
+                "B-Event",
+                "I-Event",
                 "I-Event",
                 "E-Event",
                 "O",
-                "B-NonEvent",
+                "B-Event",
                 "E-NonEvent",
                 "O"
             ],
@@ -12027,25 +11892,25 @@
             "predicted_boundaries": [
                 [
                     0,
-                    1
-                ],
-                [
-                    2,
                     3
                 ],
                 [
                     5,
+                    5
+                ],
+                [
+                    6,
                     6
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    0,
-                    1
+                    6,
+                    6
                 ],
                 [
-                    2,
-                    3
+                    5,
+                    5
                 ]
             ]
         },
@@ -12085,9 +11950,9 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "O"
             ],
@@ -12104,28 +11969,12 @@
                 ],
                 [
                     1,
-                    6
-                ],
-                [
-                    7,
-                    9
-                ],
-                [
-                    10,
                     10
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    7,
-                    9
-                ],
-                [
                     1,
-                    6
-                ],
-                [
-                    10,
                     10
                 ],
                 [
@@ -12160,10 +12009,10 @@
                 "B-Event",
                 "B-Event",
                 "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
+                "I-NonEvent",
                 "I-Event",
                 "E-Event",
                 "E-Event",
@@ -12182,72 +12031,33 @@
                 ],
                 [
                     1,
+                    2
+                ],
+                [
+                    3,
+                    6
+                ],
+                [
+                    7,
                     9
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    1,
+                    7,
                     9
                 ],
                 [
-                    0,
-                    0
-                ]
-            ]
-        },
-        {
-            "sample_index": 144,
-            "raw_input": [
-                "Starting",
-                "Smart",
-                "Track",
-                "."
-            ],
-            "true_tags": [
-                "B-Event",
-                "I-Event",
-                "E-Event",
-                "O"
-            ],
-            "pred_tags": [
-                "B-Event",
-                "I-NonEvent",
-                "E-Event",
-                "O"
-            ],
-            "true_boundaries": [
-                [
-                    0,
-                    2
-                ]
-            ],
-            "predicted_boundaries": [
-                [
-                    0,
-                    0
-                ],
-                [
                     1,
-                    1
+                    2
                 ],
                 [
-                    2,
-                    2
-                ]
-            ],
-            "incorrect_boundaries": [
+                    3,
+                    6
+                ],
                 [
                     0,
                     0
-                ],
-                [
-                    1,
-                    1
-                ],
-                [
-                    2,
-                    2
                 ]
             ]
         },
@@ -12574,8 +12384,8 @@
                 "B-Event",
                 "B-Event",
                 "I-Event",
-                "I-NonEvent",
-                "E-Event",
+                "I-Event",
+                "I-Event",
                 "E-Event",
                 "E-Event",
                 "E-Event",
@@ -12602,37 +12412,21 @@
                 ],
                 [
                     2,
-                    3
-                ],
-                [
-                    4,
-                    4
-                ],
-                [
-                    5,
                     12
                 ]
             ],
             "incorrect_boundaries": [
                 [
-                    4,
-                    4
-                ],
-                [
-                    2,
-                    3
-                ],
-                [
-                    0,
-                    0
-                ],
-                [
                     1,
                     1
                 ],
                 [
-                    5,
+                    2,
                     12
+                ],
+                [
+                    0,
+                    0
                 ]
             ]
         },
@@ -12656,9 +12450,9 @@
                 "B-Event",
                 "B-Event",
                 "B-Event",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "I-Event",
+                "I-Event",
+                "E-Event",
                 "E-Event",
                 "E-Event",
                 "E-Event",
@@ -12682,37 +12476,21 @@
                 ],
                 [
                     2,
-                    2
-                ],
-                [
-                    3,
-                    5
-                ],
-                [
-                    6,
                     9
                 ]
             ],
             "incorrect_boundaries": [
                 [
                     2,
-                    2
-                ],
-                [
-                    0,
-                    0
+                    9
                 ],
                 [
                     1,
                     1
                 ],
                 [
-                    6,
-                    9
-                ],
-                [
-                    3,
-                    5
+                    0,
+                    0
                 ]
             ]
         },
@@ -12863,7 +12641,7 @@
                 "B-NonEvent",
                 "B-NonEvent",
                 "B-NonEvent",
-                "B-NonEvent",
+                "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
@@ -12898,25 +12676,17 @@
                 ],
                 [
                     2,
-                    2
-                ],
-                [
-                    3,
                     18
                 ]
             ],
             "incorrect_boundaries": [
-                [
-                    3,
-                    18
-                ],
                 [
                     1,
                     1
                 ],
                 [
                     2,
-                    2
+                    18
                 ],
                 [
                     0,
@@ -13001,7 +12771,7 @@
                 "O"
             ],
             "pred_tags": [
-                "B-Event",
+                "E-Event",
                 "E-Event",
                 "O"
             ],
@@ -13063,19 +12833,19 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
+                "B-Event",
+                "B-Event",
                 "I-Event",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
-                "E-NonEvent",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event",
+                "I-Event",
+                "E-Event",
+                "E-Event",
                 "E-Event",
                 "O",
                 "B-NonEvent",
@@ -13086,7 +12856,7 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent",
+                "E-NonEvent",
                 "E-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
@@ -13110,18 +12880,6 @@
                 ],
                 [
                     1,
-                    4
-                ],
-                [
-                    5,
-                    5
-                ],
-                [
-                    6,
-                    12
-                ],
-                [
-                    13,
                     13
                 ],
                 [
@@ -13131,28 +12889,16 @@
             ],
             "incorrect_boundaries": [
                 [
-                    6,
-                    12
-                ],
-                [
-                    5,
-                    5
-                ],
-                [
-                    0,
-                    0
-                ],
-                [
                     15,
                     27
                 ],
                 [
                     1,
-                    4
+                    13
                 ],
                 [
-                    13,
-                    13
+                    0,
+                    0
                 ]
             ]
         },
@@ -13232,12 +12978,12 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "E-NonEvent",
+                "B-Event",
+                "B-Event",
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event",
                 "O",
                 "B-NonEvent",
                 "I-NonEvent",
@@ -13262,6 +13008,10 @@
                 ],
                 [
                     1,
+                    1
+                ],
+                [
+                    2,
                     5
                 ],
                 [
@@ -13271,16 +13021,20 @@
             ],
             "incorrect_boundaries": [
                 [
-                    0,
-                    0
-                ],
-                [
                     7,
                     10
                 ],
                 [
                     1,
+                    1
+                ],
+                [
+                    2,
                     5
+                ],
+                [
+                    0,
+                    0
                 ]
             ]
         },
@@ -13319,7 +13073,7 @@
                 "O"
             ],
             "pred_tags": [
-                "B-NonEvent",
+                "B-Event",
                 "B-Event",
                 "B-Event",
                 "I-Event",
@@ -13614,8 +13368,8 @@
             ],
             "pred_tags": [
                 "B-Event",
-                "B-NonEvent",
-                "I-NonEvent",
+                "B-Event",
+                "I-Event",
                 "E-Event",
                 "O"
             ],
@@ -13632,20 +13386,12 @@
                 ],
                 [
                     1,
-                    2
-                ],
-                [
-                    3,
                     3
                 ]
             ],
             "incorrect_boundaries": [
                 [
                     1,
-                    2
-                ],
-                [
-                    3,
                     3
                 ],
                 [
@@ -13701,7 +13447,7 @@
             "pred_tags": [
                 "B-Event",
                 "B-Event",
-                "I-NonEvent",
+                "I-Event",
                 "E-Event",
                 "O",
                 "B-NonEvent",
@@ -13743,14 +13489,6 @@
                 ],
                 [
                     1,
-                    1
-                ],
-                [
-                    2,
-                    2
-                ],
-                [
-                    3,
                     3
                 ],
                 [
@@ -13768,24 +13506,16 @@
                     20
                 ],
                 [
-                    3,
-                    3
-                ],
-                [
                     5,
                     16
                 ],
                 [
-                    2,
-                    2
+                    1,
+                    3
                 ],
                 [
                     0,
                     0
-                ],
-                [
-                    1,
-                    1
                 ]
             ]
         },
@@ -14269,153 +13999,13 @@
     ],
     "classification_correct": [
         {
-            "sample_index": 10,
+            "sample_index": 6,
             "raw_input": [
                 "Aircraft",
-                "is",
-                "returning",
-                "to",
-                "the",
-                "Home"
-            ],
-            "boundary": [
-                0,
-                6
-            ],
-            "true_type": "Event",
-            "pred_type": "Event",
-            "true_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event"
-            ],
-            "pred_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event"
-            ]
-        },
-        {
-            "sample_index": 11,
-            "raw_input": [
-                "Aircraft",
-                "is",
-                "returning",
-                "to",
-                "the",
-                "Home"
-            ],
-            "boundary": [
-                0,
-                6
-            ],
-            "true_type": "Event",
-            "pred_type": "Event",
-            "true_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event"
-            ],
-            "pred_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event"
-            ]
-        },
-        {
-            "sample_index": 12,
-            "raw_input": [
-                "Aircraft",
-                "is",
-                "returning",
-                "to",
-                "the",
-                "starting"
-            ],
-            "boundary": [
-                0,
-                6
-            ],
-            "true_type": "Event",
-            "pred_type": "Event",
-            "true_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event"
-            ],
-            "pred_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event"
-            ]
-        },
-        {
-            "sample_index": 16,
-            "raw_input": [
-                "Aircraft",
-                "too"
-            ],
-            "boundary": [
-                0,
-                2
-            ],
-            "true_type": "Event",
-            "pred_type": "Event",
-            "true_tags": [
-                "B-Event",
-                "I-Event"
-            ],
-            "pred_tags": [
-                "B-Event",
-                "I-Event"
-            ]
-        },
-        {
-            "sample_index": 23,
-            "raw_input": [
-                "Auto",
-                "landing"
-            ],
-            "boundary": [
-                0,
-                2
-            ],
-            "true_type": "Event",
-            "pred_type": "Event",
-            "true_tags": [
-                "B-Event",
-                "I-Event"
-            ],
-            "pred_tags": [
-                "B-Event",
-                "I-Event"
-            ]
-        },
-        {
-            "sample_index": 24,
-            "raw_input": [
-                "Auxiliary",
-                "Bottom",
-                "Light",
-                "turned"
+                "in",
+                "high",
+                "interference",
+                "environment"
             ],
             "boundary": [
                 0,
@@ -14427,20 +14017,131 @@
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
-            "sample_index": 28,
+            "sample_index": 10,
             "raw_input": [
-                "Battery",
-                "cell"
+                "Aircraft",
+                "is",
+                "returning",
+                "to",
+                "the",
+                "Home",
+                "Point"
+            ],
+            "boundary": [
+                0,
+                6
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 11,
+            "raw_input": [
+                "Aircraft",
+                "is",
+                "returning",
+                "to",
+                "the",
+                "Home",
+                "Point"
+            ],
+            "boundary": [
+                0,
+                6
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 12,
+            "raw_input": [
+                "Aircraft",
+                "is",
+                "returning",
+                "to",
+                "the",
+                "starting",
+                "point"
+            ],
+            "boundary": [
+                0,
+                6
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 16,
+            "raw_input": [
+                "Aircraft",
+                "too",
+                "Far"
             ],
             "boundary": [
                 0,
@@ -14450,11 +14151,118 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 19,
+            "raw_input": [
+                "API",
+                "Automatic",
+                "Return",
+                "Home"
+            ],
+            "boundary": [
+                0,
+                3
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 23,
+            "raw_input": [
+                "Auto",
+                "landing",
+                "initiated"
+            ],
+            "boundary": [
+                0,
+                2
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 24,
+            "raw_input": [
+                "Auxiliary",
+                "Bottom",
+                "Light",
+                "turned",
+                "off"
+            ],
+            "boundary": [
+                0,
+                4
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 28,
+            "raw_input": [
+                "Battery",
+                "cell",
+                "broken"
+            ],
+            "boundary": [
+                0,
+                2
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -14462,7 +14270,8 @@
             "raw_input": [
                 "please",
                 "replace",
-                "the"
+                "the",
+                "battery"
             ],
             "boundary": [
                 4,
@@ -14473,18 +14282,21 @@
             "true_tags": [
                 "B-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
             "sample_index": 29,
             "raw_input": [
-                "Battery"
+                "Battery",
+                "error"
             ],
             "boundary": [
                 0,
@@ -14493,10 +14305,12 @@
             "true_type": "Event",
             "pred_type": "Event",
             "true_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ]
         },
         {
@@ -14505,7 +14319,8 @@
                 "Aircraft",
                 "returning",
                 "to",
-                "home"
+                "home",
+                "automatically"
             ],
             "boundary": [
                 3,
@@ -14517,20 +14332,23 @@
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 32,
             "raw_input": [
                 "Battery",
-                "power"
+                "power",
+                "low"
             ],
             "boundary": [
                 0,
@@ -14540,11 +14358,13 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -14557,7 +14377,8 @@
                 "charge",
                 "or",
                 "warm",
-                "up"
+                "up",
+                "battery"
             ],
             "boundary": [
                 4,
@@ -14573,7 +14394,8 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
@@ -14583,13 +14405,15 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
             "sample_index": 34,
             "raw_input": [
-                "Camera"
+                "Camera",
+                "error"
             ],
             "boundary": [
                 0,
@@ -14598,17 +14422,20 @@
             "true_type": "Event",
             "pred_type": "Event",
             "true_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 35,
             "raw_input": [
                 "Camera",
-                "sensor"
+                "sensor",
+                "error"
             ],
             "boundary": [
                 0,
@@ -14618,18 +14445,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 55,
             "raw_input": [
                 "Critical",
-                "Low"
+                "Low",
+                "Battery"
             ],
             "boundary": [
                 0,
@@ -14639,11 +14469,13 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -14653,7 +14485,8 @@
                 "in",
                 "Auto",
                 "Power",
-                "Off"
+                "Off",
+                "Protection"
             ],
             "boundary": [
                 4,
@@ -14666,21 +14499,24 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 56,
             "raw_input": [
                 "Critical",
-                "low"
+                "low",
+                "battery"
             ],
             "boundary": [
                 0,
@@ -14690,18 +14526,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 57,
             "raw_input": [
                 "Critical",
-                "low"
+                "low",
+                "battery"
             ],
             "boundary": [
                 0,
@@ -14711,18 +14550,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 80,
             "raw_input": [
                 "Extra",
-                "payload"
+                "payload",
+                "detected"
             ],
             "boundary": [
                 0,
@@ -14732,18 +14574,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 80,
             "raw_input": [
                 "Fly",
-                "with"
+                "with",
+                "caution"
             ],
             "boundary": [
                 10,
@@ -14753,11 +14598,13 @@
             "pred_type": "NonEvent",
             "true_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
@@ -14766,7 +14613,8 @@
                 "Max",
                 "altitude",
                 "and",
-                "distance"
+                "distance",
+                "set"
             ],
             "boundary": [
                 4,
@@ -14778,20 +14626,23 @@
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 81,
             "raw_input": [
                 "Extra",
-                "payload"
+                "payload",
+                "detected"
             ],
             "boundary": [
                 0,
@@ -14801,11 +14652,13 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -14813,7 +14666,8 @@
             "raw_input": [
                 "Flight",
                 "control",
-                "mode"
+                "mode",
+                "error"
             ],
             "boundary": [
                 0,
@@ -14824,12 +14678,14 @@
             "true_tags": [
                 "B-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -14837,7 +14693,8 @@
             "raw_input": [
                 "Flight",
                 "height",
-                "too"
+                "too",
+                "low"
             ],
             "boundary": [
                 0,
@@ -14848,19 +14705,22 @@
             "true_tags": [
                 "B-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 94,
             "raw_input": [
                 "GPS",
-                "signal"
+                "signal",
+                "weak"
             ],
             "boundary": [
                 0,
@@ -14870,18 +14730,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 94,
             "raw_input": [
                 "Fly",
-                "with"
+                "with",
+                "caution"
             ],
             "boundary": [
                 4,
@@ -14891,18 +14754,21 @@
             "pred_type": "NonEvent",
             "true_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
             "sample_index": 95,
             "raw_input": [
                 "GPS",
-                "signal"
+                "signal",
+                "weak"
             ],
             "boundary": [
                 0,
@@ -14912,18 +14778,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 97,
             "raw_input": [
                 "High",
-                "wind"
+                "wind",
+                "velocity"
             ],
             "boundary": [
                 0,
@@ -14933,18 +14802,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 98,
             "raw_input": [
                 "High",
-                "wind"
+                "wind",
+                "velocity"
             ],
             "boundary": [
                 0,
@@ -14954,18 +14826,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 99,
             "raw_input": [
                 "High",
-                "wind"
+                "wind",
+                "velocity"
             ],
             "boundary": [
                 0,
@@ -14975,18 +14850,21 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 99,
             "raw_input": [
                 "Fly",
-                "with"
+                "with",
+                "caution"
             ],
             "boundary": [
                 4,
@@ -14996,17 +14874,44 @@
             "pred_type": "NonEvent",
             "true_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
+            ]
+        },
+        {
+            "sample_index": 100,
+            "raw_input": [
+                "Home",
+                "Point",
+                "Recorded"
+            ],
+            "boundary": [
+                0,
+                2
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 112,
             "raw_input": [
-                "Low"
+                "Low",
+                "battery"
             ],
             "boundary": [
                 0,
@@ -15015,10 +14920,12 @@
             "true_type": "Event",
             "pred_type": "Event",
             "true_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ]
         },
         {
@@ -15026,7 +14933,8 @@
             "raw_input": [
                 "please",
                 "replace",
-                "the"
+                "the",
+                "battery"
             ],
             "boundary": [
                 3,
@@ -15037,18 +14945,21 @@
             "true_tags": [
                 "B-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
-                "B-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
             "sample_index": 114,
             "raw_input": [
-                "Low"
+                "Low",
+                "Power"
             ],
             "boundary": [
                 0,
@@ -15057,10 +14968,33 @@
             "true_type": "Event",
             "pred_type": "Event",
             "true_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 114,
+            "raw_input": [
+                "Returning",
+                "home"
+            ],
+            "boundary": [
+                3,
+                4
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "E-Event"
             ]
         },
         {
@@ -15069,7 +15003,8 @@
                 "Mobile",
                 "device",
                 "CPU",
-                "fully"
+                "fully",
+                "loaded"
             ],
             "boundary": [
                 0,
@@ -15081,13 +15016,15 @@
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -15097,7 +15034,8 @@
                 "or",
                 "return",
                 "to",
-                "home"
+                "home",
+                "promptly"
             ],
             "boundary": [
                 4,
@@ -15110,21 +15048,24 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
             "sample_index": 118,
             "raw_input": [
                 "Motor",
-                "speed"
+                "speed",
+                "error"
             ],
             "boundary": [
                 0,
@@ -15134,17 +15075,20 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 119,
             "raw_input": [
-                "Motor"
+                "Motor",
+                "stuck"
             ],
             "boundary": [
                 0,
@@ -15153,10 +15097,12 @@
             "true_type": "Event",
             "pred_type": "Event",
             "true_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ]
         },
         {
@@ -15164,7 +15110,8 @@
             "raw_input": [
                 "Motor",
                 "unable",
-                "to"
+                "to",
+                "rotate"
             ],
             "boundary": [
                 0,
@@ -15175,18 +15122,21 @@
             "true_tags": [
                 "B-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 120,
             "raw_input": [
-                "Check"
+                "Check",
+                "motor"
             ],
             "boundary": [
                 5,
@@ -15195,10 +15145,12 @@
             "true_type": "NonEvent",
             "pred_type": "NonEvent",
             "true_tags": [
-                "B-NonEvent"
+                "B-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
-                "B-NonEvent"
+                "B-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
@@ -15207,7 +15159,8 @@
                 "Returning",
                 "to",
                 "the",
-                "Home"
+                "Home",
+                "Point"
             ],
             "boundary": [
                 0,
@@ -15219,13 +15172,90 @@
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 140,
+            "raw_input": [
+                "SD",
+                "card",
+                "full"
+            ],
+            "boundary": [
+                0,
+                2
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 141,
+            "raw_input": [
+                "SD",
+                "card",
+                "speed",
+                "low"
+            ],
+            "boundary": [
+                0,
+                3
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "I-Event",
+                "E-Event"
+            ]
+        },
+        {
+            "sample_index": 144,
+            "raw_input": [
+                "Starting",
+                "Smart",
+                "Track"
+            ],
+            "boundary": [
+                0,
+                2
+            ],
+            "true_type": "Event",
+            "pred_type": "Event",
+            "true_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
+            ],
+            "pred_tags": [
+                "B-Event",
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -15236,7 +15266,8 @@
                 "to",
                 "return",
                 "to",
-                "home"
+                "home",
+                "automatically"
             ],
             "boundary": [
                 4,
@@ -15250,7 +15281,8 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
@@ -15258,14 +15290,16 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 148,
             "raw_input": [
                 "Strong",
-                "wind"
+                "wind",
+                "warning"
             ],
             "boundary": [
                 0,
@@ -15275,11 +15309,13 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -15291,7 +15327,8 @@
                 "and",
                 "return",
                 "to",
-                "home"
+                "home",
+                "manually"
             ],
             "boundary": [
                 12,
@@ -15306,7 +15343,8 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
@@ -15315,13 +15353,15 @@
                 "I-NonEvent",
                 "I-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
             "sample_index": 149,
             "raw_input": [
-                "Strong"
+                "Strong",
+                "wind"
             ],
             "boundary": [
                 0,
@@ -15330,17 +15370,20 @@
             "true_type": "Event",
             "pred_type": "Event",
             "true_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 149,
             "raw_input": [
                 "Fly",
-                "with"
+                "with",
+                "caution"
             ],
             "boundary": [
                 3,
@@ -15350,18 +15393,21 @@
             "pred_type": "NonEvent",
             "true_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         },
         {
             "sample_index": 156,
             "raw_input": [
                 "Vision",
-                "sensor"
+                "sensor",
+                "error"
             ],
             "boundary": [
                 0,
@@ -15371,11 +15417,13 @@
             "pred_type": "Event",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -15387,7 +15435,8 @@
                 "too",
                 "close",
                 "to",
-                "the"
+                "the",
+                "aircraft"
             ],
             "boundary": [
                 0,
@@ -15402,7 +15451,8 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ],
             "pred_tags": [
                 "B-Event",
@@ -15411,7 +15461,8 @@
                 "I-Event",
                 "I-Event",
                 "I-Event",
-                "I-Event"
+                "I-Event",
+                "E-Event"
             ]
         },
         {
@@ -15419,7 +15470,8 @@
             "raw_input": [
                 "Please",
                 "step",
-                "farther"
+                "farther",
+                "away"
             ],
             "boundary": [
                 9,
@@ -15430,77 +15482,23 @@
             "true_tags": [
                 "B-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
                 "B-NonEvent",
                 "I-NonEvent",
-                "I-NonEvent"
+                "I-NonEvent",
+                "E-NonEvent"
             ]
         }
     ],
     "classification_errors": [
         {
-            "sample_index": 8,
-            "raw_input": [
-                "Aircraft",
-                "is",
-                "close",
-                "to",
-                "the",
-                "Home"
-            ],
-            "boundary": [
-                0,
-                6
-            ],
-            "true_type": "Event",
-            "pred_type": "NonEvent",
-            "true_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event",
-                "I-Event"
-            ],
-            "pred_tags": [
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent"
-            ]
-        },
-        {
-            "sample_index": 19,
-            "raw_input": [
-                "API",
-                "Automatic",
-                "Return"
-            ],
-            "boundary": [
-                0,
-                3
-            ],
-            "true_type": "Event",
-            "pred_type": "NonEvent",
-            "true_tags": [
-                "B-Event",
-                "I-Event",
-                "I-Event"
-            ],
-            "pred_tags": [
-                "B-NonEvent",
-                "I-NonEvent",
-                "I-NonEvent"
-            ]
-        },
-        {
             "sample_index": 96,
             "raw_input": [
-                "High"
+                "High",
+                "altitude"
             ],
             "boundary": [
                 0,
@@ -15509,16 +15507,19 @@
             "true_type": "NonEvent",
             "pred_type": "Event",
             "true_tags": [
-                "B-NonEvent"
+                "B-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ]
         },
         {
             "sample_index": 104,
             "raw_input": [
-                "In"
+                "In",
+                "Flight"
             ],
             "boundary": [
                 0,
@@ -15527,49 +15528,33 @@
             "true_type": "NonEvent",
             "pred_type": "Event",
             "true_tags": [
-                "B-NonEvent"
+                "B-NonEvent",
+                "E-NonEvent"
             ],
             "pred_tags": [
-                "B-Event"
+                "B-Event",
+                "E-Event"
             ]
         },
         {
-            "sample_index": 121,
+            "sample_index": 113,
             "raw_input": [
-                "No",
-                "SD"
+                "Low",
+                "power"
             ],
             "boundary": [
                 0,
-                2
+                1
             ],
             "true_type": "Event",
             "pred_type": "NonEvent",
             "true_tags": [
                 "B-Event",
-                "I-Event"
+                "E-Event"
             ],
             "pred_tags": [
                 "B-NonEvent",
-                "I-NonEvent"
-            ]
-        },
-        {
-            "sample_index": 141,
-            "raw_input": [
-                "Change"
-            ],
-            "boundary": [
-                5,
-                6
-            ],
-            "true_type": "Event",
-            "pred_type": "NonEvent",
-            "true_tags": [
-                "B-Event"
-            ],
-            "pred_tags": [
-                "B-NonEvent"
+                "E-NonEvent"
             ]
         }
     ]
