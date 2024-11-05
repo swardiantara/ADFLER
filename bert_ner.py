@@ -2,13 +2,14 @@ import os
 import json
 
 import torch
-from itertools import chain
+import numpy as np
 from torch import nn
+from tqdm import tqdm
+from itertools import chain
+from typing import Dict, List, Tuple, Any
 from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizerFast, BertForTokenClassification
 from sklearn.metrics import classification_report
-import numpy as np
-from tqdm import tqdm
 
 from src.eval_utils import log_errors_for_analysis, evaluate_sbd_boundary_only, evaluate_classification_correct_boundaries
 
@@ -124,7 +125,7 @@ class DroneLogNER:
             avg_train_loss = total_train_loss / len(train_loader)
             
             # Validation
-            val_loss, _, _ = self.evaluate(val_loader)
+            val_loss, _, _, _ = self.evaluate(val_loader)
             
             print(f'Epoch {epoch + 1}:')
             print(f'Average training loss: {avg_train_loss:.4f}')
@@ -134,9 +135,16 @@ class DroneLogNER:
                 best_val_loss = val_loss
                 torch.save(self.model.state_dict(), 'best_model.pt')
 
+    
+    def decode_tokens(self, input_ids: torch.Tensor) -> List[str]:
+        """Convert input IDs back to original text tokens"""
+        return self.tokenizer.convert_ids_to_tokens(input_ids)
+
+
     def evaluate(self, data_loader):
         self.model.eval()
         total_val_loss = 0
+        all_tokens = []
         all_preds = []
         all_labels = []
         label2id = DroneLogDataset(None, self.tokenizer).label2id
@@ -161,15 +169,16 @@ class DroneLogNER:
                 preds = torch.argmax(outputs.logits, dim=2)
                 
                 # Convert predictions and labels to list, filtering out padding (-100)
-                for pred, label in zip(preds, labels):
+                for pred, label, input_id in zip(preds, labels, input_ids):
                     valid_indices = label != -100
                     all_preds.append(pred[valid_indices].cpu().numpy())
                     all_labels.append(label[valid_indices].cpu().numpy())
+                    all_tokens.append(self.decode_tokens(input_id[valid_indices].cpu().numpy()))
 
         all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
         all_labels = [[id2label[idx] for idx in sample] for sample in all_labels]
 
-        return total_val_loss / len(data_loader), all_preds, all_labels
+        return total_val_loss / len(data_loader), all_preds, all_labels, all_tokens
     
 
     def predict(self, text):
@@ -250,21 +259,24 @@ class DroneLogNER:
 # Example usage
 def main():
     # Initialize the model
+    print('Model initialization and dataset preparation...')
     ner_model = DroneLogNER(device='cuda' if torch.cuda.is_available() else 'cpu')
     train_path = os.path.join('dataset', 'train_conll_data.txt')
     test_path = os.path.join('dataset', 'test_conll_data.txt')
 
     # Train the model
+    print("Start model training...")
     ner_model.train(
         train_path=train_path,
         val_path=test_path,
         epochs=5
     )
 
+    print("Start model evaluation...")
     # Evaluation
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer)
     val_loader = DataLoader(val_dataset, batch_size=16)
-    _, all_pred_tags, all_true_tags = ner_model.evaluate(val_loader)
+    _, all_pred_tags, all_true_tags, all_tokens = ner_model.evaluate(val_loader)
     sbd_scores = evaluate_sbd_boundary_only(all_true_tags, all_pred_tags)
     classification_scores = evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags)
     eval_score = {
@@ -274,8 +286,7 @@ def main():
     with open("evaluation_score.json", "w") as f:
         json.dump(eval_score, f, indent=4)
 
-    val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
-    logs = log_errors_for_analysis(all_pred_tags, val_dataset)
+    logs = log_errors_for_analysis(all_pred_tags, all_true_tags, all_tokens)
     with open("error_analysis_logs.json", "w") as f:
         json.dump(logs, f, indent=4)
 

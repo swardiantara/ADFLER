@@ -148,14 +148,14 @@ def evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags):
     }
 
 
-def log_errors_for_analysis(all_pred_tags, raw_inputs):
+def log_errors_for_analysis(all_pred_tags, all_true_tags, all_tokens):
     """
     Logs segmentation and classification errors for error analysis, including aligned raw input words.
     
     Args:
     - all_true_tags: List of lists containing true BIOES tags for each sample.
     - all_pred_tags: List of lists containing predicted BIOES tags for each sample.
-    - raw_inputs: List of list of tuples, where each tuple contains (word, label) pairs for each sample.
+    - all_tokens: List of tokenized words from BERT.
     
     Returns:
     - logs: Dictionary with details of segmentation and classification errors.
@@ -167,10 +167,8 @@ def log_errors_for_analysis(all_pred_tags, raw_inputs):
         "classification_errors": []
     }
 
-    for idx, (pred_tags, raw_input_tuples) in enumerate(zip(all_pred_tags, raw_inputs)):
+    for idx, (pred_tags, true_tags, words) in enumerate(zip(all_pred_tags, all_true_tags, all_tokens)):
         # Extract words from raw input tuples
-        words = raw_input_tuples[0]
-        true_tags = raw_input_tuples[1]
         
         # Extract boundaries with entity types
         true_boundaries = [(start, end) for start, end, _ in extract_boundaries_with_types(true_tags)]
