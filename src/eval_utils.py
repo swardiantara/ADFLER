@@ -21,8 +21,6 @@
 #         elif tag.startswith("I-") and start_idx is not None and entity_type != tag[2:]:
 #             print('Intermediary tag is not the same!')
 #     return boundaries
-
-
 def extract_boundaries_with_types(tags):
     """
     Extracts boundaries with entity types based on specified rules for sentence boundaries.
