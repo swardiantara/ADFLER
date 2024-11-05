@@ -148,73 +148,6 @@ def evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags):
     }
 
 
-def log_errors_for_analysis(all_true_tags, all_pred_tags, raw_inputs):
-    """
-    Logs segmentation and classification errors for error analysis, including aligned raw input words.
-    
-    Args:
-    - all_true_tags: List of lists containing true BIOES tags for each sample.
-    - all_pred_tags: List of lists containing predicted BIOES tags for each sample.
-    - raw_inputs: List of list of tuples, where each tuple contains (word, label) pairs for each sample.
-    
-    Returns:
-    - logs: Dictionary with details of segmentation and classification errors.
-    """
-    logs = {
-        "segmentation_errors": [],
-        "classification_correct": [],
-        "classification_errors": []
-    }
-
-    for idx, (true_tags, pred_tags, raw_input_tuples) in enumerate(zip(all_true_tags, all_pred_tags, raw_inputs)):
-        # Extract words from raw input tuples
-        words = [word for word, label in raw_input_tuples]
-        
-        # Extract boundaries with entity types
-        true_boundaries = extract_boundaries_with_types(true_tags)
-        pred_boundaries = extract_boundaries_with_types(pred_tags)
-        
-        # Identify correctly segmented boundaries
-        correct_boundaries = set(true_boundaries).intersection(set(pred_boundaries))
-        incorrect_boundaries = set(pred_boundaries) - correct_boundaries
-        
-        # Log segmentation errors if there are incorrect boundaries
-        if len(incorrect_boundaries) > 0:
-            logs["segmentation_errors"].append({
-                "sample_index": idx,
-                "raw_input": words,
-                "true_tags": true_tags,
-                "pred_tags": pred_tags,
-                "true_boundaries": true_boundaries,
-                "predicted_boundaries": pred_boundaries,
-                "incorrect_boundaries": list(incorrect_boundaries)
-            })
-
-        # Log classification results for correctly segmented boundaries
-        for boundary in correct_boundaries:
-            start, end, true_type = boundary
-            pred_type = next((pred[2] for pred in pred_boundaries if pred[0] == start and pred[1] == end), None)
-
-            log_entry = {
-                "sample_index": idx,
-                "raw_input": words,
-                "boundary": (start, end),
-                "true_type": true_type,
-                "pred_type": pred_type,
-                "true_tags": true_tags,
-                "pred_tags": pred_tags
-            }
-
-            if true_type == pred_type:
-                # Correct classification
-                logs["classification_correct"].append(log_entry)
-            else:
-                # Classification error within correct boundaries
-                logs["classification_errors"].append(log_entry)
-
-    return logs
-
-
 def log_errors_for_analysis(all_pred_tags, raw_inputs):
     """
     Logs segmentation and classification errors for error analysis, including aligned raw input words.
@@ -249,7 +182,7 @@ def log_errors_for_analysis(all_pred_tags, raw_inputs):
         correct_boundaries = set(true_boundaries).intersection(set(pred_boundaries))
         incorrect_boundaries = set(pred_boundaries) - correct_boundaries
         
-        # Log segmentation errors if there are incorrect boundaries
+        # Log segmentation correct if there are no incorrect boundaries
         if len(incorrect_boundaries) == 0:
             logs["segmentation_correct"].append({
                 "sample_index": idx,
@@ -279,12 +212,12 @@ def log_errors_for_analysis(all_pred_tags, raw_inputs):
 
             log_entry = {
                 "sample_index": idx,
-                "raw_input": words,
+                "raw_input": words[start:end],
                 "boundary": (start, end),
                 "true_type": true_type,
                 "pred_type": pred_type,
-                "true_tags": true_tags,
-                "pred_tags": pred_tags
+                "true_tags": true_tags[start:end],
+                "pred_tags": pred_tags[start:end]
             }
 
             if true_type == pred_type:

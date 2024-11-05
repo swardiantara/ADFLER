@@ -10,7 +10,7 @@ from sklearn.metrics import classification_report
 import numpy as np
 from tqdm import tqdm
 
-from src.eval_utils import log_errors_for_analysis
+from src.eval_utils import log_errors_for_analysis, evaluate_sbd_boundary_only, evaluate_classification_correct_boundaries
 
 class DroneLogDataset(Dataset):
     def __init__(self, data_path, tokenizer, max_len=128):
@@ -124,7 +124,7 @@ class DroneLogNER:
             avg_train_loss = total_train_loss / len(train_loader)
             
             # Validation
-            val_loss, _ = self.evaluate(val_loader)
+            val_loss, _, _ = self.evaluate(val_loader)
             
             print(f'Epoch {epoch + 1}:')
             print(f'Average training loss: {avg_train_loss:.4f}')
@@ -167,8 +167,9 @@ class DroneLogNER:
                     all_labels.append(label[valid_indices].cpu().numpy())
 
         all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
+        all_labels = [[id2label[idx] for idx in sample] for sample in all_labels]
 
-        return total_val_loss / len(data_loader), all_preds
+        return total_val_loss / len(data_loader), all_preds, all_labels
     
 
     def predict(self, text):
@@ -263,7 +264,16 @@ def main():
     # Evaluation
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer)
     val_loader = DataLoader(val_dataset, batch_size=16)
-    _, all_pred_tags = ner_model.evaluate(val_loader)
+    _, all_pred_tags, all_true_tags = ner_model.evaluate(val_loader)
+    sbd_scores = evaluate_sbd_boundary_only(all_true_tags, all_pred_tags)
+    classification_scores = evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags)
+    eval_score = {
+        "sbd_score": sbd_scores,
+        "classification_score": classification_scores
+    }
+    with open("evaluation_score.json", "w") as f:
+        json.dump(eval_score, f, indent=4)
+
     val_dataset = DroneLogDataset(test_path, ner_model.tokenizer).read_conll_file(test_path)
     logs = log_errors_for_analysis(all_pred_tags, val_dataset)
     with open("error_analysis_logs.json", "w") as f:
