@@ -103,8 +103,9 @@ class DroneLogNER:
     def decode_tokens(self, input_ids: torch.Tensor) -> List[str]:
         """Convert input IDs back to original text tokens"""
         tokens = self.tokenizer.convert_ids_to_tokens(input_ids, skip_special_tokens=True)
+        tokens = self.reconstruct_from_wordpieces(tokens)
         print(f'tokens: {tokens}')
-        return self.reconstruct_from_wordpieces(tokens)
+        return tokens
 
     def evaluate(self, args, data_path, label2id):
         val_dataset = DroneLogDataset(args, data_path, self.tokenizer, label2id=label2id)
