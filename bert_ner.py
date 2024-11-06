@@ -97,7 +97,7 @@ def main():
         print("Start model evaluation...")
         # Evaluation
 
-        _, all_pred_tags, all_true_tags, all_tokens = ner_model.evaluate(test_path)
+        _, all_pred_tags, all_true_tags, all_tokens = ner_model.evaluate(args, test_path, label2id)
         sbd_scores = evaluate_sbd_boundary_only(all_true_tags, all_pred_tags)
         classification_scores = evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags)
         eval_score = {
