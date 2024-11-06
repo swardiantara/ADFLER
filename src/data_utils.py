@@ -242,7 +242,7 @@ class DroneLogDataset(Dataset):
             'input_ids': encoded['input_ids'].squeeze(0),
             'attention_mask': encoded['attention_mask'].squeeze(0),
             'labels': torch.tensor(label_ids),
-            # 'word_ids': torch.tensor(original_word_ids),  # Keep track of original word mapping
+            'word_ids': torch.tensor(original_word_ids),  # Keep track of original word mapping
             # "original_words": words,  # Keep original words for evaluation
             # "original_labels": labels     # Keep original labels for evaluation
         }

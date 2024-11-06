@@ -1,6 +1,7 @@
 python bert_ner.py \
    --model_name_or_path bert-base-cased \
    --do_train \
+   --do_direct_eval \
    --output_dir development \
    --train_batch_size 16 \
    --eval_batch_size 16 \

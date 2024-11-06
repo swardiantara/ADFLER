@@ -8,7 +8,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 
 from src.eval_utils import log_errors_for_analysis, evaluate_sbd_boundary_only, evaluate_classification_correct_boundaries
-from src.data_utils import NERDataset
+from src.data_utils import NERDataset, DroneLogDataset
 from src.llm_fine_tune import DroneLogNER, label2id
 
 def init_args():
@@ -96,10 +96,8 @@ def main():
     if args.do_direct_eval:
         print("Start model evaluation...")
         # Evaluation
-        val_dataset = NERDataset(test_path, ner_model.tokenizer, label_to_id=label2id)
-        
-        val_loader = DataLoader(val_dataset, batch_size=16)
-        _, all_pred_tags, all_true_tags, all_tokens = ner_model.evaluate(val_loader)
+
+        _, all_pred_tags, all_true_tags, all_tokens = ner_model.evaluate(test_path)
         sbd_scores = evaluate_sbd_boundary_only(all_true_tags, all_pred_tags)
         classification_scores = evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags)
         eval_score = {

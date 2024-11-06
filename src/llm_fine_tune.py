@@ -84,7 +84,9 @@ class DroneLogNER:
         return self.tokenizer.convert_ids_to_tokens(input_ids)
 
 
-    def evaluate(self, data_loader):
+    def evaluate(self, args, data_path, model, label2id):
+        val_dataset = DroneLogDataset(args, data_path, model.tokenizer, label2id=label2id)
+        val_loader = DataLoader(val_dataset, batch_size=16)
         self.model.eval()
         total_val_loss = 0
         all_tokens = []
@@ -94,10 +96,11 @@ class DroneLogNER:
         id2label = {v: k for k, v in label2id.items()}
         
         with torch.no_grad():
-            for batch in data_loader:
+            for batch in val_loader:
                 input_ids = batch['input_ids'].to(self.device)
                 attention_mask = batch['attention_mask'].to(self.device)
                 labels = batch['labels'].to(self.device)
+                word_ids = batch['word_ids']
                 
                 outputs = self.model(
                     input_ids=input_ids,
@@ -118,21 +121,20 @@ class DroneLogNER:
                 #     batch["original_words"],
                 #     id2label
                 # )
-                # # Collect predictions and true labels
-                # all_preds.append(batch_predictions)
-                # all_labels.append(batch["original_labels"])
-                # all_tokens.append(batch["original_words"])
-                # # Convert predictions and labels to list, filtering out padding (-100)
-                # for pred, label, input_id in zip(preds, labels, input_ids):
-                #     valid_indices = label != -100
-                #     all_preds.append(pred[valid_indices].cpu().numpy())
-                #     all_labels.append(label[valid_indices].cpu().numpy())
-                #     all_tokens.append(self.decode_tokens(inut_id[valid_indices].cpu().numpy()))
+                # Collect predictions and true labels
+                aligned_preds = val_dataset.reconstruct_labels(predictions, word_ids.tolist())
+                aligned_labels = val_dataset.reconstruct_labels(labels, word_ids.tolist())
+                all_preds.append(aligned_preds)
+                all_labels.append(aligned_labels)
+                # Convert predictions and labels to list, filtering out padding (-100)
+                for pred, label, input_id in zip(labels, input_ids):
+                    valid_indices = label != -100
+                    all_tokens.append(self.decode_tokens(input_id[valid_indices].cpu().numpy()))
 
-        # all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
-        # all_labels = [[id2label[idx] for idx in sample] for sampple in all_labels]
+        all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
+        all_labels = [[id2label[idx] for idx in sample] for sample in all_labels]
 
-        return total_val_loss / len(data_loader), all_preds, all_labels, all_tokens
+        return total_val_loss / len(val_loader), all_preds, all_labels, all_tokens
     
 
     def predict(self, text):
