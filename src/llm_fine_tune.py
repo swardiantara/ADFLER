@@ -1,3 +1,4 @@
+import os
 import torch
 import numpy as np
 from torch import nn
@@ -76,7 +77,8 @@ class DroneLogNER:
             
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
-                torch.save(self.model.state_dict(), 'best_model.pt')
+                if args.save_model:
+                    torch.save(self.model.state_dict(), os.path.join(args.output_dir, 'best_model.pt'))
 
     def reconstruct_from_wordpieces(self, tokens):
         words = []
@@ -118,11 +120,12 @@ class DroneLogNER:
         id2label = {v: k for k, v in label2id.items()}
         
         with torch.no_grad():
-            for batch in val_loader:
+            for idx, batch in enumerate(val_loader):
                 input_ids = batch['input_ids'].to(self.device)
                 attention_mask = batch['attention_mask'].to(self.device)
                 labels = batch['labels'].to(self.device)
                 word_ids = batch['word_ids']
+                original_input, original_labels = val_dataset.data[idx]
                 
                 outputs = self.model(
                     input_ids=input_ids,
@@ -150,9 +153,13 @@ class DroneLogNER:
                     aligned_preds = val_dataset.reconstruct_labels_padding(pred[valid_indices].cpu().numpy(), word_ids.tolist())
                     aligned_labels = val_dataset.reconstruct_labels_padding(label[valid_indices].cpu().numpy(), word_ids.tolist())
                     decoded_input = self.decode_tokens(input_id.cpu().numpy())
+                    # Assert the dimension of tokenized input and aligned label
+                    assert len(decoded_input) == len(aligned_labels) == len(aligned_preds), f"[Eval]-Dimension error. decoded_input: {len(decoded_input)}, aligned_labels: {len(aligned_labels)}, aligned_preds: {len(aligned_preds)}"
                     print(f'decoded_input: {decoded_input}')
-                    print(f'aligned_preds: {aligned_preds}')
+                    print(f'original_input: {original_input}')
+                    print(f'original_labels: {original_labels}')
                     print(f'aligned_labels: {aligned_labels}')
+                    print(f'aligned_preds: {aligned_preds}')
                     all_preds.append(aligned_preds)
                     all_labels.append(aligned_labels)
                     all_tokens.append(decoded_input)

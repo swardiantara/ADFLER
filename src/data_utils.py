@@ -193,7 +193,7 @@ class DroneLogDataset(Dataset):
     def __len__(self):
         return len(self.data)
     
-    def align_labels_with_padding(self, words: List[str], labels: List[str]) -> Tuple[List[int], List[int]]:
+    def align_labels_with_padding(self, words: List[str], labels: List[str]):
         """
         Align labels with wordpiece tokens and handle special tokens
         Returns aligned label ids and a mapping to original word indices
@@ -237,7 +237,8 @@ class DroneLogDataset(Dataset):
             encoded, label_ids, original_word_ids = self.align_labels_with_padding(words, labels)
         else:
             NotImplementedError
-
+        # Assert the dimension of tokenized input and aligned label
+        assert len(encoded['input_ids']) == len(label_ids), f"The dimension of `encoded['input_ids']` of {len(encoded['input_ids'])} is not the same with `label_ids` of {len(label_ids)}"
         return {
             'input_ids': encoded['input_ids'].squeeze(0),
             'attention_mask': encoded['attention_mask'].squeeze(0),

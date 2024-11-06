@@ -106,11 +106,11 @@ def main():
             "sbd_score": sbd_scores,
             "classification_score": classification_scores
         }
-        with open("evaluation_score.json", "w") as f:
+        with open(os.path.join(args.output_dir, "evaluation_score.json"), "w") as f:
             json.dump(eval_score, f, indent=4)
 
         logs = log_errors_for_analysis(all_pred_tags, all_true_tags, all_tokens)
-        with open("error_analysis_logs.json", "w") as f:
+        with open(os.path.join(args.output_dir, "error_analysis_logs.json"), "w") as f:
             json.dump(logs, f, indent=4)
 
     if args.do_inference:
