@@ -1,14 +1,30 @@
 {
+    "scenario_args": {
+        "model_name_or_path": "bert-base-cased",
+        "do_train": true,
+        "do_direct_eval": true,
+        "do_inference": false,
+        "max_seq_length": 128,
+        "train_batch_size": 16,
+        "eval_batch_size": 16,
+        "learning_rate": 2e-05,
+        "train_epochs": 5,
+        "seed": 42,
+        "align_label": "padding",
+        "output_dir": "experiments/llm-based/bert-base-cased/align/unidirectional/5/42",
+        "scenario": "llm-based",
+        "save_model": false
+    },
     "sbd_score": {
-        "precision": 0.9229357798165138,
-        "recall": 0.9562737642585551,
-        "f1": 0.9393090569561158,
-        "support": 526
+        "precision": 0.8837920489296636,
+        "recall": 0.9444444444444444,
+        "f1": 0.9131121642969984,
+        "support": 306
     },
     "classification_score": {
-        "precision": 0.9573170731707317,
-        "recall": 0.9771784232365145,
-        "f1": 0.9671457905544149,
-        "support": 503
+        "precision": 0.9479166666666666,
+        "recall": 0.9963503649635036,
+        "f1": 0.9715302491103203,
+        "support": 289
     }
 }
