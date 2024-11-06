@@ -1,10 +1,10 @@
-from torch.utils.data import Dataset, DataLoader
-from transformers import BertTokenizer, AutoTokenizer
-import torch
 import os
 from typing import List, Dict, Tuple
 # from seqeval.metrics import classification_report
 
+import torch
+from torch.utils.data import Dataset, DataLoader
+from transformers import BertTokenizer, AutoTokenizer
 
 class NERDataset(Dataset):
     def __init__(

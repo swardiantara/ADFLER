@@ -8,7 +8,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 
 from src.eval_utils import log_errors_for_analysis, evaluate_sbd_boundary_only, evaluate_classification_correct_boundaries
-from src.data_utility import NERDataset
+from src.data_utils import NERDataset
 from src.llm_fine_tune import DroneLogNER, label2id
 
 def init_args():
@@ -48,7 +48,7 @@ def init_args():
     args = parser.parse_args()
 
     # create output folder if needed
-    output_folder = os.path.join("experiments", args.scenario, args.model_name_or_path, 'align' if args.align_label else 'padding', "unidirectional", args.train_epochs, args.seed)
+    output_folder = os.path.join("experiments", args.scenario, args.model_name_or_path, 'align' if args.align_label else 'padding', "unidirectional", str(args.train_epochs), str(args.seed))
     if not os.path.exists():
         os.mkdir(output_folder)
 
