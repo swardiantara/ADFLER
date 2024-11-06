@@ -78,11 +78,32 @@ class DroneLogNER:
                 best_val_loss = val_loss
                 torch.save(self.model.state_dict(), 'best_model.pt')
 
-    
+    def reconstruct_from_wordpieces(tokens):
+        words = []
+        current_word = ""
+        
+        for token in tokens:
+            # Check if token is a continuation (starts with "##")
+            if token.startswith("##"):
+                # Append the token without the "##" prefix to the current word
+                current_word += token[2:]
+            else:
+                # If there's a current word being built, add it to the words list
+                if current_word:
+                    words.append(current_word)
+                # Start a new word
+                current_word = token
+        
+        # Add the last word if any
+        if current_word:
+            words.append(current_word)
+        
+        return words
+
     def decode_tokens(self, input_ids: torch.Tensor) -> List[str]:
         """Convert input IDs back to original text tokens"""
-        return self.tokenizer.convert_ids_to_tokens(input_ids, skip_special_tokens=True)
-
+        tokens = self.tokenizer.convert_ids_to_tokens(input_ids, skip_special_tokens=True)
+        return self.reconstruct_from_wordpieces(tokens)
 
     def evaluate(self, args, data_path, label2id):
         val_dataset = DroneLogDataset(args, data_path, self.tokenizer, label2id=label2id)

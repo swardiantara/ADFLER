@@ -100,8 +100,9 @@ def main():
         _, all_pred_tags, all_true_tags, all_tokens = ner_model.evaluate(args, test_path, label2id)
         sbd_scores = evaluate_sbd_boundary_only(all_true_tags, all_pred_tags)
         classification_scores = evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags)
+        arguments_dict = vars(args)
         eval_score = {
-            "scenario_args": args,
+            "scenario_args": arguments_dict,
             "sbd_score": sbd_scores,
             "classification_score": classification_scores
         }
