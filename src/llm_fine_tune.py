@@ -5,43 +5,43 @@ from tqdm import tqdm
 from itertools import chain
 from typing import Dict, List, Tuple, Any
 from torch.utils.data import Dataset, DataLoader
-from transformers import BertTokenizerFast, BertForTokenClassification
+from transformers import BertTokenizerFast, BertForTokenClassification, AutoTokenizer, AutoModelForTokenClassification
 from sklearn.metrics import classification_report
 
-from src.data_utils import NERDataset
+from src.data_utils import NERDataset, DroneLogDataset
 
 
-label2id = {'O': 0, 'B-Event': 1, 'I-Event': 2, 'E-Event': 3, 'S-Event': 4, 'B-NonEvent': 5, 'I-NonEvent': 6, 'E-NonEvent': 7, 'S-NonEvent': 8}
+label2id = {'O': 0, 'B-Event': 1, 'I-Event': 2, 'E-Event': 3, 'S-Event': 4, 'B-NonEvent': 5, 'I-NonEvent': 6, 'E-NonEvent': 7, 'S-NonEvent': 8, 'PAD': -100}
 
 class DroneLogNER:
     def __init__(self, model_name='bert-base-cased', num_labels=9, device='cuda'):
         self.device = device
-        self.tokenizer = BertTokenizerFast.from_pretrained(model_name)
-        self.model = BertForTokenClassification.from_pretrained(
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
+        self.model = AutoModelForTokenClassification.from_pretrained(
             model_name,
             num_labels=num_labels
         ).to(device)
         
-    def train(self, train_path, val_path, batch_size=16, epochs=5, learning_rate=2e-5):
+    def train(self, args, train_path: str, val_path: str):
         # Create datasets
-        train_dataset = NERDataset(train_path, self.tokenizer, label_to_id=label2id)
-        val_dataset = NERDataset(val_path, self.tokenizer, label_to_id=label2id)
+        train_dataset = DroneLogDataset(args, train_path, self.tokenizer, label2id=label2id)
+        val_dataset = DroneLogDataset(args, val_path, self.tokenizer, label2id=label2id)
         
-        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-        val_loader = DataLoader(val_dataset, batch_size=batch_size)
+        train_loader = DataLoader(train_dataset, batch_size=args.train_batch_size, shuffle=True)
+        val_loader = DataLoader(val_dataset, batch_size=args.eval_batch_size)
         
         # Optimizer
-        optimizer = torch.optim.AdamW(self.model.parameters(), lr=learning_rate)
+        optimizer = torch.optim.AdamW(self.model.parameters(), lr=args.learning_rate)
         
         # Training loop
         best_val_loss = float('inf')
         
-        for epoch in range(epochs):
+        for epoch in range(args.train_epochs):
             # Training
             self.model.train()
             total_train_loss = 0
             
-            for batch in tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs}'):
+            for batch in tqdm(train_loader, desc=f'Epoch {epoch + 1}/{args.train_epochs}'):
                 input_ids = batch['input_ids'].to(self.device)
                 attention_mask = batch['attention_mask'].to(self.device)
                 labels = batch['labels'].to(self.device)
@@ -84,7 +84,7 @@ class DroneLogNER:
         all_tokens = []
         all_preds = []
         all_labels = []
-        # label2id = NERDataset(None, self.tokenizer, label_to_id=label2id).label_to_id
+        # label2id = NERDataset(None, self.tokenizer, label2id=label2id).label2id
         id2label = {v: k for k, v in label2id.items()}
         
         with torch.no_grad():
@@ -106,25 +106,25 @@ class DroneLogNER:
                 predictions = torch.argmax(outputs.logits, dim=2)
 
                 # Convert predictions back to original format
-                batch_predictions = self.convert_predictions_to_original_format(
-                    predictions.cpu(),
-                    batch["word_ids"],
-                    batch["original_words"],
-                    id2label
-                )
-                # Collect predictions and true labels
-                all_preds.append(batch_predictions)
-                all_labels.append(batch["original_labels"])
-                all_tokens.append(batch["original_words"])
+                # batch_predictions = self.convert_predictions_to_original_format(
+                #     predictions.cpu(),
+                #     batch["word_ids"],
+                #     batch["original_words"],
+                #     id2label
+                # )
+                # # Collect predictions and true labels
+                # all_preds.append(batch_predictions)
+                # all_labels.append(batch["original_labels"])
+                # all_tokens.append(batch["original_words"])
                 # # Convert predictions and labels to list, filtering out padding (-100)
                 # for pred, label, input_id in zip(preds, labels, input_ids):
                 #     valid_indices = label != -100
                 #     all_preds.append(pred[valid_indices].cpu().numpy())
                 #     all_labels.append(label[valid_indices].cpu().numpy())
-                #     all_tokens.append(self.decode_tokens(input_id[valid_indices].cpu().numpy()))
+                #     all_tokens.append(self.decode_tokens(inut_id[valid_indices].cpu().numpy()))
 
         # all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
-        # all_labels = [[id2label[idx] for idx in sample] for sample in all_labels]
+        # all_labels = [[id2label[idx] for idx in sample] for sampple in all_labels]
 
         return total_val_loss / len(data_loader), all_preds, all_labels, all_tokens
     
@@ -132,7 +132,7 @@ class DroneLogNER:
     def predict(self, text):
         """Predict NER tags for a single text input"""
         self.model.eval()
-        
+        id2label = {v: k for k, v in label2id.items()}
         # Tokenize input
         tokens = text.split()  # Simple splitting, you might want to use more sophisticated tokenization
         
@@ -166,7 +166,6 @@ class DroneLogNER:
         # Map predictions back to original tokens
         for token_idx, word_idx in enumerate(word_ids):
             if word_idx != previous_word_idx:
-                id2label = NERDataset(None, self.tokenizer).id2label
                 pred_labels.append(id2label[predictions[token_idx]])
                 previous_word_idx = word_idx
         
@@ -209,7 +208,7 @@ class DroneLogNER:
             batch_predictions: torch.Tensor,
             batch_word_ids: torch.Tensor,
             batch_original_words: List[List[str]],
-            id_to_label: Dict[int, str]
+            id2label: Dict[int, str]
         ) -> List[List[str]]:
             """Convert predictions back to original word-level format."""
             batch_labels = []
@@ -222,7 +221,7 @@ class DroneLogNER:
                 current_label_votes = {}
                 
                 # Convert predictions to labels
-                pred_labels = [id_to_label[p.item()] for p in predictions]
+                pred_labels = [id2label[p.item()] for p in predictions]
                 
                 # Aggregate votes for each word
                 for wp_idx, (word_idx, label) in enumerate(zip(word_ids, pred_labels)):

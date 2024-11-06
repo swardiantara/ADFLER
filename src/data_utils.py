@@ -1,5 +1,5 @@
 from torch.utils.data import Dataset, DataLoader
-from transformers import BertTokenizer, BertTokenizerFast
+from transformers import BertTokenizer, AutoTokenizer
 import torch
 import os
 from typing import List, Dict, Tuple
@@ -10,9 +10,9 @@ class NERDataset(Dataset):
     def __init__(
         self,
         data_path: str,
-        tokenizer: BertTokenizerFast,
+        tokenizer: AutoTokenizer,
         max_length: int = 128,
-        label_to_id: Dict[str, int] = None
+        label2id: Dict[str, int] = None
     ):
         self.data_path = data_path
         self.max_length = max_length
@@ -22,15 +22,15 @@ class NERDataset(Dataset):
         self.sentences, self.labels = self._read_conll_file(data_path) if data_path is not None else None
         
         # Create label vocabulary if not provided
-        if label_to_id is None:
+        if label2id is None:
             unique_labels = set()
             for label_seq in self.labels:
                 unique_labels.update(label_seq)
-            self.label_to_id = {label: idx for idx, label in enumerate(sorted(unique_labels))}
+            self.label2id = {label: idx for idx, label in enumerate(sorted(unique_labels))}
         else:
-            self.label_to_id = label_to_id
+            self.label2id = label2id
             
-        self.id_to_label = {idx: label for label, idx in self.label_to_id.items()}
+        self.id2label = {idx: label for label, idx in self.label2id.items()}
         
     def _read_conll_file(self, file_path: str) -> Tuple[List[List[str]], List[List[str]]]:
         """Read CoNLL format file and return sentences and labels."""
@@ -122,7 +122,7 @@ class NERDataset(Dataset):
         
         # Convert tokens to ids
         input_ids = self.tokenizer.convert_tokens_to_ids(wordpiece_tokens)
-        label_ids = [self.label_to_id[label] for label in aligned_labels]
+        label_ids = [self.label2id[label] for label in aligned_labels]
         
         # Create attention mask and pad sequences
         attention_mask = [1] * len(input_ids)
@@ -131,7 +131,7 @@ class NERDataset(Dataset):
         if padding_length > 0:
             input_ids = input_ids + [self.tokenizer.pad_token_id] * padding_length
             attention_mask = attention_mask + [0] * padding_length
-            label_ids = label_ids + [self.label_to_id["O"]] * padding_length
+            label_ids = label_ids + [self.label2id["O"]] * padding_length
             word_ids = word_ids + [-1] * padding_length
         else:
             input_ids = input_ids[:self.max_length]
@@ -149,16 +149,25 @@ class NERDataset(Dataset):
         }
     
 
-
 class DroneLogDataset(Dataset):
-    def __init__(self, data_path, tokenizer, max_len=128):
-        self.data = self.read_conll_file(data_path) if data_path is not None else None
+    def __init__(self, args, data_path, tokenizer: AutoTokenizer, label2id: Dict[str, int] = None):
+        self.data_path = data_path
         self.tokenizer = tokenizer
-        self.max_len = max_len
-        self.label2id = {'O': 0, 'B-Event': 1, 'I-Event': 2, 'E-Event': 3, 'S-Event': 4, 'B-NonEvent': 5, 'I-NonEvent': 6, 'E-NonEvent': 7, 'S-NonEvent': 8}
-        self.id2label = {v: k for k, v in self.label2id.items()}
+        self.max_len = args.max_seq_length
+        self.align_mode = args.align_label
+        # Read the data from the file
+        self.data = self._read_conll_file(data_path) if data_path is not None else None
+        # Create label vocabulary if not provided
+        if label2id is None:
+            unique_labels = set()
+            for label_seq in self.labels:
+                unique_labels.update(label_seq)
+            self.label2id = {label: idx for idx, label in enumerate(sorted(unique_labels))}
+        else:
+            self.label2id = label2id
+        self.id2label = {idx: label for label, idx in self.label2id.items()}
 
-    def read_conll_file(self, file_path):
+    def _read_conll_file(self, file_path):
         """Read CoNLL format file"""
         data = []
         current_words = []
@@ -183,11 +192,12 @@ class DroneLogDataset(Dataset):
 
     def __len__(self):
         return len(self.data)
-
-    def __getitem__(self, idx):
-        words, labels = self.data[idx]
-        
-        # Tokenize words and align labels
+    
+    def align_labels_with_padding(self, words: List[str], labels: List[str]) -> Tuple[List[int], List[int]]:
+        """
+        Align labels with wordpiece tokens and handle special tokens
+        Returns aligned label ids and a mapping to original word indices
+        """
         encoded = self.tokenizer(
             words,
             is_split_into_words=True,
@@ -197,19 +207,66 @@ class DroneLogDataset(Dataset):
             return_tensors='pt'
         )
 
-        # Convert labels to ids and align with tokens
         label_ids = []
-        word_ids = encoded.word_ids()
-        
-        for word_idx in word_ids:
+        original_word_ids = []
+        prev_word_idx = None
+
+        for word_idx in encoded.word_ids():
             if word_idx is None:
-                label_ids.append(-100)  # special tokens
+                # Special tokens ([CLS], [SEP], [PAD])
+                label_ids.append(-100)
+                original_word_ids.append(-1)
             else:
-                label_ids.append(self.label2id[labels[word_idx]])
+                if word_idx != prev_word_idx:
+                    # First token of word gets the actual label
+                    label_ids.append(self.label2id[labels[word_idx]])
+                else:
+                    # Additional wordpieces get the PAD tag
+                    label_ids.append(self.label2id['PAD'])
+                original_word_ids.append(word_idx)
+                prev_word_idx = word_idx
+
+        return encoded, label_ids, original_word_ids
+
+    def __getitem__(self, idx):
+        words, labels = self.data[idx]
+        
+        if self.align_mode == 'padding':
+            encoded, label_ids, original_word_ids = self.align_labels_with_padding(words, labels)
+        elif self.align_mode == 'bioes':
+            encoded, label_ids, original_word_ids = self.align_labels_with_padding(words, labels)
+        else:
+            NotImplementedError
 
         return {
             'input_ids': encoded['input_ids'].squeeze(0),
             'attention_mask': encoded['attention_mask'].squeeze(0),
-            'labels': torch.tensor(label_ids)
+            'labels': torch.tensor(label_ids),
+            'word_ids': torch.tensor(original_word_ids),  # Keep track of original word mapping
+            "original_words": self.sentences[idx],  # Keep original words for evaluation
+            "original_labels": self.labels[idx]     # Keep original labels for evaluation
         }
 
+    def reconstruct_labels_padding(self, token_labels: List[int], word_ids: List[int]) -> List[str]:
+        """
+        Reconstruct original word-level labels from token-level predictions
+        
+        Args:
+            token_labels: Predicted labels for each token
+            word_ids: Mapping from tokens to original words
+            
+        Returns:
+            List of labels at word level
+        """
+        reconstructed_labels = []
+        current_word_idx = -1
+        
+        for word_idx, label_id in zip(word_ids, token_labels):
+            if word_idx == -1 or label_id == self.label2id['PAD']:
+                continue
+                
+            if word_idx != current_word_idx:
+                reconstructed_labels.append(self.id2label[label_id])
+                current_word_idx = word_idx
+                
+        return reconstructed_labels
