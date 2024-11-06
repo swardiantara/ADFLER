@@ -127,9 +127,13 @@ class DroneLogNER:
                     valid_indices = label != -100
                     aligned_preds = val_dataset.reconstruct_labels_padding(pred[valid_indices].cpu().numpy(), word_ids.tolist())
                     aligned_labels = val_dataset.reconstruct_labels_padding(label[valid_indices].cpu().numpy(), word_ids.tolist())
+                    decoded_input = self.decode_tokens(input_id[valid_indices].cpu().numpy())
+                    print(f'decoded_input: {decoded_input}')
+                    print(f'aligned_preds: {aligned_preds}')
+                    print(f'aligned_labels: {aligned_labels}')
                     all_preds.append(aligned_preds)
                     all_labels.append(aligned_labels)
-                    all_tokens.append(self.decode_tokens(input_id[valid_indices].cpu().numpy()))
+                    all_tokens.append(decoded_input)
 
         all_preds = [[id2label[idx] for idx in sample] for sample in all_preds]
         all_labels = [[id2label[idx] for idx in sample] for sample in all_labels]

@@ -262,8 +262,6 @@ class DroneLogDataset(Dataset):
         current_word_idx = -1
         
         for word_idx, label_id in zip(word_ids, token_labels):
-            print(f'word_idx: {word_idx}')
-            print(f'label_id: {label_id}')
             if (word_idx == -1) or (label_id == self.label2id['PAD']):
                 continue
                 
