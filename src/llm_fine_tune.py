@@ -68,7 +68,7 @@ class DroneLogNER:
             avg_train_loss = total_train_loss / len(train_loader)
             
             # Validation
-            val_loss, _, _, _ = self.evaluate(val_loader)
+            val_loss, _, _, _ = self.evaluate(args, val_path, self.model, label2id)
             
             print(f'Epoch {epoch + 1}:')
             print(f'Average training loss: {avg_train_loss:.4f}')
