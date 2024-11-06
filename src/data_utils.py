@@ -238,7 +238,7 @@ class DroneLogDataset(Dataset):
         else:
             NotImplementedError
         # Assert the dimension of tokenized input and aligned label
-        assert len(encoded['input_ids']) == len(label_ids), f"The dimension of `encoded['input_ids']` of {len(encoded['input_ids'])} is not the same with `label_ids` of {len(label_ids)}"
+        assert len(encoded['input_ids'].squeeze(0)) == len(label_ids), f"The dimension of `encoded['input_ids']` of {len(encoded['input_ids'])} is not the same with `label_ids` of {len(label_ids)}"
         return {
             'input_ids': encoded['input_ids'].squeeze(0),
             'attention_mask': encoded['attention_mask'].squeeze(0),
