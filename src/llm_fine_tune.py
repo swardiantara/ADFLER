@@ -78,7 +78,7 @@ class DroneLogNER:
                 best_val_loss = val_loss
                 torch.save(self.model.state_dict(), 'best_model.pt')
 
-    def reconstruct_from_wordpieces(tokens):
+    def reconstruct_from_wordpieces(self, tokens):
         words = []
         current_word = ""
         
@@ -104,7 +104,6 @@ class DroneLogNER:
         """Convert input IDs back to original text tokens"""
         tokens = self.tokenizer.convert_ids_to_tokens(input_ids, skip_special_tokens=True)
         tokens = self.reconstruct_from_wordpieces(tokens)
-        print(f'tokens: {tokens}')
         return tokens
 
     def evaluate(self, args, data_path, label2id):
