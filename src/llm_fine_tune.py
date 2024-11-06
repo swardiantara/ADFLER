@@ -8,7 +8,7 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizerFast, BertForTokenClassification, AutoTokenizer, AutoModelForTokenClassification
 from sklearn.metrics import classification_report
 
-from src.data_utils import NERDataset, DroneLogDataset
+from data_utils import NERDataset, DroneLogDataset
 
 
 label2id = {'O': 0, 'B-Event': 1, 'I-Event': 2, 'E-Event': 3, 'S-Event': 4, 'B-NonEvent': 5, 'I-NonEvent': 6, 'E-NonEvent': 7, 'S-NonEvent': 8, 'PAD': -100}
