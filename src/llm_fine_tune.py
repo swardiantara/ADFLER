@@ -122,8 +122,8 @@ class DroneLogNER:
                 #     id2label
                 # )
                 # Collect predictions and true labels
-                aligned_preds = val_dataset.reconstruct_labels(predictions, word_ids.tolist())
-                aligned_labels = val_dataset.reconstruct_labels(labels, word_ids.tolist())
+                aligned_preds = val_dataset.reconstruct_labels_padding(predictions, word_ids.tolist())
+                aligned_labels = val_dataset.reconstruct_labels_padding(labels, word_ids.tolist())
                 all_preds.append(aligned_preds)
                 all_labels.append(aligned_labels)
                 # Convert predictions and labels to list, filtering out padding (-100)
