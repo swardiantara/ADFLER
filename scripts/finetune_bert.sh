@@ -1,4 +1,4 @@
-python src/llm_fine_tune.py \
+python bert_ner.py \
    --model_name_or_path bert-base-cased \
    --do_train \
    --output_dir development \
