@@ -8,7 +8,7 @@ from torch.utils.data import Dataset, DataLoader
 from transformers import BertTokenizerFast, BertForTokenClassification, AutoTokenizer, AutoModelForTokenClassification
 from sklearn.metrics import classification_report
 
-from src.data_utils import NERDataset, DroneLogDataset
+from src.data_utils import NERDataset, DroneLogDataset, sanity_check
 
 
 label2id = {'O': 0, 'B-Event': 1, 'I-Event': 2, 'E-Event': 3, 'S-Event': 4, 'B-NonEvent': 5, 'I-NonEvent': 6, 'E-NonEvent': 7, 'S-NonEvent': 8, 'PAD': -100}
@@ -29,6 +29,12 @@ class DroneLogNER:
         
         train_loader = DataLoader(train_dataset, batch_size=args.train_batch_size, shuffle=True)
         val_loader = DataLoader(val_dataset, batch_size=args.eval_batch_size)
+        
+        # Usage example:
+        print("Sanity check on train dataset")
+        sanity_check(train_dataset, 2)
+        print("Sanity check on test dataset")
+        sanity_check(val_dataset, 3)
         
         # Optimizer
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=args.learning_rate)

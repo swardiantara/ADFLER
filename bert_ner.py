@@ -44,13 +44,12 @@ def init_args():
     parser.add_argument('--save_model', action='store_true',
                         help="Whether to save the best checkpoint.")
 
-
     args = parser.parse_args()
 
     # create output folder if needed
     output_folder = os.path.join("experiments", args.scenario, args.model_name_or_path, 'align' if args.align_label else 'padding', "unidirectional", str(args.train_epochs), str(args.seed))
-    if not os.path.exists():
-        os.mkdir(output_folder)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
     print(f"current scenario - {output_folder}")
     if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):

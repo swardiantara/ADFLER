@@ -242,9 +242,9 @@ class DroneLogDataset(Dataset):
             'input_ids': encoded['input_ids'].squeeze(0),
             'attention_mask': encoded['attention_mask'].squeeze(0),
             'labels': torch.tensor(label_ids),
-            'word_ids': torch.tensor(original_word_ids),  # Keep track of original word mapping
-            "original_words": self.sentences[idx],  # Keep original words for evaluation
-            "original_labels": self.labels[idx]     # Keep original labels for evaluation
+            # 'word_ids': torch.tensor(original_word_ids),  # Keep track of original word mapping
+            # "original_words": words,  # Keep original words for evaluation
+            # "original_labels": labels     # Keep original labels for evaluation
         }
 
     def reconstruct_labels_padding(self, token_labels: List[int], word_ids: List[int]) -> List[str]:
@@ -270,3 +270,37 @@ class DroneLogDataset(Dataset):
                 current_word_idx = word_idx
                 
         return reconstructed_labels
+    
+
+def sanity_check(dataset, idx):
+    """
+    Perform sanity check on a specific example in the dataset
+    
+    Args:
+        dataset: NERDataset instance
+        idx: index of example to check
+    """
+    # Get the item
+    item = dataset[idx]
+    
+    # Get the original tokens
+    tokens = dataset.tokenizer.convert_ids_to_tokens(item['input_ids'])
+    labels = item['labels'].tolist()
+    
+    # Create id2label mapping
+    id2label = {v: k for k, v in dataset.label2id.items()}
+    
+    # Print alignment
+    print("Token\t\tLabel")
+    print("-" * 40)
+    for token, label_id in zip(tokens, labels):
+        # Convert label_id to label string
+        label = id2label[label_id] if label_id != -100 else 'PAD/SUBWORD'
+        # Adjust spacing for better visualization
+        print(f"{token:<15} {label}")
+        
+    # Print some statistics
+    print("\nStatistics:")
+    print(f"Number of tokens: {len(tokens)}")
+    print(f"Number of labels: {len(labels)}")
+    print(f"Number of actual labels (excluding -100): {sum(1 for l in labels if l != -100)}")
