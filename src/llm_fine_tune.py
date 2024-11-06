@@ -68,7 +68,7 @@ class DroneLogNER:
             avg_train_loss = total_train_loss / len(train_loader)
             
             # Validation
-            val_loss, _, _, _ = self.evaluate(args, val_path, self.model, label2id)
+            val_loss, _, _, _ = self.evaluate(args, val_path, label2id)
             
             print(f'Epoch {epoch + 1}:')
             print(f'Average training loss: {avg_train_loss:.4f}')
@@ -84,8 +84,8 @@ class DroneLogNER:
         return self.tokenizer.convert_ids_to_tokens(input_ids)
 
 
-    def evaluate(self, args, data_path, model, label2id):
-        val_dataset = DroneLogDataset(args, data_path, model.tokenizer, label2id=label2id)
+    def evaluate(self, args, data_path, label2id):
+        val_dataset = DroneLogDataset(args, data_path, self.tokenizer, label2id=label2id)
         val_loader = DataLoader(val_dataset, batch_size=16)
         self.model.eval()
         total_val_loss = 0
