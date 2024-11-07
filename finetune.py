@@ -83,10 +83,8 @@ def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
 
 
 def evaluate_predictions(true_sentences: List[List[str]], 
-                        predictions: List[List[Dict]]) -> Dict:
+                        pred_labels: List[List[Dict]]) -> Dict:
     """Evaluate both boundary detection and sentence type classification."""
-    # Process predictions to get labels
-    pred_labels = process_predictions(predictions)
     
     all_true_spans = []
     all_pred_spans = []
@@ -173,12 +171,13 @@ def evaluate_predictions(true_sentences: List[List[str]],
 def evaluate_model(model, val_sentences):
     # Get predictions
     predictions, _ = model.predict([' '.join(words) for words, _ in val_sentences])
-    
+    # Process predictions to get labels
+    pred_labels = process_predictions(predictions)
     # Get true labels
     true_labels = [labels for _, labels in val_sentences]
-    
+    assert len(pred_labels) == len(true_labels), f"Dimension error: pred_labels: {len(pred_labels)} - true_labels: {true_labels}"
     # Evaluate
-    metrics = evaluate_predictions(true_labels, predictions)
+    metrics = evaluate_predictions(true_labels, pred_labels)
     
     print("\nBoundary Detection Metrics:")
     print(f"Precision: {metrics['boundary']['precision']:.4f}")
