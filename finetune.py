@@ -6,6 +6,7 @@ from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 from typing import List, Dict, Set, Tuple
 from dataclasses import dataclass
 
+
 @dataclass
 class EntitySpan:
     start_idx: int
@@ -34,35 +35,35 @@ def read_conll_file(file_path: str) -> List[Tuple[List[str], List[str]]]:
     
     return sentences
 
-def convert_to_simpletransformers_format(sentences: List[Tuple[List[str], List[str]]]) -> List[Dict]:
-    formatted_data = []
-    
-    for words, labels in sentences:
-        sentence_data = []
-        for i, (word, label) in enumerate(zip(words, labels)):
-            sentence_data.append({
-                'words': word,
-                'labels': label,
-                'sentence_id': len(formatted_data)
-            })
-        formatted_data.extend(sentence_data)
-    
-    return formatted_data
 
-def extract_valid_spans(words: List[str], labels: List[str]) -> List[EntitySpan]:
+def process_predictions(predictions: List[List[Dict]]) -> List[List[str]]:
+    """Convert SimpleTransformers prediction format to list of labels."""
+    processed_preds = []
+    for sentence in predictions:
+        # Each sentence is a list of dictionaries with one item
+        labels = [list(word_dict.values())[0] for word_dict in sentence]
+        processed_preds.append(labels)
+    return processed_preds
+
+
+def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
+    """Extract valid entity spans following BIOES scheme."""
     spans = []
     current_span = None
     current_type = None
     
-    def get_entity_type(label: str) -> str:
-        return label.split('-')[1] if '-' in label else 'O'
-    
     for i, label in enumerate(labels):
-        prefix = label[0] if '-' in label else 'O'
-        entity_type = get_entity_type(label)
+        if label == 'O':
+            if current_span is not None:
+                # Invalid span (no E- tag), discard it
+                current_span = None
+            continue
+            
+        prefix = label[0]  # B, I, E, S
+        entity_type = label.split('-')[1]  # Event or NonEvent
         
         if prefix in ['B', 'S']:
-            if current_span:
+            if current_span is not None:
                 # Invalid span (no E- tag), discard it
                 current_span = None
             if prefix == 'S':
@@ -77,20 +78,23 @@ def extract_valid_spans(words: List[str], labels: List[str]) -> List[EntitySpan]
             if current_span is not None and entity_type == current_type:
                 spans.append(EntitySpan(current_span, i, entity_type))
             current_span = None
-        elif prefix == 'O':
-            current_span = None
     
     return spans
 
-def evaluate_predictions(true_sentences: List[Tuple[List[str], List[str]]], 
-                        pred_labels: List[List[str]]) -> Dict:
+
+def evaluate_predictions(true_sentences: List[List[str]], 
+                        predictions: List[List[Dict]]) -> Dict:
+    """Evaluate both boundary detection and sentence type classification."""
+    # Process predictions to get labels
+    pred_labels = process_predictions(predictions)
+    
     all_true_spans = []
     all_pred_spans = []
     
     # Extract spans for all sentences
-    for (words, true_labels), pred_sentence_labels in zip(true_sentences, pred_labels):
-        true_spans = extract_valid_spans(words, true_labels)
-        pred_spans = extract_valid_spans(words, pred_sentence_labels)
+    for true_labels, pred_sentence_labels in zip(true_sentences, pred_labels):
+        true_spans = extract_valid_spans(true_labels)
+        pred_spans = extract_valid_spans(pred_sentence_labels)
         
         all_true_spans.append(true_spans)
         all_pred_spans.append(pred_spans)
@@ -105,9 +109,11 @@ def evaluate_predictions(true_sentences: List[Tuple[List[str], List[str]]],
     pred_types = []
     
     for true_spans, pred_spans in zip(all_true_spans, all_pred_spans):
+        # Convert spans to boundary tuples
         true_boundaries = {(span.start_idx, span.end_idx) for span in true_spans}
         pred_boundaries = {(span.start_idx, span.end_idx) for span in pred_spans}
         
+        # Get correctly identified boundaries
         correct_boundaries = true_boundaries.intersection(pred_boundaries)
         
         total_correct += len(correct_boundaries)
@@ -119,52 +125,84 @@ def evaluate_predictions(true_sentences: List[Tuple[List[str], List[str]]],
             true_span = next(s for s in true_spans if (s.start_idx, s.end_idx) == span_indices)
             pred_span = next(s for s in pred_spans if (s.start_idx, s.end_idx) == span_indices)
             
+            # Event is positive class (1), NonEvent is negative class (0)
             true_types.append(1 if true_span.entity_type == "Event" else 0)
             pred_types.append(1 if pred_span.entity_type == "Event" else 0)
     
     # Calculate boundary metrics
-    boundary_precision = total_correct / total_predicted if total_predicted > 0 else 0
-    boundary_recall = total_correct / total_true if total_true > 0 else 0
-    boundary_f1 = 2 * boundary_precision * boundary_recall / (boundary_precision + boundary_recall) \
-                 if boundary_precision + boundary_recall > 0 else 0
+    boundary_metrics = {
+        'precision': total_correct / total_predicted if total_predicted > 0 else 0,
+        'recall': total_correct / total_true if total_true > 0 else 0,
+        'num_correct': total_correct,
+        'num_predicted': total_predicted,
+        'num_true': total_true
+    }
     
-    # Calculate classification metrics
+    # Calculate F1 for boundary detection
+    if boundary_metrics['precision'] + boundary_metrics['recall'] > 0:
+        boundary_metrics['f1'] = (2 * boundary_metrics['precision'] * boundary_metrics['recall'] /
+                                (boundary_metrics['precision'] + boundary_metrics['recall']))
+    else:
+        boundary_metrics['f1'] = 0
+    
+    # Calculate classification metrics only for correctly identified boundaries
     if true_types:
         precision, recall, f1, _ = precision_recall_fscore_support(
-            true_types, pred_types, average='binary', zero_division=0
+            true_types, pred_types, average='binary', zero_division=0,
+            labels=[1]  # Ensure we're calculating metrics for Event class
         )
         accuracy = accuracy_score(true_types, pred_types)
     else:
         precision = recall = f1 = accuracy = 0
     
-    return {
-        'boundary': {
-            'precision': boundary_precision,
-            'recall': boundary_recall,
-            'f1': boundary_f1,
-            'num_correct': total_correct,
-            'num_predicted': total_predicted,
-            'num_true': total_true
-        },
-        'classification': {
-            'precision': precision,
-            'recall': recall,
-            'f1': f1,
-            'accuracy': accuracy,
-            'support': len(true_types)
-        }
+    classification_metrics = {
+        'precision': precision,
+        'recall': recall,
+        'f1': f1,
+        'accuracy': accuracy,
+        'support': len(true_types)  # Number of correctly identified boundaries
     }
+    
+    return {
+        'boundary': boundary_metrics,
+        'classification': classification_metrics
+    }
+
+
+# Example usage:
+def evaluate_model(model, val_sentences):
+    # Get predictions
+    predictions, _ = model.predict([' '.join(words) for words, _ in val_sentences])
+    
+    # Get true labels
+    true_labels = [labels for _, labels in val_sentences]
+    
+    # Evaluate
+    metrics = evaluate_predictions(true_labels, predictions)
+    
+    print("\nBoundary Detection Metrics:")
+    print(f"Precision: {metrics['boundary']['precision']:.4f}")
+    print(f"Recall: {metrics['boundary']['recall']:.4f}")
+    print(f"F1: {metrics['boundary']['f1']:.4f}")
+    print(f"Correct Boundaries: {metrics['boundary']['num_correct']}")
+    print(f"Predicted Boundaries: {metrics['boundary']['num_predicted']}")
+    print(f"True Boundaries: {metrics['boundary']['num_true']}")
+    
+    print("\nClassification Metrics (for correct boundaries):")
+    print(f"Precision: {metrics['classification']['precision']:.4f}")
+    print(f"Recall: {metrics['classification']['recall']:.4f}")
+    print(f"F1: {metrics['classification']['f1']:.4f}")
+    print(f"Accuracy: {metrics['classification']['accuracy']:.4f}")
+    print(f"Support (correct boundaries): {metrics['classification']['support']}")
+    
+    return metrics
+
 
 def main():
     # Read data
     train_path = os.path.join("dataset", "train_conll_data.txt")
     test_path = os.path.join("dataset", "test_conll_data.txt")
-    train_sentences = read_conll_file(train_path)
     val_sentences = read_conll_file(test_path)
-    
-    # Convert to SimpleTransformers format
-    train_data = convert_to_simpletransformers_format(train_sentences)
-    val_data = convert_to_simpletransformers_format(val_sentences)
     
     # Get unique labels
     labels = ['O',
@@ -185,7 +223,7 @@ def main():
     # Initialize model (can use any transformer model)
     model = NERModel(
         'bert',  # Model type (can be roberta, xlnet, etc.)
-        'bert-base-uncased',  # Model name
+        'bert-base-cased',  # Model name
         labels=labels,
         args=model_args
     )
@@ -194,14 +232,15 @@ def main():
     model.train_model(train_path, show_running_loss=True, )
     
     # Make predictions on validation set
-    predictions, _ = model.predict([' '.join(words) for words, _ in val_sentences])
-    result, model_outputs, wrong_preds = model.eval_model(test_path)
-    metrics = evaluate_predictions(val_sentences, predictions)
-    print("Validation Metrics:", metrics)
-    print("================")
-    print(result)
-    print("================")
+    # predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
+    # result, model_outputs, wrong_preds = model.eval_model(test_path)
+    # metrics = evaluate_predictions(val_sentences, predictions)
+    # print("Validation Metrics:", metrics)
+    # print("================")
+    # print(result)
+    # print("================")
     # Evaluate
+    evaluate_model(model, val_sentences)
 
 if __name__ == '__main__':
     main()
