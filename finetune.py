@@ -41,7 +41,7 @@ def process_predictions(predictions: List[List[Dict]]) -> List[List[str]]:
     processed_preds = []
     for sentence in predictions:
         # Each sentence is a list of dictionaries with one item
-        labels = [list(word_dict.values())[0] for word_dict in sentence]
+        labels = [list(word_dict.values()) for word_dict in sentence]
         processed_preds.append(labels)
     return processed_preds
 
