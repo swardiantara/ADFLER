@@ -167,7 +167,10 @@ def main():
     val_data = convert_to_simpletransformers_format(val_sentences)
     
     # Get unique labels
-    labels = sorted(list({item['labels'] for item in train_data}))
+    labels = ['O',
+              'B-Event', 'I-Event', 'E-Event', 'S-Event',
+              'B-NonEvent', 'I-NonEvent', 'E-NonEvent', 'S-NonEvent',
+              ]
     
     # Define model arguments
     model_args = {
@@ -188,14 +191,17 @@ def main():
     )
     
     # Train the model
-    model.train_model(train_data)
+    model.train_model(train_path, show_running_loss=True, )
     
     # Make predictions on validation set
     predictions, _ = model.predict([' '.join(words) for words, _ in val_sentences])
-    
-    # Evaluate
+    result, model_outputs, wrong_preds = model.eval_model(test_path)
     metrics = evaluate_predictions(val_sentences, predictions)
     print("Validation Metrics:", metrics)
+    print("================")
+    print(result)
+    print("================")
+    # Evaluate
 
 if __name__ == '__main__':
     main()
