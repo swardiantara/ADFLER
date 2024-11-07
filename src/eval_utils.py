@@ -61,8 +61,8 @@ def extract_boundaries_with_types(tags):
             start_idx = idx
             current_entity_type = entity_type
 
-        elif prefix == "B":
-            # B tag appears; start new boundary
+        elif (prefix == "B") or (prefix == "S"):
+            # B or S tag appears; start new boundary
             if start_idx is not None:
                 boundaries.append((start_idx, idx - 1, current_entity_type))
             start_idx = idx
@@ -95,6 +95,9 @@ def evaluate_sbd_boundary_only(all_true_tags, all_pred_tags):
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
 
     return {
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
         "precision": precision,
         "recall": recall,
         "f1": f1,
@@ -141,6 +144,9 @@ def evaluate_classification_correct_boundaries(all_true_tags, all_pred_tags):
     f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
 
     return {
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
         "precision": precision,
         "recall": recall,
         "f1": f1,

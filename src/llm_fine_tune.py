@@ -154,12 +154,12 @@ class DroneLogNER:
                     aligned_labels = val_dataset.reconstruct_labels_padding(label[valid_indices].cpu().numpy(), word_ids.tolist())
                     decoded_input = self.decode_tokens(input_id.cpu().numpy())
                     # Assert the dimension of tokenized input and aligned label
-                    assert len(decoded_input) == len(aligned_labels) == len(aligned_preds), f"[Eval]-Dimension error. decoded_input: {len(decoded_input)}, aligned_labels: {len(aligned_labels)}, aligned_preds: {len(aligned_preds)}"
                     print(f'decoded_input: {decoded_input}')
                     print(f'original_input: {original_input}')
                     print(f'original_labels: {original_labels}')
                     print(f'aligned_labels: {aligned_labels}')
                     print(f'aligned_preds: {aligned_preds}')
+                    assert len(decoded_input) == len(aligned_labels) == len(aligned_preds), f"[Eval]-Dimension error. decoded_input: {len(decoded_input)}, aligned_labels: {len(aligned_labels)}, aligned_preds: {len(aligned_preds)}"
                     all_preds.append(aligned_preds)
                     all_labels.append(aligned_labels)
                     all_tokens.append(decoded_input)
