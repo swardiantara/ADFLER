@@ -41,7 +41,7 @@ def process_predictions(predictions: List[List[Dict]]) -> List[List[str]]:
     processed_preds = []
     for sentence in predictions:
         # Each sentence is a list of dictionaries with one item
-        labels = [list(word_dict.values()) for word_dict in sentence]
+        labels = [word_dict.values() for word_dict in sentence]
         processed_preds.append(labels)
     return processed_preds
 
@@ -173,12 +173,8 @@ def evaluate_model(model, val_sentences):
     predictions, _ = model.predict([' '.join(words) for words, _ in val_sentences])
     # Process predictions to get labels
     pred_labels = process_predictions(predictions)
-    print(f'pred_labels: {pred_labels}')
     # Get true labels
     true_labels = [labels for _, labels in val_sentences]
-    print(f'true_labels: {true_labels}')
-    return 0
-    assert len(pred_labels) == len(true_labels), f"Dimension error: pred_labels: {len(pred_labels)} - true_labels: {true_labels}"
     # Evaluate
     metrics = evaluate_predictions(true_labels, pred_labels)
     
