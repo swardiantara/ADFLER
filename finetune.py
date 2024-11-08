@@ -291,6 +291,140 @@ def log_predictions_to_excel(true_sentences: List[Tuple[List[str], List[str]]],
     print(f"Files saved in directory: {output_dir}")
 
 
+def log_word_level_predictions(true_sentences: List[Tuple[List[str], List[str]]], 
+                             pred_labels: List[List[str]], 
+                             output_dir: str = "error_analysis"):
+    """
+    Log word-level predictions for detailed error analysis.
+    
+    Args:
+        true_sentences: List of tuples (words, labels) from validation set
+        predictions: Predictions from SimpleTransformers model
+        output_dir: Directory to save the Excel files
+    """
+    import os
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    word_level_data = []
+    
+    for msg_id, ((words, true_labels), pred_sentence_labels) in enumerate(zip(true_sentences, pred_labels)):
+        # Get the full message
+        message = ' '.join(words)
+        
+        # Extract spans for identifying whether a token is part of a valid boundary
+        true_spans = extract_valid_spans(true_labels)
+        pred_spans = extract_valid_spans(pred_sentence_labels)
+        
+        # Get valid boundaries
+        true_boundaries = {(span.start_idx, span.end_idx): span.entity_type 
+                         for span in true_spans}
+        pred_boundaries = {(span.start_idx, span.end_idx): span.entity_type 
+                         for span in pred_spans}
+        
+        # For each word in the message
+        for idx, (word, true_label, pred_label) in enumerate(zip(words, true_labels, pred_sentence_labels)):
+            # Check if this token is part of valid boundaries
+            true_entity = None
+            pred_entity = None
+            
+            # Find if token is part of a true boundary
+            for (start, end), entity_type in true_boundaries.items():
+                if start <= idx <= end:
+                    true_entity = entity_type
+                    break
+            
+            # Find if token is part of a predicted boundary
+            for (start, end), entity_type in pred_boundaries.items():
+                if start <= idx <= end:
+                    pred_entity = entity_type
+                    break
+            
+            is_boundary_correct = None
+            if true_entity is not None:
+                # Token should be part of a boundary
+                if pred_entity is not None:
+                    # Boundary detected, check if entity type matches
+                    is_boundary_correct = (true_entity == pred_entity)
+                else:
+                    # Boundary missed
+                    is_boundary_correct = False
+            else:
+                # Token should not be part of a boundary
+                is_boundary_correct = (pred_entity is None)
+            
+            word_level_data.append({
+                'message_id': msg_id,
+                'message': message,
+                'token': word,
+                'token_index': idx,
+                'true_label': true_label,
+                'pred_label': pred_label,
+                'is_in_true_boundary': true_entity is not None,
+                'true_entity_type': true_entity if true_entity else 'None',
+                'is_in_pred_boundary': pred_entity is not None,
+                'pred_entity_type': pred_entity if pred_entity else 'None',
+                'is_boundary_correct': is_boundary_correct,
+                'error_type': get_error_type(true_label, pred_label)
+            })
+    
+    # Create DataFrame and save to Excel
+    word_level_df = pd.DataFrame(word_level_data)
+    
+    # Add color formatting for easier visualization
+    def color_incorrect_predictions(row):
+        if not row['is_boundary_correct']:
+            return ['background-color: #FFB6B6'] * len(row)
+        return [''] * len(row)
+    
+    # Apply conditional formatting
+    styled_df = word_level_df.style.apply(color_incorrect_predictions, axis=1)
+    
+    # Save to Excel with formatting
+    with pd.ExcelWriter(os.path.join(output_dir, 'word_level_predictions.xlsx'),
+                       engine='openpyxl') as writer:
+        styled_df.to_excel(writer, index=False)
+    
+    # Create summary of error types
+    error_summary = pd.DataFrame(word_level_df[~word_level_df['is_boundary_correct']]['error_type'].value_counts())
+    error_summary.columns = ['count']
+    error_summary.to_excel(os.path.join(output_dir, 'word_level_error_type_summary.xlsx'))
+    
+    print(f"Logged {len(word_level_data)} word-level predictions")
+    print(f"Files saved in directory: {output_dir}")
+
+def get_error_type(true_label: str, pred_label: str) -> str:
+    """
+    Determine the type of error for a token prediction.
+    """
+    if true_label == pred_label:
+        return 'Correct'
+    
+    def get_prefix_type(label):
+        if label == 'O':
+            return 'O'
+        prefix = label[0]
+        entity = label.split('-')[1]
+        return f"{prefix}-{entity}"
+    
+    true_type = get_prefix_type(true_label)
+    pred_type = get_prefix_type(pred_label)
+    
+    if true_label == 'O':
+        return f"False_{pred_type}"
+    elif pred_label == 'O':
+        return f"Missed_{true_type}"
+    else:
+        # Both are tags but different
+        true_prefix, true_entity = true_label.split('-')
+        pred_prefix, pred_entity = pred_label.split('-')
+        
+        if true_entity != pred_entity:
+            return f"Wrong_Entity_{true_entity}_as_{pred_entity}"
+        else:
+            return f"Wrong_Tag_{true_prefix}_as_{pred_prefix}"
+        
+
 def main():
     # Read data
     train_path = os.path.join("dataset", "train_conll_data.txt")
@@ -336,6 +470,12 @@ def main():
             json.dump(metrics, f, indent=4)
     # Log predictions for error analysis
     log_predictions_to_excel(
+        true_sentences=val_sentences,
+        pred_labels=pred_labels,
+        output_dir=output_dir
+    )
+    # Log word-level predictions for detailed error analysis
+    log_word_level_predictions(
         true_sentences=val_sentences,
         pred_labels=pred_labels,
         output_dir=output_dir
