@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 import pandas as pd
 import numpy as np
 from simpletransformers.ner import NERModel
@@ -7,6 +8,33 @@ from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 from typing import List, Dict, Set, Tuple
 from dataclasses import dataclass
 
+def init_args():
+    parser = argparse.ArgumentParser()
+    # basic settings
+    parser.add_argument("--model_type", default='bert', type=str,
+                        help="Path to pre-trained model or shortcut name")
+    parser.add_argument("--model_name_or_path", default='bert-base-cased', type=str,
+                        help="Path to pre-trained model or shortcut name")
+    # other parameters
+    parser.add_argument("--max_seq_length", default=128, type=int)
+    parser.add_argument("--train_batch_size", default=16, type=int,
+                        help="Batch size per GPU/CPU for training.")
+    parser.add_argument("--eval_batch_size", default=16, type=int,
+                        help="Batch size per GPU/CPU for evaluation.")
+    parser.add_argument("--learning_rate", default=2e-5, type=float)
+    parser.add_argument("--train_epochs", default=5, type=int, 
+                        help="Total number of training epochs to perform.")
+    parser.add_argument('--output_dir',  default='simple-trans', type=str)
+
+    args = parser.parse_args()
+    model_name = args.model_name_or_path.split('/')[-1]
+    output_folder = os.path.join(args.output_dir, model_name)
+    print(f"current scenario - {output_folder}")
+    if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
+        raise ValueError('This scenario has been executed.')
+    args.output_dir = output_folder
+
+    return args
 
 @dataclass
 class EntitySpan:
@@ -426,11 +454,15 @@ def get_error_type(true_label: str, pred_label: str) -> str:
         
 
 def main():
+    # initialization
+    args = init_args()
+
     # Read data
     train_path = os.path.join("dataset", "train_conll_data.txt")
     test_path = os.path.join("dataset", "test_conll_data.txt")
     val_sentences = read_conll_file(test_path)
-    output_dir = 'simple-trans'
+    output_dir = args.output_dir
+
     # Get unique labels
     labels = ['O',
               'B-Event', 'I-Event', 'E-Event', 'S-Event',
@@ -439,18 +471,18 @@ def main():
     
     # Define model arguments
     model_args = {
-        'num_train_epochs': 5,
-        'learning_rate': 2e-5,
+        'num_train_epochs': args.train_epochs,
+        'learning_rate': args.learning_rate,
         'overwrite_output_dir': True,
-        'train_batch_size': 16,
-        'eval_batch_size': 16,
+        'train_batch_size': args.train_batch_size,
+        'eval_batch_size': args.eval_batch_size,
         'output_dir': output_dir
     }
     
     # Initialize model (can use any transformer model)
     model = NERModel(
-        'bert',  # Model type (can be roberta, xlnet, etc.)
-        'bert-base-cased',  # Model name
+        args.model_type,        # Model type (can be roberta, xlnet, etc.)
+        args.model_name_or_path,    # Model name
         labels=labels,
         args=model_args
     )
@@ -461,19 +493,24 @@ def main():
     # Make predictions on test set
     # Get predictions
     predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
+
     # Process predictions to get labels
     pred_labels = process_predictions(predictions)
+
     # Get true labels
     true_labels = [labels for _, labels in val_sentences]
     metrics = evaluate_model(true_labels, pred_labels)
+
     with open(os.path.join(output_dir, "evaluation_score.json"), "w") as f:
             json.dump(metrics, f, indent=4)
+
     # Log predictions for error analysis
     log_predictions_to_excel(
         true_sentences=val_sentences,
         pred_labels=pred_labels,
         output_dir=output_dir
     )
+
     # Log word-level predictions for detailed error analysis
     log_word_level_predictions(
         true_sentences=val_sentences,
