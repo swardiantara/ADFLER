@@ -1,0 +1,17 @@
+{
+    "boundary": {
+        "precision": 0.9803921568627451,
+        "recall": 0.8038585209003215,
+        "num_correct": 250,
+        "num_predicted": 255,
+        "num_true": 311,
+        "f1": 0.8833922261484097
+    },
+    "classification": {
+        "precision": 0.8835978835978836,
+        "recall": 0.9823529411764705,
+        "f1": 0.9303621169916434,
+        "accuracy": 0.9,
+        "support": 250
+    }
+}
