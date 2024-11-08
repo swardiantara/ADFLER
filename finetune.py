@@ -168,13 +168,7 @@ def evaluate_predictions(true_sentences: List[List[str]],
 
 
 # Example usage:
-def evaluate_model(model, val_sentences):
-    # Get predictions
-    predictions, _ = model.predict([' '.join(words) for words, _ in val_sentences])
-    # Process predictions to get labels
-    pred_labels = process_predictions(predictions)
-    # Get true labels
-    true_labels = [labels for _, labels in val_sentences]
+def evaluate_model(true_labels, pred_labels):
     # Evaluate
     metrics = evaluate_predictions(true_labels, pred_labels)
     
@@ -194,6 +188,106 @@ def evaluate_model(model, val_sentences):
     print(f"Support (correct boundaries): {metrics['classification']['support']}")
     
     return metrics
+
+
+def log_predictions_to_excel(true_sentences: List[Tuple[List[str], List[str]]], 
+                           pred_labels: List[List[str]], 
+                           output_dir: str = "error_analysis"):
+    """
+    Log predictions to Excel files for error analysis.
+    
+    Args:
+        true_sentences: List of tuples (words, labels) from validation set
+        predictions: Predictions from SimpleTransformers model
+        output_dir: Directory to save the Excel files
+    """
+    import os
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    correct_boundaries_data = []
+    incorrect_boundaries_data = []
+    
+    for msg_id, ((words, true_labels), pred_sentence_labels) in enumerate(zip(true_sentences, pred_labels)):
+        # Get the full message
+        message = ' '.join(words)
+        
+        # Extract spans
+        true_spans = extract_valid_spans(true_labels)
+        pred_spans = extract_valid_spans(pred_sentence_labels)
+        
+        # Get boundaries
+        true_boundaries = {(span.start_idx, span.end_idx) for span in true_spans}
+        pred_boundaries = {(span.start_idx, span.end_idx) for span in pred_spans}
+        
+        # Correctly identified boundaries
+        correct_boundaries = true_boundaries.intersection(pred_boundaries)
+        
+        # Log correct predictions
+        for span_indices in correct_boundaries:
+            true_span = next(s for s in true_spans if (s.start_idx, s.end_idx) == span_indices)
+            pred_span = next(s for s in pred_spans if (s.start_idx, s.end_idx) == span_indices)
+            
+            # Get the sentence text for this boundary
+            sentence_words = words[span_indices[0]:span_indices[1] + 1]
+            sentence_text = ' '.join(sentence_words)
+            
+            correct_boundaries_data.append({
+                'message_id': msg_id,
+                'message': message,
+                'sentence': sentence_text,
+                'boundary': f"{span_indices[0]}-{span_indices[1]}",
+                'true_label': true_span.entity_type,
+                'pred_label': pred_span.entity_type
+            })
+        
+        # Log incorrect predictions
+        # Missing predictions (in true but not in pred)
+        for span in true_spans:
+            if (span.start_idx, span.end_idx) not in pred_boundaries:
+                sentence_words = words[span.start_idx:span.end_idx + 1]
+                sentence_text = ' '.join(sentence_words)
+                
+                incorrect_boundaries_data.append({
+                    'message_id': msg_id,
+                    'message': message,
+                    'sentence': sentence_text,
+                    'boundary': f"{span.start_idx}-{span.end_idx}",
+                    'error_type': 'Missing'
+                })
+        
+        # False predictions (in pred but not in true)
+        for span in pred_spans:
+            if (span.start_idx, span.end_idx) not in true_boundaries:
+                sentence_words = words[span.start_idx:span.end_idx + 1]
+                sentence_text = ' '.join(sentence_words)
+                
+                incorrect_boundaries_data.append({
+                    'message_id': msg_id,
+                    'message': message,
+                    'sentence': sentence_text,
+                    'boundary': f"{span.start_idx}-{span.end_idx}",
+                    'error_type': 'False'
+                })
+    
+    # Create DataFrames and save to Excel
+    if correct_boundaries_data:
+        correct_df = pd.DataFrame(correct_boundaries_data)
+        correct_df.to_excel(
+            os.path.join(output_dir, 'correct_predictions.xlsx'),
+            index=False
+        )
+    
+    if incorrect_boundaries_data:
+        incorrect_df = pd.DataFrame(incorrect_boundaries_data)
+        incorrect_df.to_excel(
+            os.path.join(output_dir, 'incorrect_predictions.xlsx'),
+            index=False
+        )
+    
+    print(f"Logged {len(correct_boundaries_data)} correct predictions")
+    print(f"Logged {len(incorrect_boundaries_data)} incorrect predictions")
+    print(f"Files saved in directory: {output_dir}")
 
 
 def main():
@@ -227,18 +321,29 @@ def main():
     )
     
     # Train the model
-    model.train_model(train_path, show_running_loss=True, )
+    model.train_model(train_path, show_running_loss=True)
     
     # Make predictions on validation set
-    # predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
+    # Get predictions
+    predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
+    # Process predictions to get labels
+    pred_labels = process_predictions(predictions)
+    # Get true labels
+    true_labels = [labels for _, labels in val_sentences]
     # result, model_outputs, wrong_preds = model.eval_model(test_path)
     # metrics = evaluate_predictions(val_sentences, predictions)
     # print("Validation Metrics:", metrics)
     # print("================")
     # print(result)
     # print("================")
-    # Evaluate
-    evaluate_model(model, val_sentences)
+    # Compute the evaluation metrics
+    evaluate_model(true_labels, pred_labels)
+    # Log predictions for error analysis
+    log_predictions_to_excel(
+        true_sentences=val_sentences,
+        pred_labels=pred_labels,
+        output_dir="simple-trans"
+    )
 
 if __name__ == '__main__':
     main()
