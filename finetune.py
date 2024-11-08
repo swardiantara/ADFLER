@@ -1,4 +1,5 @@
 import os
+import json
 import pandas as pd
 import numpy as np
 from simpletransformers.ner import NERModel
@@ -295,7 +296,7 @@ def main():
     train_path = os.path.join("dataset", "train_conll_data.txt")
     test_path = os.path.join("dataset", "test_conll_data.txt")
     val_sentences = read_conll_file(test_path)
-    
+    output_dir = 'simple-trans'
     # Get unique labels
     labels = ['O',
               'B-Event', 'I-Event', 'E-Event', 'S-Event',
@@ -309,7 +310,7 @@ def main():
         'overwrite_output_dir': True,
         'train_batch_size': 16,
         'eval_batch_size': 16,
-        'output_dir': 'simple-trans'
+        'output_dir': output_dir
     }
     
     # Initialize model (can use any transformer model)
@@ -323,26 +324,21 @@ def main():
     # Train the model
     model.train_model(train_path, show_running_loss=True)
     
-    # Make predictions on validation set
+    # Make predictions on test set
     # Get predictions
     predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
     # Process predictions to get labels
     pred_labels = process_predictions(predictions)
     # Get true labels
     true_labels = [labels for _, labels in val_sentences]
-    # result, model_outputs, wrong_preds = model.eval_model(test_path)
-    # metrics = evaluate_predictions(val_sentences, predictions)
-    # print("Validation Metrics:", metrics)
-    # print("================")
-    # print(result)
-    # print("================")
-    # Compute the evaluation metrics
-    evaluate_model(true_labels, pred_labels)
+    metrics = evaluate_model(true_labels, pred_labels)
+    with open(os.path.join(output_dir, "evaluation_score.json"), "w") as f:
+            json.dump(metrics, f, indent=4)
     # Log predictions for error analysis
     log_predictions_to_excel(
         true_sentences=val_sentences,
         pred_labels=pred_labels,
-        output_dir="simple-trans"
+        output_dir=output_dir
     )
 
 if __name__ == '__main__':
