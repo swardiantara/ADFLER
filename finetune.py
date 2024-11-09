@@ -22,9 +22,9 @@ def init_args():
     parser.add_argument("--eval_batch_size", default=16, type=int,
                         help="Batch size per GPU/CPU for evaluation.")
     parser.add_argument("--learning_rate", default=2e-5, type=float)
-    parser.add_argument("--train_epochs", default=5, type=int, 
+    parser.add_argument("--train_epochs", default=10, type=int, 
                         help="Total number of training epochs to perform.")
-    parser.add_argument('--output_dir',  default='simple-trans', type=str)
+    parser.add_argument('--output_dir',  default='experiments', type=str)
 
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
@@ -476,7 +476,9 @@ def main():
         'overwrite_output_dir': True,
         'train_batch_size': args.train_batch_size,
         'eval_batch_size': args.eval_batch_size,
-        'output_dir': output_dir
+        'output_dir': output_dir,
+        'save_steps': -1,
+        'save_model_every_epoch': False
     }
     
     # Initialize model (can use any transformer model)
