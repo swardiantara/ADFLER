@@ -240,9 +240,9 @@ def evaluate_model(model, test_loader, device):
 def main():
     # Hyperparameters
     pretrained_model = "bert-base-uncased"
-    max_length = 512
-    batch_size = 16
-    hidden_size = 256
+    max_length = 128
+    batch_size = 8
+    hidden_size = 384
     num_layers = 2
     learning_rate = 2e-5
     num_epochs = 5
