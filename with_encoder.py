@@ -42,7 +42,7 @@ class DroneLogDataset(Dataset):
                         current_tokens = []
                         current_tags = []
                 else:
-                    token, tag = line.split('\t')
+                    token, tag = line.split()
                     current_tokens.append(token)
                     current_tags.append(tag)
                     
