@@ -246,7 +246,7 @@ def main():
     num_layers = 2
     learning_rate = 2e-5
     num_epochs = 5
-    use_crf = False
+    use_crf = True
     
     # Set device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
