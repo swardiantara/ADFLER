@@ -136,7 +136,7 @@ class SequenceLabelingModel(nn.Module):
         if self.use_crf:
             if labels is not None:  # Training
                 mask = attention_mask.bool()
-                loss = -self.crf(emissions, labels, mask=mask)
+                loss = -self.crf(emissions, labels, mask=mask, reduction='mean')
                 return loss
             else:  # Inference
                 mask = attention_mask.bool()
