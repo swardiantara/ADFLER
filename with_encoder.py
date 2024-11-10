@@ -109,7 +109,7 @@ class SequenceLabelingModel(nn.Module):
         # Decoder
         self.use_crf = use_crf
         if use_crf:
-            self.crf = CRF(num_tags, batch_first=True)
+            self.crf = CRF(num_tags)
             self.hidden2tag = nn.Linear(hidden_size * 2, num_tags)
         else:
             self.hidden2tag = nn.Linear(hidden_size * 2, num_tags)
