@@ -128,15 +128,15 @@ def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
     return spans
 
 
-def evaluate_predictions(true_sentences: List[List[str]], 
-                        pred_labels: List[List[Dict]]) -> Dict:
+def evaluate_predictions(true_labels: List[List[str]], 
+                        pred_labels: List[List[str]]) -> Dict:
     """Evaluate both boundary detection and sentence type classification."""
     
     all_true_spans = []
     all_pred_spans = []
     
     # Extract spans for all sentences
-    for true_labels, pred_sentence_labels in zip(true_sentences, pred_labels):
+    for true_labels, pred_sentence_labels in zip(true_labels, pred_labels):
         true_spans = extract_valid_spans(true_labels)
         pred_spans = extract_valid_spans(pred_sentence_labels)
         
