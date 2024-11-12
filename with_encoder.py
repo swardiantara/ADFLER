@@ -86,189 +86,6 @@ def seed_everything(seed: int = 42) -> None:
     print(f"Random seed set as {seed}")
 
 
-@dataclass
-class EntitySpan:
-    start_idx: int
-    end_idx: int
-    entity_type: str
-
-class DroneLogDataset(Dataset):
-    def __init__(self, data_path: str, tokenizer, max_length: int = 512):
-        self.tokenizer = tokenizer
-        self.max_length = max_length
-        self.data = self.load_conll_data(data_path)
-    
-    def load_conll_data(self, data_path: str) -> List[Tuple[List[str], List[str]]]:
-        """Load CoNLL format data"""
-        data = []
-        current_tokens = []
-        current_tags = []
-        
-        with open(data_path, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if line == '':
-                    if current_tokens:
-                        data.append((current_tokens, current_tags))
-                        current_tokens = []
-                        current_tags = []
-                else:
-                    token, tag = line.split()
-                    current_tokens.append(token)
-                    current_tags.append(tag)
-                    
-        if current_tokens:  # handle the last sequence
-            data.append((current_tokens, current_tags))
-            
-        return data
-    
-    def __len__(self):
-        return len(self.data)
-    
-    def __getitem__(self, idx):
-        tokens, tags = self.data[idx]
-        
-        # Tokenize text
-        tokenized = self.tokenizer(
-            tokens,
-            is_split_into_words=True,
-            max_length=self.max_length,
-            padding='max_length',
-            truncation=True,
-            return_tensors='pt'
-        )
-        
-        # Convert tags to ids and align with wordpieces
-        label_ids = []
-        word_ids = tokenized.word_ids()
-        
-        for word_idx in word_ids:
-            if word_idx is None:
-                label_ids.append(-100)  # special tokens
-            else:
-                label_ids.append(TAG2IDX[tags[word_idx]])
-                
-        return {
-            'input_ids': tokenized['input_ids'].squeeze(),
-            'attention_mask': tokenized['attention_mask'].squeeze(),
-            'labels': torch.tensor(label_ids)
-        }
-
-class SequenceLabelingModel(nn.Module):
-    def __init__(self,
-                 args,
-                 num_tags: int,
-                 dropout: float = 0.1):
-        super().__init__()
-        
-        # BERT encoder
-        self.bert = AutoModel.from_pretrained(args.model_name_or_path)
-        
-        # BiLSTM encoder
-        self.lstm = nn.LSTM(
-            input_size=self.bert.config.hidden_size,
-            hidden_size=384 if args.bidirectional else 768,
-            num_layers=args.num_layers,
-            bidirectional=args.bidirectional,
-            batch_first=True,
-            dropout=dropout if args.num_layers > 1 else 0
-        )
-        
-        # Decoder
-        self.use_crf = args.use_crf
-        if args.use_crf:
-            self.crf = CRF(num_tags)
-            self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
-        else:
-            self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
-            self.softmax = nn.LogSoftmax(dim=2)
-            
-        self.dropout = nn.Dropout(dropout)
-        
-    def forward(self, 
-                input_ids: torch.Tensor,
-                attention_mask: torch.Tensor,
-                labels: torch.Tensor = None):
-        
-        # Get BERT embeddings
-        outputs = self.bert(input_ids, attention_mask=attention_mask)
-        sequence_output = outputs[0]
-        sequence_output = self.dropout(sequence_output)
-        
-        # BiLSTM encoding
-        lstm_out, _ = self.lstm(sequence_output)
-        
-        # Decoding
-        emissions = self.hidden2tag(lstm_out)
-        
-        if self.use_crf:
-            if labels is not None:  # Training
-                mask = attention_mask.bool()
-                loss = -self.crf(emissions, labels, mask=mask, reduction='mean')
-                return loss
-            else:  # Inference
-                mask = attention_mask.bool()
-                predictions = self.crf.decode(emissions, mask=mask)
-                return predictions
-        else:
-            logits = self.softmax(emissions)
-            if labels is not None:  # Training
-                loss_fct = nn.NLLLoss(ignore_index=-100)
-                active_loss = attention_mask.view(-1) == 1
-                active_logits = logits.view(-1, logits.shape[-1])
-                active_labels = labels.view(-1)
-                loss = loss_fct(active_logits, active_labels)
-                return loss
-            else:  # Inference
-                return torch.argmax(logits, dim=2)
-
-def train_model(model, train_loader, val_loader, optimizer, num_epochs, device):
-    """Training loop with validation"""
-    best_val_loss = float('inf')
-    
-    for epoch in range(num_epochs):
-        # Training
-        model.train()
-        total_loss = 0
-        
-        for batch in train_loader:
-            optimizer.zero_grad()
-            
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            labels = batch['labels'].to(device)
-            
-            loss = model(input_ids, attention_mask, labels)
-            loss.backward()
-            optimizer.step()
-            
-            total_loss += loss.item()
-            
-        avg_train_loss = total_loss / len(train_loader)
-        
-        # Validation
-        model.eval()
-        total_val_loss = 0
-        
-        with torch.no_grad():
-            for batch in val_loader:
-                input_ids = batch['input_ids'].to(device)
-                attention_mask = batch['attention_mask'].to(device)
-                labels = batch['labels'].to(device)
-                
-                loss = model(input_ids, attention_mask, labels)
-                total_val_loss += loss.item()
-                
-        avg_val_loss = total_val_loss / len(val_loader)
-        
-        # Save best model
-        # if avg_val_loss < best_val_loss:
-        #     best_val_loss = avg_val_loss
-        #     torch.save(model.state_dict(), 'best_model.pt')
-            
-        logger.info(f'Epoch {epoch+1}/{num_epochs}:')
-        logger.info(f'Average training loss: {avg_train_loss:.4f}')
-        logger.info(f'Average validation loss: {avg_val_loss:.4f}')
 
 
 def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
@@ -649,6 +466,194 @@ def get_error_type(true_label: str, pred_label: str) -> str:
             return f"Wrong_Tag_{true_prefix}_as_{pred_prefix}"
 
 
+@dataclass
+class EntitySpan:
+    start_idx: int
+    end_idx: int
+    entity_type: str
+
+class DroneLogDataset(Dataset):
+    def __init__(self, data_path: str, tokenizer, max_length: int = 512):
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+        self.data = self.load_conll_data(data_path)
+    
+    def load_conll_data(self, data_path: str) -> List[Tuple[List[str], List[str]]]:
+        """Load CoNLL format data"""
+        data = []
+        current_tokens = []
+        current_tags = []
+        
+        with open(data_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line == '':
+                    if current_tokens:
+                        data.append((current_tokens, current_tags))
+                        current_tokens = []
+                        current_tags = []
+                else:
+                    token, tag = line.split()
+                    current_tokens.append(token)
+                    current_tags.append(tag)
+                    
+        if current_tokens:  # handle the last sequence
+            data.append((current_tokens, current_tags))
+            
+        return data
+    
+    def __len__(self):
+        return len(self.data)
+    
+    def __getitem__(self, idx):
+        tokens, tags = self.data[idx]
+        
+        # Tokenize text
+        tokenized = self.tokenizer(
+            tokens,
+            is_split_into_words=True,
+            max_length=self.max_length,
+            padding='max_length',
+            truncation=True,
+            return_tensors='pt'
+        )
+        
+        # Convert tags to ids and align with wordpieces
+        label_ids = []
+        word_ids = tokenized.word_ids()
+        
+        for i, word_id in enumerate(word_ids):
+            if word_id is None:
+                label_ids.append(-100)  # special tokens
+            elif i > 0 and word_id == word_ids[i - 1]:
+                label_ids.append(-100)  # assign PAD tag to ignore during training
+            else:
+                label_ids.append(tags[word_id])  # Original word
+                
+        return {
+            'input_ids': tokenized['input_ids'].squeeze(),
+            'attention_mask': tokenized['attention_mask'].squeeze(),
+            'labels': torch.tensor(label_ids)
+        }
+
+class SequenceLabelingModel(nn.Module):
+    def __init__(self,
+                 args,
+                 num_tags: int,
+                 dropout: float = 0.1):
+        super().__init__()
+        
+        # BERT encoder
+        self.bert = AutoModel.from_pretrained(args.model_name_or_path)
+        
+        # BiLSTM encoder
+        self.lstm = nn.LSTM(
+            input_size=self.bert.config.hidden_size,
+            hidden_size=384 if args.bidirectional else 768,
+            num_layers=args.num_layers,
+            bidirectional=args.bidirectional,
+            batch_first=True,
+            dropout=dropout if args.num_layers > 1 else 0
+        )
+        
+        # Decoder
+        self.use_crf = args.use_crf
+        if args.use_crf:
+            self.crf = CRF(num_tags)
+            self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
+        else:
+            self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
+            self.softmax = nn.LogSoftmax(dim=2)
+            
+        self.dropout = nn.Dropout(dropout)
+        
+    def forward(self, 
+                input_ids: torch.Tensor,
+                attention_mask: torch.Tensor,
+                labels: torch.Tensor = None):
+        
+        # Get BERT embeddings
+        outputs = self.bert(input_ids, attention_mask=attention_mask)
+        sequence_output = outputs[0]
+        sequence_output = self.dropout(sequence_output)
+        
+        # BiLSTM encoding
+        lstm_out, _ = self.lstm(sequence_output)
+        
+        # Decoding
+        emissions = self.hidden2tag(lstm_out)
+        
+        if self.use_crf:
+            if labels is not None:  # Training
+                mask = attention_mask.bool()
+                loss = -self.crf(emissions, labels, mask=mask, reduction='mean')
+                return loss
+            else:  # Inference
+                mask = attention_mask.bool()
+                predictions = self.crf.decode(emissions, mask=mask)
+                return predictions
+        else:
+            logits = self.softmax(emissions)
+            if labels is not None:  # Training
+                loss_fct = nn.CrossEntropyLoss(ignore_index=-100)
+                active_loss = attention_mask.view(-1) == 1
+                active_logits = logits.view(-1, logits.shape[-1])
+                active_labels = torch.where(active_loss, labels.view(-1), torch.tensor(loss_fct.ignore_index).type_as(labels))
+                loss = loss_fct(active_logits, active_labels)
+                return loss
+            else:  # Inference
+                return torch.argmax(logits, dim=-1)
+
+
+def train_model(model, train_loader, val_loader, optimizer, num_epochs, device):
+    """Training loop with validation"""
+    best_val_loss = float('inf')
+    
+    for epoch in range(num_epochs):
+        # Training
+        model.train()
+        total_loss = 0
+        
+        for batch in train_loader:
+            optimizer.zero_grad()
+            
+            input_ids = batch['input_ids'].to(device)
+            attention_mask = batch['attention_mask'].to(device)
+            labels = batch['labels'].to(device)
+            
+            loss = model(input_ids, attention_mask, labels)
+            loss.backward()
+            optimizer.step()
+            
+            total_loss += loss.item()
+            
+        avg_train_loss = total_loss / len(train_loader)
+        
+        # Validation
+        model.eval()
+        total_val_loss = 0
+        
+        with torch.no_grad():
+            for batch in val_loader:
+                input_ids = batch['input_ids'].to(device)
+                attention_mask = batch['attention_mask'].to(device)
+                labels = batch['labels'].to(device)
+                
+                loss = model(input_ids, attention_mask, labels)
+                total_val_loss += loss.item()
+                
+        avg_val_loss = total_val_loss / len(val_loader)
+        
+        # Save best model
+        # if avg_val_loss < best_val_loss:
+        #     best_val_loss = avg_val_loss
+        #     torch.save(model.state_dict(), 'best_model.pt')
+            
+        logger.info(f'Epoch {epoch+1}/{num_epochs}:')
+        logger.info(f'Average training loss: {avg_train_loss:.4f}')
+        logger.info(f'Average validation loss: {avg_val_loss:.4f}')
+
+
 def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
     """Evaluate model on test set"""
     true_labels = test_dataset.data
@@ -664,12 +669,23 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
             
             predictions = model(input_ids, attention_mask)
             
+            
             # Convert predictions to tags
             if model.use_crf:
                 pred_tags = [[IDX2TAG[p] for p in pred] for pred in predictions]
             else:
                 predictions = predictions.cpu().numpy()
-                pred_tags = [[IDX2TAG[p] for p in pred] for pred in predictions]
+                word_preds = []
+                for i, word_ids in enumerate(batch["word_ids"]):
+                    word_pred = []
+                    prev_word_id = -1
+                    for j, word_id in enumerate(word_ids):
+                        if word_id is None or word_id == prev_word_id:
+                            continue  # Ignore padding/subwords
+                        word_pred.append(predictions[i, j].item())
+                        prev_word_id = word_id
+                    word_preds.append(word_pred)
+                pred_tags = [[IDX2TAG[p] for p in pred] for pred in word_preds]
             
             # Convert labels to tags
             true_tags = [[IDX2TAG[l.item()] if l.item() != -100 else 'O' 
