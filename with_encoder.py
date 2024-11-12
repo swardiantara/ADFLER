@@ -391,7 +391,7 @@ def evaluate_predictions(true_sentences: List[List[str]],
 
 
 # Example usage:
-def evaluate_model(true_labels, pred_labels):
+def evaluation_metrics(true_labels, pred_labels):
     # Evaluate
     metrics = evaluate_predictions(true_labels, pred_labels)
     
