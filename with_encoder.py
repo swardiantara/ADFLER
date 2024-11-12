@@ -527,7 +527,7 @@ class DroneLogDataset(Dataset):
             elif i > 0 and word_id == word_ids[i - 1]:
                 label_ids.append(-100)  # assign PAD tag to ignore during training
             else:
-                label_ids.append(tags[word_id])  # Original word
+                label_ids.append(TAG2IDX[tags[word_id]])  # Original word
                 
         return {
             'input_ids': tokenized['input_ids'].squeeze(),
