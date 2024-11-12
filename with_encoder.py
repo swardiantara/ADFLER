@@ -662,7 +662,7 @@ def train_model(model, train_loader, val_loader, optimizer, num_epochs, device):
 
 def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
     """Evaluate model on test set"""
-    true_labels = test_dataset.data
+    test_dataset = test_dataset.data
     model.eval()
     all_predictions = []
     all_labels = []
@@ -693,12 +693,8 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
                     word_preds.append(word_pred)
                 pred_tags = [[IDX2TAG[p] for p in pred] for pred in word_preds]
             
-            # Convert labels to tags
-            true_tags = [[IDX2TAG[l.item()] if l.item() != -100 else 'O' 
-                         for l in label] for label in labels]
-            
             all_predictions.extend(pred_tags)
-            all_labels.extend(true_tags)
+    all_labels = [labels for _, labels in test_dataset]
     metrics = evaluation_metrics(all_labels, all_predictions)
 
     return all_predictions, all_labels, metrics
