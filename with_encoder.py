@@ -676,9 +676,7 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
             
             all_predictions.extend(pred_tags)
             all_labels.extend(true_tags)
-    print(f"true_labels: \n{true_labels}")
-    print(f"all_predictions: \n{all_predictions}")
-    metrics = evaluate_predictions(true_labels, all_predictions)
+    metrics = evaluate_predictions(all_labels, all_predictions)
     # Print classification report
     logger.info("\nClassification Report:")
     logger.info(classification_report(
@@ -686,7 +684,7 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
         [tag for seq in all_predictions for tag in seq]
     ))
 
-    return metrics
+    return all_predictions, metrics
 
 def main():
     # initialization
@@ -731,8 +729,24 @@ def main():
     
     # Load best model and evaluate
     # model.load_state_dict(torch.load('best_model.pt'))
-    metrics = evaluate_model(model, test_loader, test_dataset, device)
+    pred_labels, metrics = evaluate_model(model, test_loader, test_dataset, device)
     logger.info(f'Eval Score: \n{metrics}')
+    with open(os.path.join(args.output_dir, "evaluation_score.json"), "w") as f:
+            json.dump(metrics, f, indent=4)
+
+    # Log predictions for error analysis
+    log_predictions_to_excel(
+        true_sentences=test_dataset.data,
+        pred_labels=pred_labels,
+        output_dir=args.output_dir
+    )
+
+    # Log word-level predictions for detailed error analysis
+    log_word_level_predictions(
+        true_sentences=test_dataset.data,
+        pred_labels=pred_labels,
+        output_dir=args.output_dir
+    )
 
 if __name__ == "__main__":
     main()

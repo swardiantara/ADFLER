@@ -7,5 +7,5 @@ python with_encoder.py \
    --eval_batch_size 16 \
    --learning_rate 2e-5 \
    --max_seq_length 128 \
-   --train_epochs 5 \
+   --train_epochs 10 \
    --seed 42 \
