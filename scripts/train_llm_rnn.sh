@@ -8,4 +8,6 @@ python with_encoder.py \
    --learning_rate 2e-5 \
    --max_seq_length 128 \
    --train_epochs 10 \
+   --bidirectional \
+   --num_layers 2 \
    --seed 42 \

@@ -276,7 +276,6 @@ def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
     spans = []
     current_span = None
     current_type = None
-    print(f"In `extract_valid_span`: \n{labels}")
     for i, label in enumerate(labels):
         if label == 'O':
             if current_span is not None:
