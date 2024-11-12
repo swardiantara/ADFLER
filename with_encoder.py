@@ -699,9 +699,9 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
             
             all_predictions.extend(pred_tags)
             all_labels.extend(true_tags)
-    metrics = evaluate_predictions(all_labels, all_predictions)
+    metrics = evaluation_metrics(all_labels, all_predictions)
 
-    return all_predictions, metrics
+    return all_predictions, all_labels, metrics
 
 def main():
     # initialization
@@ -746,12 +746,16 @@ def main():
     
     # Load best model and evaluate
     # model.load_state_dict(torch.load('best_model.pt'))
-    pred_labels, metrics = evaluate_model(model, test_loader, test_dataset, device)
+    pred_labels, true_labels, metrics = evaluate_model(model, test_loader, test_dataset, device)
     arguments_dict = vars(args)
     metrics["scenario_args"] = arguments_dict
     logger.info(f'Eval Score: \n{metrics}')
     with open(os.path.join(args.output_dir, "evaluation_score.json"), "w") as f:
             json.dump(metrics, f, indent=4)
+    with open(os.path.join(args.output_dir, "true_labels.json"), "w") as f:
+            json.dump(true_labels, f, indent=4)
+    with open(os.path.join(args.output_dir, "pred_labels.json"), "w") as f:
+            json.dump(pred_labels, f, indent=4)
 
     # Log predictions for error analysis
     log_predictions_to_excel(
