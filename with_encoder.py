@@ -86,6 +86,11 @@ def seed_everything(seed: int = 42) -> None:
     print(f"Random seed set as {seed}")
 
 
+@dataclass
+class EntitySpan:
+    start_idx: int
+    end_idx: int
+    entity_type: str
 
 
 def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
@@ -465,12 +470,6 @@ def get_error_type(true_label: str, pred_label: str) -> str:
         else:
             return f"Wrong_Tag_{true_prefix}_as_{pred_prefix}"
 
-
-@dataclass
-class EntitySpan:
-    start_idx: int
-    end_idx: int
-    entity_type: str
 
 class DroneLogDataset(Dataset):
     def __init__(self, data_path: str, tokenizer, max_length: int = 512):
