@@ -562,6 +562,7 @@ class SequenceLabelingModel(nn.Module):
             dropout=dropout if args.num_layers > 1 else 0
         )
         
+        self.dropout = nn.Dropout(dropout)
         self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
         # Decoder
         self.use_crf = args.use_crf
@@ -570,7 +571,6 @@ class SequenceLabelingModel(nn.Module):
         else:
             self.softmax = nn.LogSoftmax(dim=2)
             
-        self.dropout = nn.Dropout(dropout)
         
     def forward(self, 
                 input_ids: torch.Tensor,

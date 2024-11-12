@@ -1,6 +1,9 @@
 import os
+import random
 import json
 import argparse
+
+import torch
 import pandas as pd
 import numpy as np
 from simpletransformers.ner import NERModel
@@ -25,6 +28,8 @@ def init_args():
     parser.add_argument("--train_epochs", default=10, type=int, 
                         help="Total number of training epochs to perform.")
     parser.add_argument('--output_dir',  default='experiments', type=str)
+    parser.add_argument('--seed', type=int, default=42,
+                        help="random seed for initialization")
 
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
@@ -35,6 +40,20 @@ def init_args():
     args.output_dir = output_folder
 
     return args
+
+
+def seed_everything(seed: int = 42) -> None:
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    # When running on the CuDNN backend, two further options must be set
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    # Set a fixed value for the hash seed
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    print(f"Random seed set as {seed}")
+
 
 @dataclass
 class EntitySpan:
@@ -456,7 +475,7 @@ def get_error_type(true_label: str, pred_label: str) -> str:
 def main():
     # initialization
     args = init_args()
-
+    seed_everything(args.seed)
     # Read data
     train_path = os.path.join("dataset", "train_conll_data.txt")
     test_path = os.path.join("dataset", "test_conll_data.txt")
