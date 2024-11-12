@@ -520,9 +520,7 @@ class DroneLogDataset(Dataset):
         # Convert tags to ids and align with wordpieces
         label_ids = []
         word_ids = tokenized.word_ids()
-        if word_ids == None:
-            raise ValueError('`word_ids` is NoneType')
-        print(f"word_ids: \n{word_ids}")
+        
         for i, word_id in enumerate(word_ids):
             if word_id is None:
                 label_ids.append(-100)  # special tokens
