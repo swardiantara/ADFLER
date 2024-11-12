@@ -532,7 +532,8 @@ class DroneLogDataset(Dataset):
         return {
             'input_ids': tokenized['input_ids'].squeeze(),
             'attention_mask': tokenized['attention_mask'].squeeze(),
-            'labels': torch.tensor(label_ids)
+            'labels': torch.tensor(label_ids),
+            'word_ids': word_ids,
         }
 
 class SequenceLabelingModel(nn.Module):
