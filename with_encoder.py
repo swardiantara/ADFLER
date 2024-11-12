@@ -4,7 +4,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModel, RobertaTokenizerFast, RobertaModel
 from typing import List, Tuple
 import numpy as np
 from TorchCRF import CRF
@@ -701,7 +701,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
     # Initialize tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(pretrained_model)
+    tokenizer = RobertaTokenizerFast.from_pretrained(pretrained_model)
     
     # Load datasets
     train_path = os.path.join("dataset", "train_conll_data.txt")
