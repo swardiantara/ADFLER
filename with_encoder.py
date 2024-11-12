@@ -62,7 +62,9 @@ def init_args():
     model_name = args.model_name_or_path.split('/')[-1]
     encoder_name = 'Bi' + str.upper(args.encoder) if args.bidirectional else str.upper(args.encoder)
     use_crf = "CRF" if args.use_crf else "Linear"
-    output_folder = os.path.join(args.output_dir, args.scenario, f'{model_name}_{encoder_name}_{use_crf}')
+    output_folder = os.path.join(args.output_dir, args.scenario, f'{model_name}_{encoder_name}_{args.num_layers}_{use_crf}')
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
     print(f"current scenario - {output_folder}")
     if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
         raise ValueError('This scenario has been executed.')
@@ -730,6 +732,8 @@ def main():
     # Load best model and evaluate
     # model.load_state_dict(torch.load('best_model.pt'))
     pred_labels, metrics = evaluate_model(model, test_loader, test_dataset, device)
+    arguments_dict = vars(args)
+    metrics["scenario_args"] = arguments_dict
     logger.info(f'Eval Score: \n{metrics}')
     with open(os.path.join(args.output_dir, "evaluation_score.json"), "w") as f:
             json.dump(metrics, f, indent=4)
