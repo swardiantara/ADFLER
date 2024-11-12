@@ -515,25 +515,26 @@ class DroneLogDataset(Dataset):
             padding='max_length',
             truncation=True,
             return_tensors='pt',
-            return_offsets_mapping=True  # Enables word_ids()
         )
         
         # Convert tags to ids and align with wordpieces
         word_ids = tokenized.word_ids()
         label_ids = []
+        # Convert word_ids to a list of integers, using -1 for None
+        word_ids_int = []
+        previous_word_id = None
 
-        for i, word_id in enumerate(word_ids):
+        for word_id in enumerate(word_ids):
             if word_id is None:
                 label_ids.append(-100)  # special tokens
-            elif i > 0 and word_id == word_ids[i - 1]:
-                label_ids.append(-100)  # assign PAD tag to ignore during training
+                word_ids_int.append(-1)  # Use -1 to represent None
+            elif word_id != previous_word_id:
+                label_ids.append(TAG2IDX[tags[word_id]])
+                word_ids_int.append(word_id)
             else:
-                label_ids.append(TAG2IDX[tags[word_id]])  # Original word
-        
-        # Remove offsets mapping as it is no longer needed
-        tokenized.pop("offset_mapping")
-        tokenized['labels'] = torch.tensor(label_ids)
-        return {key: val.squeeze() for key, val in tokenized.items()}        
+                label_ids.append(-100)
+                word_ids_int.append(word_id)
+           
         return {
             'input_ids': tokenized['input_ids'].squeeze(),
             'attention_mask': tokenized['attention_mask'].squeeze(),
@@ -683,9 +684,9 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
                 word_preds = []
                 for i, word_ids in enumerate(batch["word_ids"]):
                     word_pred = []
-                    prev_word_id = -1
+                    prev_word_id = None
                     for j, word_id in enumerate(word_ids):
-                        if word_id is None or word_id == prev_word_id:
+                        if word_id == -1 or word_id == prev_word_id:
                             continue  # Ignore padding/subwords
                         word_pred.append(predictions[i, j].item())
                         prev_word_id = word_id
