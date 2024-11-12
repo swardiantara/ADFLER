@@ -700,12 +700,6 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
             all_predictions.extend(pred_tags)
             all_labels.extend(true_tags)
     metrics = evaluate_predictions(all_labels, all_predictions)
-    # Print classification report
-    logger.info("\nClassification Report:")
-    logger.info(classification_report(
-        [tag for seq in all_labels for tag in seq],
-        [tag for seq in all_predictions for tag in seq]
-    ))
 
     return all_predictions, metrics
 
