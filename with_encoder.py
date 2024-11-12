@@ -562,13 +562,12 @@ class SequenceLabelingModel(nn.Module):
             dropout=dropout if args.num_layers > 1 else 0
         )
         
+        self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
         # Decoder
         self.use_crf = args.use_crf
         if args.use_crf:
             self.crf = CRF(num_tags)
-            self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
         else:
-            self.hidden2tag = nn.Linear(self.bert.config.hidden_size, num_tags)
             self.softmax = nn.LogSoftmax(dim=2)
             
         self.dropout = nn.Dropout(dropout)
@@ -599,15 +598,15 @@ class SequenceLabelingModel(nn.Module):
                 predictions = self.crf.decode(emissions, mask=mask)
                 return predictions
         else:
-            logits = self.softmax(emissions)
             if labels is not None:  # Training
                 loss_fct = nn.CrossEntropyLoss(ignore_index=-100)
                 active_loss = attention_mask.view(-1) == 1
-                active_logits = logits.view(-1, logits.shape[-1])
+                active_logits = emissions.view(-1, emissions.shape[-1])
                 active_labels = torch.where(active_loss, labels.view(-1), torch.tensor(loss_fct.ignore_index).type_as(labels))
                 loss = loss_fct(active_logits, active_labels)
                 return loss
             else:  # Inference
+                logits = self.softmax(emissions)
                 return torch.argmax(logits, dim=-1)
 
 
