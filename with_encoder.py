@@ -701,7 +701,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
     # Initialize tokenizer
-    tokenizer = RobertaTokenizerFast.from_pretrained(pretrained_model)
+    tokenizer = RobertaTokenizerFast.from_pretrained(pretrained_model, add_prefix_space=True)
     
     # Load datasets
     train_path = os.path.join("dataset", "train_conll_data.txt")
