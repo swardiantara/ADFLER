@@ -514,13 +514,14 @@ class DroneLogDataset(Dataset):
             max_length=self.max_length,
             padding='max_length',
             truncation=True,
-            return_tensors='pt'
+            return_tensors='pt',
+            return_offsets_mapping=True  # Enables word_ids()
         )
         
         # Convert tags to ids and align with wordpieces
-        label_ids = []
         word_ids = tokenized.word_ids()
-        
+        label_ids = []
+
         for i, word_id in enumerate(word_ids):
             if word_id is None:
                 label_ids.append(-100)  # special tokens
@@ -528,7 +529,9 @@ class DroneLogDataset(Dataset):
                 label_ids.append(-100)  # assign PAD tag to ignore during training
             else:
                 label_ids.append(TAG2IDX[tags[word_id]])  # Original word
-
+        
+        # Remove offsets mapping as it is no longer needed
+        tokenized.pop("offset_mapping")
         tokenized['labels'] = torch.tensor(label_ids)
         return {key: val.squeeze() for key, val in tokenized.items()}        
         return {
