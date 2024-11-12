@@ -33,7 +33,7 @@ def init_args():
 
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
-    output_folder = os.path.join(args.output_dir, model_name)
+    output_folder = os.path.join(args.output_dir, f"{model_name}_{str(args.train_epochs)}")
     print(f"current scenario - {output_folder}")
     if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
         raise ValueError('This scenario has been executed.')
