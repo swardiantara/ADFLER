@@ -530,7 +530,9 @@ class DroneLogDataset(Dataset):
                 label_ids.append(-100)  # assign PAD tag to ignore during training
             else:
                 label_ids.append(TAG2IDX[tags[word_id]])  # Original word
-                
+
+        tokenized['labels'] = torch.tensor(label_ids)
+        return {key: val.squeeze() for key, val in tokenized.items()}        
         return {
             'input_ids': tokenized['input_ids'].squeeze(),
             'attention_mask': tokenized['attention_mask'].squeeze(),
