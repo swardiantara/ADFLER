@@ -274,7 +274,7 @@ def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
     spans = []
     current_span = None
     current_type = None
-    
+    print(f"In `extract_valid_span`: \n{labels}")
     for i, label in enumerate(labels):
         if label == 'O':
             if current_span is not None:
@@ -676,6 +676,8 @@ def evaluate_model(model, test_loader, test_dataset: DroneLogDataset, device):
             
             all_predictions.extend(pred_tags)
             all_labels.extend(true_tags)
+    print(f"true_labels: \n{true_labels}")
+    print(f"all_predictions: \n{all_predictions}")
     metrics = evaluate_predictions(true_labels, all_predictions)
     # Print classification report
     logger.info("\nClassification Report:")
