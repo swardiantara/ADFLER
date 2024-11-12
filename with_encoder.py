@@ -524,7 +524,7 @@ class DroneLogDataset(Dataset):
         word_ids_int = []
         previous_word_id = None
 
-        for word_id in enumerate(word_ids):
+        for word_id in word_ids:
             if word_id is None:
                 label_ids.append(-100)  # special tokens
                 word_ids_int.append(-1)  # Use -1 to represent None
