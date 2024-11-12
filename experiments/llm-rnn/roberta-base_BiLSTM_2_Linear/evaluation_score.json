@@ -1,18 +1,18 @@
 {
     "boundary": {
-        "precision": 0.9641693811074918,
-        "recall": 0.9487179487179487,
-        "num_correct": 296,
-        "num_predicted": 307,
+        "precision": 0.0,
+        "recall": 0.0,
+        "num_correct": 0,
+        "num_predicted": 294,
         "num_true": 312,
-        "f1": 0.9563812600969306
+        "f1": 0
     },
     "classification": {
-        "precision": 0.9209302325581395,
-        "recall": 0.9949748743718593,
-        "f1": 0.9565217391304348,
-        "accuracy": 0.9391891891891891,
-        "support": 296
+        "precision": 0,
+        "recall": 0,
+        "f1": 0,
+        "accuracy": 0,
+        "support": 0
     },
     "scenario_args": {
         "model_type": "roberta",
@@ -23,7 +23,7 @@
         "train_batch_size": 16,
         "eval_batch_size": 16,
         "learning_rate": 2e-05,
-        "train_epochs": 10,
+        "train_epochs": 9,
         "scenario": "llm-rnn",
         "output_dir": "experiments/llm-rnn/roberta-base_BiLSTM_2_Linear",
         "use_crf": false,
