@@ -2,7 +2,7 @@ import os
 from transformers import AlbertForTokenClassification, AutoTokenizer
 
 # Define paths
-model_path = os.path.join("experiments", "llm-based", "albert-base-v2_15")
+model_path = os.path.join("experiments", "llm-based", "roberta-base_15")
 
 # Load your model
 model = AlbertForTokenClassification.from_pretrained(model_path)
@@ -13,5 +13,5 @@ model.save_pretrained(model_path)
 tokenizer.save_pretrained(model_path)
 
 # Push model to Hugging Face
-model.push_to_hub("swardiantara/ADFLER-albert-base-v2")
-tokenizer.push_to_hub("swardiantara/ADFLER-albert-base-v2")
+model.push_to_hub("swardiantara/ADFLER-Roberta-base")
+tokenizer.push_to_hub("swardiantara/ADFLER-Roberta-base")
