@@ -1,11 +1,11 @@
 import os
-from transformers import AutoTokenizer, RobertaForTokenClassification
+from transformers import AutoTokenizer, DistilBertForTokenClassification
 
 # Define paths
-model_path = os.path.join("experiments", "llm-based", "distilroberta-base_15")
+model_path = os.path.join("experiments", "llm-based", "distilbert-base-cased_15")
 
 # Load your model
-model = RobertaForTokenClassification.from_pretrained(model_path)
+model = DistilBertForTokenClassification.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # Save it in Hugging Face's format
