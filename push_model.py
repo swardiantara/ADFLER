@@ -1,11 +1,11 @@
 import os
-from transformers import AlbertForTokenClassification, AutoTokenizer
+from transformers import RobertaForTokenClassification, AutoTokenizer
 
 # Define paths
 model_path = os.path.join("experiments", "llm-based", "roberta-base_15")
 
 # Load your model
-model = AlbertForTokenClassification.from_pretrained(model_path)
+model = RobertaForTokenClassification.from_pretrained(model_path)
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 
 # Save it in Hugging Face's format
