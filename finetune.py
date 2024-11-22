@@ -19,6 +19,8 @@ def init_args():
     parser.add_argument("--model_name_or_path", default='bert-base-cased', type=str,
                         help="Path to pre-trained model or shortcut name")
     # other parameters
+    parser.add_argument('--dataset',  default='original', type=str,
+                        help="Whether to use original or augmented dataset. Options: [`original`, `aug20`, `aug40`]. Default: `original`")
     parser.add_argument('--scenario',  default='llm-based', type=str)
     parser.add_argument("--max_seq_length", default=128, type=int)
     parser.add_argument("--train_batch_size", default=16, type=int,
@@ -34,7 +36,8 @@ def init_args():
 
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
-    output_folder = os.path.join(args.output_dir, args.scenario, f"{model_name}_{str(args.train_epochs)}")
+    dataset = "" if args.dataset == 'original' else "-" + args.dataset
+    output_folder = os.path.join(args.output_dir, args.scenario + dataset, f"{model_name}_{str(args.train_epochs)}")
     print(f"current scenario - {output_folder}")
     if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
         raise ValueError('This scenario has been executed.')
@@ -478,8 +481,13 @@ def main():
     args = init_args()
     seed_everything(args.seed)
     # Read data
+    
     train_path = os.path.join("dataset", "train_conll_data.txt")
     test_path = os.path.join("dataset", "test_conll_data.txt")
+    if not args.dataset == 'original':
+        filename = "train_augmented_" + args.dataset[-2:] + ".txt"
+        train_path = os.path.join("dataset", filename)
+
     val_sentences = read_conll_file(test_path)
     output_dir = args.output_dir
 
