@@ -20,7 +20,7 @@ def init_args():
                         help="Path to pre-trained model or shortcut name")
     # other parameters
     parser.add_argument('--dataset',  default='original', type=str,
-                        help="Whether to use original or augmented dataset. Options: [`original`, `aug20`, `aug40`]. Default: `original`")
+                        help="Whether to use original or augmented dataset. Options: [`original`, `aug-20`, `aug-40`, `rem-100`]. Default: `original`")
     parser.add_argument('--scenario',  default='llm-based', type=str)
     parser.add_argument("--max_seq_length", default=128, type=int)
     parser.add_argument("--train_batch_size", default=16, type=int,
@@ -484,8 +484,11 @@ def main():
     
     train_path = os.path.join("dataset", "train_conll_data.txt")
     test_path = os.path.join("dataset", "test_conll_data.txt")
-    if not args.dataset == 'original':
-        filename = "train_augmented_" + args.dataset[-2:] + ".txt"
+    if str(args.dataset).startswith("aug"):
+        filename = "train_augmented_" + str(args.dataset).split('-')[-1] + ".txt"
+        train_path = os.path.join("dataset", filename)
+    elif str(args.dataset).startswith("rem"):
+        filename = "train_augmented_remove_" + str(args.dataset).split('-')[-1] + ".txt"
         train_path = os.path.join("dataset", filename)
 
     val_sentences = read_conll_file(test_path)
