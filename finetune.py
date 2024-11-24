@@ -229,7 +229,8 @@ def evaluate_predictions(true_sentences: List[List[str]],
         f1_abs = f1 * boundary_metrics['f1']
     else:
         precision = recall = f1 = accuracy = 0
-        TN, FP, FN, TP = 0
+        cm = confusion_matrix(true_types, pred_types, labels=[0, 1])
+        TN, FP, FN, TP = cm.ravel()
         spesificity = fp_rate = fn_rate = 0
         g_mean = f1_abs = 0
     
