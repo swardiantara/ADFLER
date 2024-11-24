@@ -221,10 +221,10 @@ def evaluate_predictions(true_sentences: List[List[str]],
         g_mean = f1_abs = 0
     
     classification_metrics = {
-        'TP': TP,
-        'TN': TN,
-        'FP': FP,
-        'FN': FN,
+        'TP': float(TP),
+        'TN': float(TN),
+        'FP': float(FP),
+        'FN': float(FN),
         'spesificity': spesificity,
         'fp_rate': fp_rate,
         'fn_rate': fn_rate,
