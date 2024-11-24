@@ -49,12 +49,15 @@ def init_args():
     if args.do_train:
         if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
             raise ValueError('This scenario has been executed.')
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
     args.output_dir = output_folder
 
     if not args.do_train and args.do_eval:
         eval_dataset = "" if args.eval_dataset == 'original' else "-" + args.eval_dataset
-        args.eval_output = os.path.join(args.output_dir, 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", eval_dataset)
-
+        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", eval_dataset)
+        if not os.path.exists(args.eval_output):
+            os.makedirs(args.eval_output)
     return args
 
 
