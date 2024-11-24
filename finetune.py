@@ -180,12 +180,16 @@ def evaluate_predictions(true_sentences: List[List[str]],
             pred_types.append(1 if pred_span.entity_type == "Event" else 0)
     
     # Calculate boundary metrics
+    FP = total_predicted - total_correct
+    FN = total_true - total_correct
     boundary_metrics = {
         'precision': total_correct / total_predicted if total_predicted > 0 else 0,
         'recall': total_correct / total_true if total_true > 0 else 0,
         'num_correct': total_correct,
         'num_predicted': total_predicted,
-        'num_true': total_true
+        'num_true': total_true,
+        'FP': FP,
+        'FN': FN
     }
     
     # Calculate F1 for boundary detection
@@ -211,6 +215,9 @@ def evaluate_predictions(true_sentences: List[List[str]],
         f1_abs = f1 * boundary_metrics['f1']
     else:
         precision = recall = f1 = accuracy = 0
+        TN, FP, FN, TP = 0
+        spesificity = fp_rate = fn_rate = 0
+        g_mean = f1_abs = 0
     
     classification_metrics = {
         'TP': TP,

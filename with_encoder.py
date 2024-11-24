@@ -12,7 +12,7 @@ from typing import List, Dict, Set, Tuple
 import logging
 import json
 import argparse
-from sklearn.metrics import classification_report, precision_recall_fscore_support, accuracy_score
+from sklearn.metrics import classification_report, precision_recall_fscore_support, accuracy_score, confusion_matrix
 from dataclasses import dataclass
 
 
@@ -174,12 +174,16 @@ def evaluate_predictions(true_labels: List[List[str]],
             pred_types.append(1 if pred_span.entity_type == "Event" else 0)
     
     # Calculate boundary metrics
+    FP = total_predicted - total_correct
+    FN = total_true - total_correct
     boundary_metrics = {
         'precision': total_correct / total_predicted if total_predicted > 0 else 0,
         'recall': total_correct / total_true if total_true > 0 else 0,
         'num_correct': total_correct,
         'num_predicted': total_predicted,
-        'num_true': total_true
+        'num_true': total_true,
+        'FP': FP,
+        'FN': FN
     }
     
     # Calculate F1 for boundary detection
@@ -195,21 +199,46 @@ def evaluate_predictions(true_labels: List[List[str]],
             true_types, pred_types, average='binary', zero_division=0,
             labels=[1]  # Ensure we're calculating metrics for Event class
         )
+        cm = confusion_matrix(true_types, pred_types)
+        TN, FP, FN, TP = cm.ravel()
         accuracy = accuracy_score(true_types, pred_types)
+        spesificity = TN / TN + FP if (TN + FP) > 0 else 0
+        fp_rate = 1 - spesificity
+        fn_rate = 1 - recall
+        g_mean = np.sqrt(recall * spesificity)
+        f1_abs = f1 * boundary_metrics['f1']
     else:
         precision = recall = f1 = accuracy = 0
+        TN, FP, FN, TP = 0
+        spesificity = fp_rate = fn_rate = 0
+        g_mean = f1_abs = 0
     
     classification_metrics = {
+        'TP': TP,
+        'TN': TN,
+        'FP': FP,
+        'FN': FN,
+        'spesificity': spesificity,
+        'fp_rate': fp_rate,
+        'fn_rate': fn_rate,
+        'g_mean': g_mean,
         'precision': precision,
         'recall': recall,
         'f1': f1,
+        'f1_abs': f1_abs,
         'accuracy': accuracy,
         'support': len(true_types)  # Number of correctly identified boundaries
     }
+
+    if boundary_metrics['f1'] + f1_abs > 0:
+        f1_f1 = (2 * boundary_metrics['f1'] * f1_abs) / (boundary_metrics['f1'] + f1_abs)
+    else:
+        f1_f1 = 0
     
     return {
         'boundary': boundary_metrics,
-        'classification': classification_metrics
+        'classification': classification_metrics,
+        'f1_f1': f1_f1
     }
 
 
