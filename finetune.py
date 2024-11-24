@@ -2,6 +2,7 @@ import os
 import random
 import json
 import argparse
+import math
 
 import torch
 import pandas as pd
@@ -208,10 +209,10 @@ def evaluate_predictions(true_sentences: List[List[str]],
         cm = confusion_matrix(true_types, pred_types)
         TN, FP, FN, TP = cm.ravel()
         accuracy = accuracy_score(true_types, pred_types)
-        spesificity = TN / TN + FP
+        spesificity = TN / (TN + FP)
         fp_rate = 1 - spesificity
         fn_rate = 1 - recall
-        g_mean = np.sqrt(recall * spesificity)
+        g_mean = math.sqrt(recall * spesificity)
         f1_abs = f1 * boundary_metrics['f1']
     else:
         precision = recall = f1 = accuracy = 0

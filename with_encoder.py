@@ -1,5 +1,10 @@
 import os
+import math
+import json
 import random
+import argparse
+import logging
+
 import pandas as pd
 import torch
 import torch.nn as nn
@@ -9,9 +14,6 @@ from typing import List, Tuple
 import numpy as np
 from TorchCRF import CRF
 from typing import List, Dict, Set, Tuple
-import logging
-import json
-import argparse
 from sklearn.metrics import classification_report, precision_recall_fscore_support, accuracy_score, confusion_matrix
 from dataclasses import dataclass
 
@@ -202,10 +204,10 @@ def evaluate_predictions(true_labels: List[List[str]],
         cm = confusion_matrix(true_types, pred_types)
         TN, FP, FN, TP = cm.ravel()
         accuracy = accuracy_score(true_types, pred_types)
-        spesificity = TN / TN + FP if (TN + FP) > 0 else 0
+        spesificity = TN / (TN + FP) if (TN + FP) > 0 else 0
         fp_rate = 1 - spesificity
         fn_rate = 1 - recall
-        g_mean = np.sqrt(recall * spesificity)
+        g_mean = math.sqrt(recall * spesificity)
         f1_abs = f1 * boundary_metrics['f1']
     else:
         precision = recall = f1 = accuracy = 0
