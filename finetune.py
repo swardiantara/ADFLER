@@ -20,8 +20,10 @@ def init_args():
     parser.add_argument("--model_name_or_path", default='bert-base-cased', type=str,
                         help="Path to pre-trained model or shortcut name")
     # other parameters
-    parser.add_argument('--dataset',  default='original', type=str,
+    parser.add_argument('--train_dataset',  default='original', type=str,
                         help="Whether to use original or augmented dataset. Options: [`original`, `aug-20`, `aug-40`, `rem-100`]. Default: `original`")
+    parser.add_argument('--eval_dataset',  default='original', type=str,
+                        help="Whether to use original or augmented dataset. Options: [`original`, `rem1`, `rem2`, `rem3`, `rem4`]. Default: `original`")
     parser.add_argument('--scenario',  default='llm-based', type=str)
     parser.add_argument("--max_seq_length", default=128, type=int)
     parser.add_argument("--train_batch_size", default=16, type=int,
@@ -34,15 +36,24 @@ def init_args():
     parser.add_argument('--output_dir',  default='experiments', type=str)
     parser.add_argument('--seed', type=int, default=42,
                         help="random seed for initialization")
+    parser.add_argument('--do_train', action='store_true',
+                        help="Whether to train the model")
+    parser.add_argument('--do_eval', action='store_true',
+                        help="Whether to eval the model")
 
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
-    dataset = "" if args.dataset == 'original' else "-" + args.dataset
-    output_folder = os.path.join(args.output_dir, args.scenario + dataset, f"{model_name}_{str(args.train_epochs)}")
+    train_dataset = "" if args.train_dataset == 'original' else "-" + args.train_dataset
+    output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}")
     print(f"current scenario - {output_folder}")
-    if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
-        raise ValueError('This scenario has been executed.')
+    if args.do_train:
+        if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
+            raise ValueError('This scenario has been executed.')
     args.output_dir = output_folder
+
+    if not args.do_train and args.do_eval:
+        eval_dataset = "" if args.eval_dataset == 'original' else "-" + args.eval_dataset
+        args.eval_output = os.path.join(args.output_dir, 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", eval_dataset)
 
     return args
 
@@ -511,75 +522,89 @@ def main():
     args = init_args()
     seed_everything(args.seed)
     # Read data
+    if args.do_train:
+        train_path = os.path.join("dataset", "train_conll_data.txt")
+        test_path = os.path.join("dataset", "test_conll_data.txt")
+        if str(args.train_dataset).startswith("aug"):
+            filename = "train_augmented_" + str(args.dataset).split('-')[-1] + ".txt"
+            train_path = os.path.join("dataset", filename)
+        elif str(args.train_dataset).startswith("rem"):
+            filename = "train_augmented_remove_" + str(args.dataset).split('-')[-1] + ".txt"
+            train_path = os.path.join("dataset", filename)
+
+        val_sentences = read_conll_file(test_path)
+
+        # Get unique labels
+        labels = ['O',
+                'B-Event', 'I-Event', 'E-Event', 'S-Event',
+                'B-NonEvent', 'I-NonEvent', 'E-NonEvent', 'S-NonEvent',
+                ]
+        
+        # Define model arguments
+        model_args = {
+            'num_train_epochs': args.train_epochs,
+            'learning_rate': args.learning_rate,
+            'overwrite_output_dir': True,
+            'train_batch_size': args.train_batch_size,
+            'eval_batch_size': args.eval_batch_size,
+            'output_dir': args.output_dir,
+            'save_steps': -1,
+            'save_model_every_epoch': False
+        }
+        
+        # Initialize model (can use any transformer model)
+        model = NERModel(
+            args.model_type,        # Model type (can be roberta, xlnet, etc.)
+            args.model_name_or_path,    # Model name
+            labels=labels,
+            args=model_args
+        )
+        
+        # Train the model
+        model.train_model(train_path, show_running_loss=True)
     
-    train_path = os.path.join("dataset", "train_conll_data.txt")
-    test_path = os.path.join("dataset", "test_conll_data.txt")
-    if str(args.dataset).startswith("aug"):
-        filename = "train_augmented_" + str(args.dataset).split('-')[-1] + ".txt"
-        train_path = os.path.join("dataset", filename)
-    elif str(args.dataset).startswith("rem"):
-        filename = "train_augmented_remove_" + str(args.dataset).split('-')[-1] + ".txt"
-        train_path = os.path.join("dataset", filename)
+    if args.do_eval:
+        # Make predictions on test set
+        # Get predictions
+        output_dir = args.output_dir
+        if not args.do_train:
+            model = NERModel(
+                args.model_type,
+                args.output_dir
+            )
+            eval_path = os.path.join("dataset", "test_conll_data.txt")
+            if str(args.eval_dataset).startswith('rem'):
+                sg = args.eval_dataset[-1]
+                eval_path = os.path.join("dataset", "sensitivity", "remove", f"sg{sg}_remove.txt")
 
-    val_sentences = read_conll_file(test_path)
-    output_dir = args.output_dir
+            val_sentences = read_conll_file(eval_path)
+            output_dir = args.eval_output
 
-    # Get unique labels
-    labels = ['O',
-              'B-Event', 'I-Event', 'E-Event', 'S-Event',
-              'B-NonEvent', 'I-NonEvent', 'E-NonEvent', 'S-NonEvent',
-              ]
-    
-    # Define model arguments
-    model_args = {
-        'num_train_epochs': args.train_epochs,
-        'learning_rate': args.learning_rate,
-        'overwrite_output_dir': True,
-        'train_batch_size': args.train_batch_size,
-        'eval_batch_size': args.eval_batch_size,
-        'output_dir': output_dir,
-        'save_steps': -1,
-        'save_model_every_epoch': False
-    }
-    
-    # Initialize model (can use any transformer model)
-    model = NERModel(
-        args.model_type,        # Model type (can be roberta, xlnet, etc.)
-        args.model_name_or_path,    # Model name
-        labels=labels,
-        args=model_args
-    )
-    
-    # Train the model
-    model.train_model(train_path, show_running_loss=True)
-    
-    # Make predictions on test set
-    # Get predictions
-    predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
+        predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
 
-    # Process predictions to get labels
-    pred_labels = process_predictions(predictions)
+        # Process predictions to get labels
+        pred_labels = process_predictions(predictions)
 
-    # Get true labels
-    true_labels = [labels for _, labels in val_sentences]
-    metrics = evaluate_model(true_labels, pred_labels)
+        # Get true labels
+        true_labels = [labels for _, labels in val_sentences]
+        metrics = evaluate_model(true_labels, pred_labels)
 
-    with open(os.path.join(output_dir, "evaluation_score.json"), "w") as f:
-            json.dump(metrics, f, indent=4)
+        with open(os.path.join(output_dir, "evaluation_score.json"), "w") as f:
+                json.dump(metrics, f, indent=4)
 
-    # Log predictions for error analysis
-    log_predictions_to_excel(
-        true_sentences=val_sentences,
-        pred_labels=pred_labels,
-        output_dir=output_dir
-    )
+        # Log predictions for error analysis
+        log_predictions_to_excel(
+            true_sentences=val_sentences,
+            pred_labels=pred_labels,
+            output_dir=output_dir
+        )
 
-    # Log word-level predictions for detailed error analysis
-    log_word_level_predictions(
-        true_sentences=val_sentences,
-        pred_labels=pred_labels,
-        output_dir=output_dir
-    )
+        # Log word-level predictions for detailed error analysis
+        log_word_level_predictions(
+            true_sentences=val_sentences,
+            pred_labels=pred_labels,
+            output_dir=output_dir
+        )
 
 if __name__ == '__main__':
     main()
