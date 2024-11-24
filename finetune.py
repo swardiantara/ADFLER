@@ -54,7 +54,7 @@ def init_args():
     args.output_dir = output_folder
 
     if not args.do_train and args.do_eval:
-        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", train_dataset + "_" + args.eval_dataset)
+        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", args.train_dataset + "_" + args.eval_dataset)
         if not os.path.exists(args.eval_output):
             os.makedirs(args.eval_output)
     return args
