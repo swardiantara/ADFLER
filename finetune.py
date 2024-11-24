@@ -54,8 +54,7 @@ def init_args():
     args.output_dir = output_folder
 
     if not args.do_train and args.do_eval:
-        eval_dataset = "" if args.eval_dataset == 'original' else "-" + args.eval_dataset
-        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", eval_dataset)
+        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", train_dataset + "_" + args.eval_dataset)
         if not os.path.exists(args.eval_output):
             os.makedirs(args.eval_output)
     return args
@@ -220,7 +219,7 @@ def evaluate_predictions(true_sentences: List[List[str]],
             true_types, pred_types, average='binary', zero_division=0,
             labels=[1]  # Ensure we're calculating metrics for Event class
         )
-        cm = confusion_matrix(true_types, pred_types)
+        cm = confusion_matrix(true_types, pred_types, labels=[0, 1])
         TN, FP, FN, TP = cm.ravel()
         accuracy = accuracy_score(true_types, pred_types)
         spesificity = TN / (TN + FP)
