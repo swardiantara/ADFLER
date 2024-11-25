@@ -1,0 +1,46 @@
+{
+    "boundary": {
+        "precision": 0.9737704918032787,
+        "recall": 0.954983922829582,
+        "num_correct": 297,
+        "num_predicted": 305,
+        "num_true": 311,
+        "FP": 8,
+        "FN": 14,
+        "f1": 0.9642857142857143
+    },
+    "classification": {
+        "TP": 194.0,
+        "TN": 87.0,
+        "FP": 12.0,
+        "FN": 4.0,
+        "spesificity": 0.8787878787878788,
+        "fp_rate": 0.12121212121212122,
+        "fn_rate": 0.02020202020202022,
+        "g_mean": 0.9279194945184176,
+        "precision": 0.941747572815534,
+        "recall": 0.9797979797979798,
+        "f1": 0.9603960396039605,
+        "f1_abs": 0.9260961810466762,
+        "accuracy": 0.9461279461279462,
+        "support": 297
+    },
+    "f1_f1": 0.9448051948051949,
+    "scenario_args": {
+        "model_type": "bert",
+        "model_name_or_path": "bert-base-cased",
+        "encoder": "lstm",
+        "max_seq_length": 128,
+        "num_layers": 2,
+        "train_batch_size": 16,
+        "eval_batch_size": 16,
+        "learning_rate": 2e-05,
+        "train_epochs": 15,
+        "scenario": "llm-rnn",
+        "output_dir": "experiments/llm-rnn/bert-base-cased_BiLSTM_2_Linear",
+        "use_crf": false,
+        "bidirectional": true,
+        "seed": 42,
+        "save_model": false
+    }
+}
