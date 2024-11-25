@@ -599,10 +599,10 @@ def main():
         metrics = evaluate_model(true_labels, pred_labels)
 
         with open(os.path.join(output_dir, "evaluation_score.json"), "w") as f:
-                json.dump(metrics, f, indent=4)
-        with open(os.path.join(args.output_dir, "true_labels.json"), "w") as f:
+            json.dump(metrics, f, indent=4)
+        with open(os.path.join(output_dir, "true_labels.json"), "w") as f:
             json.dump(true_labels, f, indent=4)
-        with open(os.path.join(args.output_dir, "pred_labels.json"), "w") as f:
+        with open(os.path.join(output_dir, "pred_labels.json"), "w") as f:
             json.dump(pred_labels, f, indent=4)
 
         # Log predictions for error analysis
