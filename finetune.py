@@ -54,7 +54,13 @@ def init_args():
     args.output_dir = output_folder
 
     if not args.do_train and args.do_eval:
-        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", args.train_dataset + "_" + args.eval_dataset)
+        aug_eval = 'original'
+        if str(args.eval_dataset).startswith('rem'):
+            aug_eval = 'remove'
+        elif str(args.eval_dataset).startswith('low'):
+            aug_eval = 'lower'
+        train_eval = args.train_dataset + '_' + aug_eval
+        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", train_eval, args.eval_dataset)
         if not os.path.exists(args.eval_output):
             os.makedirs(args.eval_output)
     return args
@@ -594,6 +600,10 @@ def main():
 
         with open(os.path.join(output_dir, "evaluation_score.json"), "w") as f:
                 json.dump(metrics, f, indent=4)
+        with open(os.path.join(args.output_dir, "true_labels.json"), "w") as f:
+            json.dump(true_labels, f, indent=4)
+        with open(os.path.join(args.output_dir, "pred_labels.json"), "w") as f:
+            json.dump(pred_labels, f, indent=4)
 
         # Log predictions for error analysis
         log_predictions_to_excel(
