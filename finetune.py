@@ -23,7 +23,7 @@ def init_args():
     parser.add_argument('--train_dataset',  default='original', type=str,
                         help="Whether to use original or augmented dataset. Options: [`original`, `aug-20`, `aug-40`, `rem-100`]. Default: `original`")
     parser.add_argument('--eval_dataset',  default='original', type=str,
-                        help="Whether to use original or augmented dataset. Options: [`original`, `rem1`, `rem2`, `rem3`, `rem4`]. Default: `original`")
+                        help="Whether to use original or augmented dataset. Options: [`original`, `rem1`, `rem2`, `rem3`, `rem4`, `ori1`, `low1`]. Default: `original`")
     parser.add_argument('--scenario',  default='llm-based', type=str)
     parser.add_argument("--max_seq_length", default=128, type=int)
     parser.add_argument("--train_batch_size", default=16, type=int,
@@ -155,7 +155,7 @@ def extract_valid_spans(labels: List[str]) -> List[EntitySpan]:
 
 
 def evaluate_predictions(true_sentences: List[List[str]], 
-                        pred_labels: List[List[Dict]]) -> Dict:
+                        pred_labels: List[List[str]]) -> Dict:
     """Evaluate both boundary detection and sentence type classification."""
     
     all_true_spans = []
@@ -535,10 +535,10 @@ def main():
         train_path = os.path.join("dataset", "train_conll_data.txt")
         test_path = os.path.join("dataset", "test_conll_data.txt")
         if str(args.train_dataset).startswith("aug"):
-            filename = "train_augmented_" + str(args.dataset).split('-')[-1] + ".txt"
+            filename = "train_augmented_" + str(args.train_dataset).split('-')[-1] + ".txt"
             train_path = os.path.join("dataset", filename)
         elif str(args.train_dataset).startswith("rem"):
-            filename = "train_augmented_remove_" + str(args.dataset).split('-')[-1] + ".txt"
+            filename = "train_augmented_remove_" + str(args.train_dataset).split('-')[-1] + ".txt"
             train_path = os.path.join("dataset", filename)
 
         val_sentences = read_conll_file(test_path)
