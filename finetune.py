@@ -585,6 +585,9 @@ def main():
             if str(args.eval_dataset).startswith('rem'):
                 sg = args.eval_dataset[-1]
                 eval_path = os.path.join("dataset", "sensitivity", "remove", f"sg{sg}_remove.txt")
+            elif str(args.eval_dataset).startswith('low'):
+                sg = args.eval_dataset[-1]
+                eval_path = os.path.join("dataset", "sensitivity", "lower", f"sg{sg}_lower.txt")
             elif str(args.eval_dataset).startswith('ori'):
                 sg = args.eval_dataset[-1]
                 eval_path = os.path.join("dataset", "sensitivity", "original", f"sg{sg}_original.txt")
