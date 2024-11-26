@@ -106,3 +106,8 @@ python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low2 --model_
 python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low3 --model_type roberta --model_name_or_path distilroberta-base
 python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low4 --model_type roberta --model_name_or_path distilroberta-base
 python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low5 --model_type roberta --model_name_or_path distilroberta-base
+
+cd experiments/evaluation/llm-based/distilroberta-base_15/
+git add .
+git commit -m "Robustness test results of distilroberta-base"
+git push origin dev

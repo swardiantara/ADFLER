@@ -107,6 +107,7 @@ python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low3 --model_
 python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low4 --model_type distilbert --model_name_or_path distilbert-base-cased
 python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low5 --model_type distilbert --model_name_or_path distilbert-base-cased
 
-git add experiments/evaluation/llm-based/distilbert-base-cased/.
+cd experiments/evaluation/llm-based/distilbert-base-cased_15/
+git add .
 git commit -m "Robustness test results of distilbert-base-cased"
 git push origin dev

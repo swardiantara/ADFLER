@@ -107,7 +107,7 @@ python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low3 --model_
 python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low4 --model_type bert --model_name_or_path bert-base-cased
 python finetune.py --do_eval --train_dataset rem-20 --eval_dataset low5 --model_type bert --model_name_or_path bert-base-cased
 
-cd experiments/evaluation/llm-based/bert-base-cased/
+cd experiments/evaluation/llm-based/bert-base-cased_15/
 git add .
 git commit -m "Robustness test results of bert-base-cased"
 git push origin dev
