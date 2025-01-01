@@ -44,7 +44,7 @@ def init_args():
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
     train_dataset = "" if args.train_dataset == 'original' else "-" + args.train_dataset
-    output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}", args.seed)
+    output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}", str(args.seed))
     print(f"current scenario - {output_folder}")
     if args.do_train:
         if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
