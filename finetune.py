@@ -44,7 +44,7 @@ def init_args():
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
     train_dataset = "" if args.train_dataset == 'original' else "-" + args.train_dataset
-    output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}")
+    output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}", args.seed)
     print(f"current scenario - {output_folder}")
     if args.do_train:
         if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
@@ -228,7 +228,7 @@ def evaluate_predictions(true_sentences: List[List[str]],
         cm = confusion_matrix(true_types, pred_types, labels=[0, 1])
         TN, FP, FN, TP = cm.ravel()
         accuracy = accuracy_score(true_types, pred_types)
-        spesificity = TN / (TN + FP)
+        spesificity = int(TN) / (int(TN) + int(FP))
         fp_rate = 1 - spesificity
         fn_rate = 1 - recall
         g_mean = math.sqrt(recall * spesificity)
@@ -241,10 +241,10 @@ def evaluate_predictions(true_sentences: List[List[str]],
         g_mean = f1_abs = 0
     
     classification_metrics = {
-        'TP': float(TP),
-        'TN': float(TN),
-        'FP': float(FP),
-        'FN': float(FN),
+        'TP': int(TP),
+        'TN': int(TN),
+        'FP': int(FP),
+        'FN': int(FN),
         'spesificity': spesificity,
         'fp_rate': fp_rate,
         'fn_rate': fn_rate,
