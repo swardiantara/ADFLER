@@ -171,6 +171,7 @@ def evaluate_predictions(true_sentences: List[List[str]],
     
     # Evaluate boundaries
     total_correct = 0
+    total_correct_strict = 0
     total_predicted = 0
     total_true = 0
     
@@ -182,11 +183,15 @@ def evaluate_predictions(true_sentences: List[List[str]],
         # Convert spans to boundary tuples
         true_boundaries = {(span.start_idx, span.end_idx) for span in true_spans}
         pred_boundaries = {(span.start_idx, span.end_idx) for span in pred_spans}
-        
+        true_boundaries_strict = {(span.start_idx, span.end_idx, span.entity_type) for span in true_spans}
+        pred_boundaries_strict = {(span.start_idx, span.end_idx, span.entity_type) for span in pred_spans}
+
         # Get correctly identified boundaries
         correct_boundaries = true_boundaries.intersection(pred_boundaries)
+        correct_boundaries_strict = true_boundaries_strict.intersection(pred_boundaries_strict)
         
         total_correct += len(correct_boundaries)
+        total_correct_strict += len(correct_boundaries_strict)
         total_predicted += len(pred_boundaries)
         total_true += len(true_boundaries)
         
@@ -211,13 +216,23 @@ def evaluate_predictions(true_sentences: List[List[str]],
         'FP': FP,
         'FN': FN
     }
+    boundary_strict = {
+        'precision': total_correct_strict / total_predicted if total_predicted > 0 else 0,
+        'recall': total_correct_strict / total_true if total_true > 0 else 0,
+        'num_correct': total_correct_strict,
+        'num_predicted': total_predicted,
+        'num_true': total_true,
+        'FP': FP,
+        'FN': FN
+    }
     
     # Calculate F1 for boundary detection
     if boundary_metrics['precision'] + boundary_metrics['recall'] > 0:
-        boundary_metrics['f1'] = (2 * boundary_metrics['precision'] * boundary_metrics['recall'] /
-                                (boundary_metrics['precision'] + boundary_metrics['recall']))
+        boundary_metrics['f1'] = 2 * (boundary_metrics['precision'] * boundary_metrics['recall']) / (boundary_metrics['precision'] + boundary_metrics['recall'])
+        boundary_strict['f1'] = 2 * (boundary_strict['precision'] * boundary_strict['recall']) / (boundary_strict['precision'] + boundary_strict['recall'])
     else:
         boundary_metrics['f1'] = 0
+        boundary_strict['f1'] = 0
     
     # Calculate classification metrics only for correctly identified boundaries
     if true_types:
@@ -258,12 +273,13 @@ def evaluate_predictions(true_sentences: List[List[str]],
     }
 
     if boundary_metrics['f1'] + f1_abs > 0:
-        f1_f1 = (2 * boundary_metrics['f1'] * f1_abs) / (boundary_metrics['f1'] + f1_abs)
+        f1_f1 = 2 * (boundary_metrics['f1'] * f1_abs) / (boundary_metrics['f1'] + f1_abs)
     else:
         f1_f1 = 0
     
     return {
         'boundary': boundary_metrics,
+        'boundary_strict': boundary_strict,
         'classification': classification_metrics,
         'f1_f1': f1_f1
     }
