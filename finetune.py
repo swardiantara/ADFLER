@@ -558,6 +558,14 @@ def main():
         elif str(args.train_dataset).startswith("rem"):
             filename = "train_augmented_remove_" + str(args.train_dataset).split('-')[-1] + ".txt"
             train_path = os.path.join("dataset", filename)
+        elif str(args.train_dataset).startswith("fold"):
+            fold = str(args.train_dataset).split("-")[-1]
+            train_path = os.path.join("dataset", "cross-validation", f"train_{fold}.txt")
+            test_path = os.path.join("dataset", "cross-validation", f"test_{fold}.txt")
+        elif str(args.train_dataset).startswith("seed"):
+            seed = str(args.train_dataset).split("-")[-1]
+            train_path = os.path.join("dataset", "multiple-split", f"train_{seed}.txt")
+            test_path = os.path.join("dataset", "multiple-split", f"test_{seed}.txt")
 
         val_sentences = read_conll_file(test_path)
 
@@ -609,6 +617,12 @@ def main():
             elif str(args.eval_dataset).startswith('ori'):
                 sg = args.eval_dataset[-1]
                 eval_path = os.path.join("dataset", "sensitivity", "original", f"sg{sg}_original.txt")
+            elif str(args.train_dataset).startswith("fold"):
+                fold = str(args.train_dataset).split("-")[-1]
+                eval_path = os.path.join("dataset", "cross-validation", f"test_{fold}.txt")
+            elif str(args.train_dataset).startswith("seed"):
+                seed = str(args.train_dataset).split("-")[-1]
+                eval_path = os.path.join("dataset", "multiple-split", f"test_{seed}.txt")
             val_sentences = read_conll_file(eval_path)
             output_dir = args.eval_output
 
