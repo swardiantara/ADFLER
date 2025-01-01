@@ -216,6 +216,8 @@ def evaluate_predictions(true_sentences: List[List[str]],
         'FP': FP,
         'FN': FN
     }
+    FP = total_predicted - total_correct_strict
+    FN = total_true - total_correct_strict
     boundary_strict = {
         'precision': total_correct_strict / total_predicted if total_predicted > 0 else 0,
         'recall': total_correct_strict / total_true if total_true > 0 else 0,
