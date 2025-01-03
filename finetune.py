@@ -60,7 +60,7 @@ def init_args():
         elif str(args.eval_dataset).startswith('low'):
             aug_eval = 'lower'
         train_eval = args.train_dataset + '_' + aug_eval
-        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", train_eval, args.eval_dataset)
+        args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", train_eval, args.eval_dataset, str(args.seed))
         if not os.path.exists(args.eval_output):
             os.makedirs(args.eval_output)
     return args
@@ -231,11 +231,14 @@ def evaluate_predictions(true_sentences: List[List[str]],
     # Calculate F1 for boundary detection
     if boundary_metrics['precision'] + boundary_metrics['recall'] > 0:
         boundary_metrics['f1'] = 2 * (boundary_metrics['precision'] * boundary_metrics['recall']) / (boundary_metrics['precision'] + boundary_metrics['recall'])
-        boundary_strict['f1'] = 2 * (boundary_strict['precision'] * boundary_strict['recall']) / (boundary_strict['precision'] + boundary_strict['recall'])
     else:
         boundary_metrics['f1'] = 0
+        
+    if boundary_strict['precision'] + boundary_strict['recall'] > 0:
+        boundary_strict['f1'] = 2 * (boundary_strict['precision'] * boundary_strict['recall']) / (boundary_strict['precision'] + boundary_strict['recall'])
+    else:
         boundary_strict['f1'] = 0
-    
+        
     # Calculate classification metrics only for correctly identified boundaries
     if true_types:
         precision, recall, f1, _ = precision_recall_fscore_support(
@@ -245,7 +248,7 @@ def evaluate_predictions(true_sentences: List[List[str]],
         cm = confusion_matrix(true_types, pred_types, labels=[0, 1])
         TN, FP, FN, TP = cm.ravel()
         accuracy = accuracy_score(true_types, pred_types)
-        spesificity = int(TN) / (int(TN) + int(FP))
+        spesificity = int(TN) / (int(TN) + int(FP)) if (int(TN) + int(FP)) > 0 else 0
         fp_rate = 1 - spesificity
         fn_rate = 1 - recall
         g_mean = math.sqrt(recall * spesificity)
