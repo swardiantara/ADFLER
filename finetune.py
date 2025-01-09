@@ -44,7 +44,7 @@ def init_args():
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
     train_dataset = "" if args.train_dataset == 'original' else "-" + args.train_dataset
-    output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}", str(args.seed))
+    output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}")
     print(f"current scenario - {output_folder}")
     if args.do_train:
         if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
@@ -238,7 +238,7 @@ def evaluate_predictions(true_sentences: List[List[str]],
         boundary_strict['f1'] = 2 * (boundary_strict['precision'] * boundary_strict['recall']) / (boundary_strict['precision'] + boundary_strict['recall'])
     else:
         boundary_strict['f1'] = 0
-        
+
     # Calculate classification metrics only for correctly identified boundaries
     if true_types:
         precision, recall, f1, _ = precision_recall_fscore_support(
@@ -302,6 +302,14 @@ def evaluate_model(true_labels, pred_labels):
     print(f"Correct Boundaries: {metrics['boundary']['num_correct']}")
     print(f"Predicted Boundaries: {metrics['boundary']['num_predicted']}")
     print(f"True Boundaries: {metrics['boundary']['num_true']}")
+
+    print("\nStrict Boundary Detection Metrics:")
+    print(f"Precision: {metrics['boundary_strict']['precision']:.4f}")
+    print(f"Recall: {metrics['boundary_strict']['recall']:.4f}")
+    print(f"F1: {metrics['boundary_strict']['f1']:.4f}")
+    print(f"Correct Boundaries: {metrics['boundary_strict']['num_correct']}")
+    print(f"Predicted Boundaries: {metrics['boundary_strict']['num_predicted']}")
+    print(f"True Boundaries: {metrics['boundary_strict']['num_true']}")
     
     print("\nClassification Metrics (for correct boundaries):")
     print(f"Precision: {metrics['classification']['precision']:.4f}")
@@ -313,7 +321,7 @@ def evaluate_model(true_labels, pred_labels):
     return metrics
 
 
-def log_predictions_to_excel(true_sentences: List[Tuple[List[str], List[str]]], 
+def log_predictions_to_excel(args, true_sentences: List[Tuple[List[str], List[str]]], 
                            pred_labels: List[List[str]], 
                            output_dir: str = "error_analysis"):
     """
@@ -397,14 +405,14 @@ def log_predictions_to_excel(true_sentences: List[Tuple[List[str], List[str]]],
     if correct_boundaries_data:
         correct_df = pd.DataFrame(correct_boundaries_data)
         correct_df.to_excel(
-            os.path.join(output_dir, 'correct_predictions.xlsx'),
+            os.path.join(output_dir, f'correct_predictions_{args.seed}.xlsx'),
             index=False
         )
     
     if incorrect_boundaries_data:
         incorrect_df = pd.DataFrame(incorrect_boundaries_data)
         incorrect_df.to_excel(
-            os.path.join(output_dir, 'incorrect_predictions.xlsx'),
+            os.path.join(output_dir, f'incorrect_predictions_{args.seed}.xlsx'),
             index=False
         )
     
@@ -413,7 +421,7 @@ def log_predictions_to_excel(true_sentences: List[Tuple[List[str], List[str]]],
     print(f"Files saved in directory: {output_dir}")
 
 
-def log_word_level_predictions(true_sentences: List[Tuple[List[str], List[str]]], 
+def log_word_level_predictions(args, true_sentences: List[Tuple[List[str], List[str]]], 
                              pred_labels: List[List[str]], 
                              output_dir: str = "error_analysis"):
     """
@@ -503,14 +511,14 @@ def log_word_level_predictions(true_sentences: List[Tuple[List[str], List[str]]]
     styled_df = word_level_df.style.apply(color_incorrect_predictions, axis=1)
     
     # Save to Excel with formatting
-    with pd.ExcelWriter(os.path.join(output_dir, 'word_level_predictions.xlsx'),
+    with pd.ExcelWriter(os.path.join(output_dir, f'word_level_predictions_{args.seed}.xlsx'),
                        engine='openpyxl') as writer:
         styled_df.to_excel(writer, index=False)
     
     # Create summary of error types
     error_summary = pd.DataFrame(word_level_df[~word_level_df['is_boundary_correct']]['error_type'].value_counts())
     error_summary.columns = ['count']
-    error_summary.to_excel(os.path.join(output_dir, 'word_level_error_type_summary.xlsx'))
+    error_summary.to_excel(os.path.join(output_dir, f'word_level_error_type_summary_{args.seed}.xlsx'))
     
     print(f"Logged {len(word_level_data)} word-level predictions")
     print(f"Files saved in directory: {output_dir}")
@@ -610,8 +618,10 @@ def main():
                 args.model_type,
                 args.output_dir
             )
-            eval_path = os.path.join("dataset", "test_conll_data.txt")
-            if str(args.eval_dataset).startswith('rem'):
+
+            if args.eval_dataset == 'original':
+                eval_path = os.path.join("dataset", "test_conll_data.txt")
+            elif str(args.eval_dataset).startswith('rem'):
                 sg = args.eval_dataset[-1]
                 eval_path = os.path.join("dataset", "sensitivity", "remove", f"sg{sg}_remove.txt")
             elif str(args.eval_dataset).startswith('low'):
@@ -638,15 +648,16 @@ def main():
         true_labels = [labels for _, labels in val_sentences]
         metrics = evaluate_model(true_labels, pred_labels)
 
-        with open(os.path.join(output_dir, "evaluation_score.json"), "w") as f:
+        with open(os.path.join(output_dir, f"evaluation_score_{args.seed}.json"), "w") as f:
             json.dump(metrics, f, indent=4)
-        with open(os.path.join(output_dir, "true_labels.json"), "w") as f:
+        with open(os.path.join(output_dir, f"true_labels_{args.seed}.json"), "w") as f:
             json.dump(true_labels, f, indent=4)
-        with open(os.path.join(output_dir, "pred_labels.json"), "w") as f:
+        with open(os.path.join(output_dir, f"pred_labels_{args.seed}.json"), "w") as f:
             json.dump(pred_labels, f, indent=4)
 
         # Log predictions for error analysis
         log_predictions_to_excel(
+            args,
             true_sentences=val_sentences,
             pred_labels=pred_labels,
             output_dir=output_dir
@@ -654,6 +665,7 @@ def main():
 
         # Log word-level predictions for detailed error analysis
         log_word_level_predictions(
+            args,
             true_sentences=val_sentences,
             pred_labels=pred_labels,
             output_dir=output_dir
