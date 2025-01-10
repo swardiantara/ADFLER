@@ -1,5 +1,5 @@
 # bash/sh
-train_sets=( original rem-100 rem-60 rem-40 rem-20  )
+train_sets=( rem-20 rem-80 )
 eval_sets=( ori1 ori2 ori3 ori4 ori5 rem1 rem2 rem3 rem4 rem5 )
 seeds=(17 42 67 99 123)
 
