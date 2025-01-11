@@ -47,7 +47,7 @@ def init_args():
     output_folder = os.path.join(args.output_dir, args.scenario + train_dataset, f"{model_name}_{str(args.train_epochs)}")
     print(f"current scenario - {output_folder}")
     if args.do_train:
-        if os.path.exists(os.path.join(output_folder, 'evaluation_score.json')):
+        if os.path.exists(os.path.join(output_folder, f'evaluation_score_{args.seed}.json')):
             raise ValueError('This scenario has been executed.')
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
