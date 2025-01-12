@@ -1,23 +1,23 @@
 {
     "boundary": {
-        "precision": 0.15384615384615385,
+        "precision": 0.10526315789473684,
         "recall": 0.02127659574468085,
         "num_correct": 2,
-        "num_predicted": 13,
+        "num_predicted": 19,
         "num_true": 94,
-        "FP": 11,
+        "FP": 17,
         "FN": 92,
-        "f1": 0.037383177570093455
+        "f1": 0.035398230088495575
     },
     "boundary_strict": {
-        "precision": 0.15384615384615385,
+        "precision": 0.10526315789473684,
         "recall": 0.02127659574468085,
         "num_correct": 2,
-        "num_predicted": 13,
+        "num_predicted": 19,
         "num_true": 94,
-        "FP": 11,
+        "FP": 17,
         "FN": 92,
-        "f1": 0.037383177570093455
+        "f1": 0.035398230088495575
     },
     "classification": {
         "TP": 0,
