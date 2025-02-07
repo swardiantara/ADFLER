@@ -208,7 +208,7 @@
     [
         "B-Event",
         "I-Event",
-        "E-Event",
+        "I-Event",
         "E-Event",
         "O",
         "B-NonEvent",
@@ -226,7 +226,7 @@
         "I-NonEvent",
         "I-NonEvent",
         "I-NonEvent",
-        "E-NonEvent",
+        "I-NonEvent",
         "O"
     ],
     [
@@ -259,7 +259,7 @@
         "I-NonEvent",
         "I-NonEvent",
         "I-NonEvent",
-        "I-NonEvent",
+        "E-NonEvent",
         "O"
     ],
     [
@@ -280,19 +280,6 @@
         "I-NonEvent",
         "I-NonEvent",
         "I-NonEvent",
-        "I-NonEvent",
-        "E-NonEvent",
-        "O"
-    ],
-    [
-        "B-Event",
-        "I-Event",
-        "E-Event",
-        "O",
-        "B-Event",
-        "E-Event",
-        "O",
-        "B-NonEvent",
         "I-NonEvent",
         "E-NonEvent",
         "O"
@@ -302,9 +289,22 @@
         "I-Event",
         "E-Event",
         "O",
+        "B-Event",
+        "E-Event",
+        "O",
         "B-NonEvent",
         "I-NonEvent",
         "E-NonEvent",
+        "O"
+    ],
+    [
+        "B-Event",
+        "I-Event",
+        "E-Event",
+        "O",
+        "B-Event",
+        "I-Event",
+        "E-Event",
         "O",
         "B-NonEvent",
         "I-NonEvent",

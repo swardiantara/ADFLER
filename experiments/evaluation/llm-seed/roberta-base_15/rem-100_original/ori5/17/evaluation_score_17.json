@@ -20,8 +20,8 @@
         "f1": 0.96875
     },
     "classification": {
-        "TP": 13,
-        "TN": 18,
+        "TP": 14,
+        "TN": 17,
         "FP": 0,
         "FN": 0,
         "spesificity": 1.0,

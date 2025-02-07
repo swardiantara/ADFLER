@@ -1,0 +1,39 @@
+{
+    "boundary": {
+        "precision": 0.9285714285714286,
+        "recall": 0.8666666666666667,
+        "num_correct": 52,
+        "num_predicted": 56,
+        "num_true": 60,
+        "FP": 4,
+        "FN": 8,
+        "f1": 0.896551724137931
+    },
+    "boundary_strict": {
+        "precision": 0.8928571428571429,
+        "recall": 0.8333333333333334,
+        "num_correct": 50,
+        "num_predicted": 56,
+        "num_true": 60,
+        "FP": 6,
+        "FN": 10,
+        "f1": 0.8620689655172413
+    },
+    "classification": {
+        "TP": 28,
+        "TN": 22,
+        "FP": 0,
+        "FN": 2,
+        "spesificity": 1.0,
+        "fp_rate": 0.0,
+        "fn_rate": 0.06666666666666665,
+        "g_mean": 0.9660917830792959,
+        "precision": 1.0,
+        "recall": 0.9333333333333333,
+        "f1": 0.9655172413793104,
+        "f1_abs": 0.8656361474435197,
+        "accuracy": 0.9615384615384616,
+        "support": 52
+    },
+    "f1_f1": 0.8808227465214762
+}

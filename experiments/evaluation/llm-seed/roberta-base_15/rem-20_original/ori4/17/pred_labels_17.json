@@ -1,7 +1,7 @@
 [
     [
-        "B-NonEvent",
-        "I-NonEvent",
+        "B-Event",
+        "I-Event",
         "I-Event",
         "E-Event",
         "O",

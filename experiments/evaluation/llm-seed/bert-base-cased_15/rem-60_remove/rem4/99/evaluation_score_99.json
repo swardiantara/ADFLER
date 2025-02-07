@@ -1,27 +1,27 @@
 {
     "boundary": {
-        "precision": 0.9824561403508771,
-        "recall": 0.9333333333333333,
-        "num_correct": 56,
-        "num_predicted": 57,
+        "precision": 0.9661016949152542,
+        "recall": 0.95,
+        "num_correct": 57,
+        "num_predicted": 59,
         "num_true": 60,
-        "FP": 1,
-        "FN": 4,
-        "f1": 0.9572649572649572
+        "FP": 2,
+        "FN": 3,
+        "f1": 0.957983193277311
     },
     "boundary_strict": {
-        "precision": 0.9824561403508771,
-        "recall": 0.9333333333333333,
-        "num_correct": 56,
-        "num_predicted": 57,
+        "precision": 0.9661016949152542,
+        "recall": 0.95,
+        "num_correct": 57,
+        "num_predicted": 59,
         "num_true": 60,
-        "FP": 1,
-        "FN": 4,
-        "f1": 0.9572649572649572
+        "FP": 2,
+        "FN": 3,
+        "f1": 0.957983193277311
     },
     "classification": {
-        "TP": 30,
-        "TN": 26,
+        "TP": 32,
+        "TN": 25,
         "FP": 0,
         "FN": 0,
         "spesificity": 1.0,
@@ -31,9 +31,9 @@
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "f1_abs": 0.9572649572649572,
+        "f1_abs": 0.957983193277311,
         "accuracy": 1.0,
-        "support": 56
+        "support": 57
     },
-    "f1_f1": 0.9572649572649572
+    "f1_f1": 0.957983193277311
 }

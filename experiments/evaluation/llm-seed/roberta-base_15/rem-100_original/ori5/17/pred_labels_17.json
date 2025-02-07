@@ -57,11 +57,11 @@
         "I-NonEvent",
         "E-NonEvent",
         "O",
-        "I-NonEvent",
-        "I-NonEvent",
-        "I-NonEvent",
-        "I-NonEvent",
         "E-NonEvent",
+        "B-NonEvent",
+        "I-Event",
+        "I-Event",
+        "E-Event",
         "O"
     ],
     [
@@ -85,7 +85,7 @@
         "I-Event",
         "E-Event",
         "O",
-        "B-NonEvent",
+        "B-Event",
         "I-NonEvent",
         "I-NonEvent",
         "E-NonEvent",
@@ -124,8 +124,8 @@
         "B-Event",
         "I-Event",
         "I-Event",
-        "I-NonEvent",
-        "E-NonEvent",
+        "I-Event",
+        "E-Event",
         "O"
     ],
     [

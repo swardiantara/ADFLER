@@ -4,8 +4,8 @@
         "E-Event",
         "B-Event",
         "E-Event",
-        "B-Event",
-        "E-Event",
+        "B-NonEvent",
+        "E-NonEvent",
         "O"
     ],
     [
