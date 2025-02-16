@@ -43,6 +43,7 @@ def create_heatmap(data, filename):
 
     plt.tight_layout()
     plt.savefig(filename, bbox_inches='tight')
+    plt.close()
     
     return None
 
@@ -60,7 +61,7 @@ def main():
     for model_path in model_paths:
         output_dir = os.path.join('visualization', 'interpretability', model_path)
         if not os.path.exists(output_dir):
-            os.makedirs()
+            os.makedirs(output_dir)
         model = AutoModelForTokenClassification.from_pretrained(model_path)
         tokenizer = AutoTokenizer.from_pretrained(model_path)
 
