@@ -2,6 +2,7 @@ import json
 import os
 import numpy as np
 
+from tqdm import tqdm
 import seaborn as sns
 import matplotlib.pyplot as plt
 from transformers import AutoModelForTokenClassification, AutoTokenizer
@@ -60,7 +61,7 @@ def main():
          os.path.join('experiments', 'llm-seed-rem-100', 'roberta-base_15'),    # roberta-base trained on rem-100
     ]
 
-    for model_path in model_paths:
+    for model_path in tqdm(model_paths):
         output_dir = os.path.join('visualization', 'interpretability', model_path)
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
@@ -90,7 +91,7 @@ def main():
             "compass error calibration required.",
         ]
 
-        for idx, sample in enumerate(samples):
+        for idx, sample in tqdm(enumerate(samples)):
             filename = os.path.join(output_dir, f'sample_{idx}.pdf')
             word_attributions = ner_explainer(sample)
             create_heatmap(word_attributions, filename)
