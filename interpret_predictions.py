@@ -96,7 +96,7 @@ def main():
             word_attributions = ner_explainer(sample)
             create_heatmap(word_attributions, filename)
             html = ner_explainer.visualize()
-            soup = BeautifulSoup(html, "html.parser")
+            soup = BeautifulSoup(html.data, "html.parser")
             with open(os.path.join(output_dir, f"sample_{idx}.json"), "w") as f:
                     json.dump(word_attributions, f, indent=4)
             with open(os.path.join(output_dir, f"sample_{idx}.html"), "w", encoding = 'utf-8') as f:
