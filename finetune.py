@@ -7,7 +7,7 @@ import math
 import torch
 import pandas as pd
 import numpy as np
-from simpletransformers.ner import NERModel
+from simpletransformers.ner import NERModel, NERArgs
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score, confusion_matrix
 from typing import List, Dict, Set, Tuple
 from dataclasses import dataclass
@@ -600,6 +600,8 @@ def main():
             'save_model_every_epoch': False
         }
         
+        if 'uncased' in args.model_name_or_path:
+            model_args['do_lower_case'] = True
         # Initialize model (can use any transformer model)
         model = NERModel(
             args.model_type,        # Model type (can be roberta, xlnet, etc.)

@@ -1,10 +1,10 @@
 # bash/sh
-train_sets=( rem-100 )
+train_sets=( original rem-100 )
 eval_sets=( ori1 ori2 ori3 ori4 ori5 rem1 rem2 rem3 rem4 rem5 )
 seeds=(17 42 67 99 123)
 
 
-# BERT-base-cased
+# BERT-base-uncased
 for train_set in "${train_sets[@]}"; do
     for seed in "${seeds[@]}"; do
 # train original
