@@ -5,6 +5,8 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from transformers import AutoModelForTokenClassification, AutoTokenizer
+from bs4 import BeautifulSoup 
+
 from src.token_classification import TokenClassificationExplainer
 
 
@@ -92,8 +94,12 @@ def main():
             filename = os.path.join(output_dir, f'sample_{idx}.pdf')
             word_attributions = ner_explainer(sample)
             create_heatmap(word_attributions, filename)
+            html = ner_explainer.visualize()
+            soup = BeautifulSoup(html, "html.parser")
             with open(os.path.join(output_dir, f"sample_{idx}.json"), "w") as f:
                     json.dump(word_attributions, f, indent=4)
+            with open(os.path.join(output_dir, f"sample_{idx}.html"), "w", encoding = 'utf-8') as f:
+                    f.write(str(soup.prettify()))
 
 
 if __name__ == "__main__":
