@@ -1,0 +1,1065 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Forensic Report</title>
+    </head>
+  
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .text-center {
+      text-align: center;
+    }
+    th {
+      text-align: center;
+    }
+
+    th,
+    td {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    /* table,
+    th,
+    td {
+      border: 1px solid #000;
+    } */
+
+    .timeline {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.2em;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    table.fixed {
+      table-layout: fixed;
+    }
+    table.fixed td {
+      overflow: hidden;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.95em;
+    }
+
+    table.table-timeline {
+      width: 100%;
+      font-size: 1em;
+    }
+
+    table.table-timeline > thead { display: table-header-group; }
+    table.table-timeline > tfoot { display: table-row-group; }
+    table.table-timeline > tbody > tr { page-break-inside: avoid; }
+
+    table.table-timeline,
+    table.table-timeline > thead > tr > th,
+    table.table-timeline > tbody > tr > td {
+      border: 1px solid #000;
+    }
+
+    table.table-timeline > thead > tr > th {
+      font-weight: bold;
+    }
+
+    table.table-timeline > tbody > tr > td:first-child {
+      text-align: center;
+    }
+
+    .outside {
+      color: #000;
+    }
+
+    .issue {
+      color: red;
+    }
+
+    .parameter {
+      color: coral;
+    }
+
+    .action {
+      color: rgb(185, 0, 0);
+    }
+
+    .component {
+      color: blue;
+    }
+
+    .function {
+      color: blueviolet;
+    }
+
+    .state {
+      color: #009eff;
+    }
+
+    .bold {
+      text-emphasis-color: red;
+    }
+
+    #footer {
+      margin-top: 7px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .content-color {
+      color: #2b4f60;
+    }
+
+    .timestamp {
+      color: grey;
+      font-size: small;
+    }
+    .page-number {
+      width: 50%;
+      text-align: right;
+      margin-right: 5px;
+    }
+
+    .report-title {
+      font-weight: bold;
+      text-align: left;
+      font-size: 1.8em;
+      color: #0e5e6f;
+    }
+
+    .title-color {
+      color: #0e5e6f;
+      font-size: 1em;
+    }
+
+    #metadata {
+      margin-top: 3em;
+    }
+
+    #table-metadata {
+      border: none !important;
+      width: 30%;
+      font-size: 1em;
+      margin-left: -8px;
+    }
+
+    #color-legend.table-timeline {
+      width: 9%;
+      border: none !important;
+    }
+
+    .box {
+      float: left;
+      width: 20px;
+      height: 20px;
+      margin: 5px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .outside-box {
+      background: #000;
+    }
+
+    .issue-box {
+      background: red;
+    }
+
+    .parameter-box {
+      background: coral;
+    }
+
+    .action-box {
+      background: rgb(185, 0, 0);
+    }
+
+    .component-box {
+      background: blue;
+    }
+
+    .function-box {
+      background: blueviolet;
+    }
+
+    .state-box {
+      background: #009eff;
+    }
+
+    .break-before {
+      page-break-before: always;
+    }
+  </style>
+  
+  <body>
+    <h4 class="report-title">Drone Forensic Report</h4>
+    <hr style="margin-top: -2em" />
+    <span class="timestamp"
+      >This report is generated on: 02/17/2025 15:23:03</span
+    >
+    <section id="metadata">
+      <table id="table-metadata fixed">
+        <col width="30%" />
+        <col width="70%" />
+        <tr>
+          <td>Computer Name</td>
+          <td>adminuser-HURACAN-G21CN-G21CN</td>
+        </tr>
+        <tr>
+          <td>Report Type</td>
+          <td>Entity Recognition</td>
+        </tr>
+        <tr>
+          <td>Number of log files</td>
+          <td>1</td>
+        </tr>
+      </table>
+    </section>
+  
+    <section>
+      <h4 class="title-color" style="margin-top: 3em">Source evidence</h4>
+      <hr style="margin-top: -1em" />
+      <ul class="content-color">
+  
+        <li>DJIFlightRecord_2024-11-10_[03-09-29].csv</li>
+    
+      </ul>
+    </section>
+  
+    <section>
+      <h4 class="title-color" style="margin-top: 3em">Recognition Results</h4>
+      <hr style="margin-top: -1em" />
+      <table id="table-metadata fixed">
+        <col width="40%" />
+        <col width="10%" />
+        <col width="40%" />
+        <col width="10%" />
+    
+        <tr>
+          <td>Number of message</td>
+          <td>22</td>
+      
+          <td>Number of entity</td>
+          <td>262</td>
+        </tr>
+      
+        <tr>
+          <td>Number of non_entity</td>
+          <td>0</td>
+      
+          <td>Number of token</td>
+          <td>262</td>
+        </tr>
+      
+        <tr>
+          <td>Number of state</td>
+          <td>0</td>
+      
+          <td>Number of issue</td>
+          <td>0</td>
+        </tr>
+      
+        <tr>
+          <td>Number of action</td>
+          <td>0</td>
+      
+          <td>Number of function</td>
+          <td>0</td>
+        </tr>
+      
+        <tr>
+          <td>Number of component</td>
+          <td>0</td>
+      
+          <td>Number of parameter</td>
+          <td>0</td>
+        </tr>
+      
+      </table>
+    </section>
+  
+  <section class="break-before">
+    <h5 class="timeline">Highlights Color Code</h5>
+      <table class="table-timeline fixed">
+        <col width="10%" />
+        <col width="20%" />
+        <col width="70%" />
+        <thead>
+          <tr>
+            <th>Color Code</th>
+            <th>Entity Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="box issue-box"></span>
+            </td>
+            <td>
+              <span class="issue">Issue</span>
+            </td>
+            <td>
+              Words/phrases that indicate some issues happen to the drone.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="box parameter-box"></span>
+            </td>
+            <td>
+              <span class="parameter">Parameter</span>
+            </td>
+            <td>
+              Words/phrases that represent some parameters of configuration in a
+              drone.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="box action-box"></span>
+            </td>
+            <td>
+              <span class="action">Action</span>
+            </td>
+            <td>
+              Words/phrases that indicate some actions taken by the drone.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="box component-box"></span>
+            </td>
+            <td><span class="component">Component</span></td>
+            <td>Words/phrases that reflect physical components of a drone</td>
+          </tr>
+          <tr>
+            <td>
+              <span class="box function-box"></span>
+            </td>
+            <td><span class="function">Function</span></td>
+            <td>
+              Words/phrases that denote some functionalities or features of a
+              drone equipped with.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="box state-box"></span>
+            </td>
+            <td><span class="state">State</span></td>
+            <td>
+              Words/phrases that notify a state/mode of a drone operates in
+              during a flight.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h5 class="timeline" style="margin-top: 3em">
+        Highlighted Forensic Timeline
+      </h5>
+      <table class="table-timeline fixed">
+        <col width="30%" />
+        <col width="70%" />
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+      
+          <tr>
+            <td>2024-11-10 03:09:29.820000</td>
+            <td>
+    
+              <span class="component">Motors</span>
+          
+              <span class="component">starting.;</span>
+          
+              <span class="component">Flight</span>
+          
+              <span class="component">mode</span>
+          
+              <span class="component">changed</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">P-GPS.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:09:30.020000</td>
+            <td>
+    
+              <span class="component">Data</span>
+          
+              <span class="component">Recorder</span>
+          
+              <span class="component">File</span>
+          
+              <span class="component">Index</span>
+          
+              <span class="component">is</span>
+          
+              <span class="component">80.;</span>
+          
+              <span class="component">Set</span>
+          
+              <span class="component">Return</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">Home</span>
+          
+              <span class="component">(RTH)</span>
+          
+              <span class="component">altitude</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">100</span>
+          
+              <span class="component">m</span>
+          
+              <span class="component">(328</span>
+          
+              <span class="component">ft).;</span>
+          
+              <span class="component">Set</span>
+          
+              <span class="component">maximum</span>
+          
+              <span class="component">flight</span>
+          
+              <span class="component">altitude</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">500</span>
+          
+              <span class="component">m</span>
+          
+              <span class="component">(1640</span>
+          
+              <span class="component">ft).;</span>
+          
+              <span class="component">Flight</span>
+          
+              <span class="component">mode</span>
+          
+              <span class="component">changed</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">Starting</span>
+          
+              <span class="component">Motors.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:09:31.420000</td>
+            <td>
+    
+              <span class="component">Flight</span>
+          
+              <span class="component">mode</span>
+          
+              <span class="component">changed</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">Manual</span>
+          
+              <span class="component">Takeoff.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:09:35.420000</td>
+            <td>
+    
+              <span class="component">Flight</span>
+          
+              <span class="component">mode</span>
+          
+              <span class="component">changed</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">P-GPS.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:09:36.020000</td>
+            <td>
+    
+              <span class="component">Home</span>
+          
+              <span class="component">point</span>
+          
+              <span class="component">updated.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:09:48.820000</td>
+            <td>
+    
+              <span class="component">Gimbal</span>
+          
+              <span class="component">pitch</span>
+          
+              <span class="component">axis</span>
+          
+              <span class="component">endpoint</span>
+          
+              <span class="component">reached.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:09:51.620000</td>
+            <td>
+    
+              <span class="component">Gimbal</span>
+          
+              <span class="component">pitch</span>
+          
+              <span class="component">axis</span>
+          
+              <span class="component">endpoint</span>
+          
+              <span class="component">reached.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:21.020000</td>
+            <td>
+    
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+              <span class="component">Adjust</span>
+          
+              <span class="component">antennas</span>
+          
+              <span class="component">and</span>
+          
+              <span class="component">make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">they</span>
+          
+              <span class="component">are</span>
+          
+              <span class="component">perpendicular</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">flight</span>
+          
+              <span class="component">direction</span>
+          
+              <span class="component">of</span>
+          
+              <span class="component">aircraft.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:27.820000</td>
+            <td>
+    
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.;</span>
+          
+              <span class="component">Aircraft</span>
+          
+              <span class="component">braking.;</span>
+          
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+              <span class="component">Adjust</span>
+          
+              <span class="component">antennas</span>
+          
+              <span class="component">and</span>
+          
+              <span class="component">make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">they</span>
+          
+              <span class="component">are</span>
+          
+              <span class="component">perpendicular</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">flight</span>
+          
+              <span class="component">direction</span>
+          
+              <span class="component">of</span>
+          
+              <span class="component">aircraft.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:30.820000</td>
+            <td>
+    
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.;</span>
+          
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+              <span class="component">Adjust</span>
+          
+              <span class="component">antennas</span>
+          
+              <span class="component">and</span>
+          
+              <span class="component">make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">they</span>
+          
+              <span class="component">are</span>
+          
+              <span class="component">perpendicular</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">flight</span>
+          
+              <span class="component">direction</span>
+          
+              <span class="component">of</span>
+          
+              <span class="component">aircraft.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:38.620000</td>
+            <td>
+    
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.;</span>
+          
+              <span class="component">Aircraft</span>
+          
+              <span class="component">braking.;</span>
+          
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+              <span class="component">Adjust</span>
+          
+              <span class="component">antennas</span>
+          
+              <span class="component">and</span>
+          
+              <span class="component">make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">they</span>
+          
+              <span class="component">are</span>
+          
+              <span class="component">perpendicular</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">flight</span>
+          
+              <span class="component">direction</span>
+          
+              <span class="component">of</span>
+          
+              <span class="component">aircraft.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:38.820000</td>
+            <td>
+    
+              <span class="component">RC</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">lost.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:40.620000</td>
+            <td>
+    
+              <span class="component">RC</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">lost.;</span>
+          
+              <span class="component">Aircraft</span>
+          
+              <span class="component">braking.;</span>
+          
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+              <span class="component">Adjust</span>
+          
+              <span class="component">antennas</span>
+          
+              <span class="component">and</span>
+          
+              <span class="component">make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">they</span>
+          
+              <span class="component">are</span>
+          
+              <span class="component">perpendicular</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">flight</span>
+          
+              <span class="component">direction</span>
+          
+              <span class="component">of</span>
+          
+              <span class="component">aircraft.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:53.820000</td>
+            <td>
+    
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:10:57.020000</td>
+            <td>
+    
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+              <span class="component">Adjust</span>
+          
+              <span class="component">antennas</span>
+          
+              <span class="component">and</span>
+          
+              <span class="component">make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">they</span>
+          
+              <span class="component">are</span>
+          
+              <span class="component">perpendicular</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">flight</span>
+          
+              <span class="component">direction</span>
+          
+              <span class="component">of</span>
+          
+              <span class="component">aircraft.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:11:01.820000</td>
+            <td>
+    
+              <span class="component">Image</span>
+          
+              <span class="component">transmission</span>
+          
+              <span class="component">signal</span>
+          
+              <span class="component">weak.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:13:12.420000</td>
+            <td>
+    
+              <span class="component">Aircraft</span>
+          
+              <span class="component">braking.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:13:12.820000</td>
+            <td>
+    
+              <span class="component">Aircraft</span>
+          
+              <span class="component">braking.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:13:14.220000</td>
+            <td>
+    
+              <span class="component">Aircraft</span>
+          
+              <span class="component">braking.;</span>
+          
+              <span class="component">Auto</span>
+          
+              <span class="component">landing</span>
+          
+              <span class="component">in</span>
+          
+              <span class="component">progress.;</span>
+          
+              <span class="component">Flight</span>
+          
+              <span class="component">mode</span>
+          
+              <span class="component">changed</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">Auto</span>
+          
+              <span class="component">Landing.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:13:15.820000</td>
+            <td>
+    
+              <span class="component">Auto</span>
+          
+              <span class="component">landing</span>
+          
+              <span class="component">in</span>
+          
+              <span class="component">progress.;</span>
+          
+              <span class="component">Make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">the</span>
+          
+              <span class="component">area</span>
+          
+              <span class="component">under</span>
+          
+              <span class="component">the</span>
+          
+              <span class="component">aircraft</span>
+          
+              <span class="component">is</span>
+          
+              <span class="component">safe</span>
+          
+              <span class="component">for</span>
+          
+              <span class="component">landing.</span>
+          
+              <span class="component">Push</span>
+          
+              <span class="component">throttle</span>
+          
+              <span class="component">down</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">use</span>
+          
+              <span class="component">force</span>
+          
+              <span class="component">landing.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:13:41.820000</td>
+            <td>
+    
+              <span class="component">Auto</span>
+          
+              <span class="component">landing</span>
+          
+              <span class="component">in</span>
+          
+              <span class="component">progress.;</span>
+          
+              <span class="component">Make</span>
+          
+              <span class="component">sure</span>
+          
+              <span class="component">the</span>
+          
+              <span class="component">area</span>
+          
+              <span class="component">under</span>
+          
+              <span class="component">the</span>
+          
+              <span class="component">aircraft</span>
+          
+              <span class="component">is</span>
+          
+              <span class="component">safe</span>
+          
+              <span class="component">for</span>
+          
+              <span class="component">landing.</span>
+          
+              <span class="component">Push</span>
+          
+              <span class="component">throttle</span>
+          
+              <span class="component">down</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">use</span>
+          
+              <span class="component">force</span>
+          
+              <span class="component">landing.</span>
+          
+            </td>
+          </tr>
+    
+          <tr>
+            <td>2024-11-10 03:13:52.920000</td>
+            <td>
+    
+              <span class="component">Flight</span>
+          
+              <span class="component">mode</span>
+          
+              <span class="component">changed</span>
+          
+              <span class="component">to</span>
+          
+              <span class="component">P-GPS.</span>
+          
+            </td>
+          </tr>
+    
+        </tbody>
+      </table>
+    </section>
+  
+      </body>
+    <footer id="footer">
+      <span class="timestamp"> <em>Generated using dfler v0.1.0</em> </span>
+    </footer>
+  </html>
+  
