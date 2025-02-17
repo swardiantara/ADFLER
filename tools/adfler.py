@@ -10,8 +10,6 @@ from tqdm import tqdm
 from os import system, name
 from datetime import datetime
 from simpletransformers.ner import NERModel
-from huggingface_hub import repo_exists
-from transformers import modeling_utils
 
 from generate_report import generate_report
 from parse import read_android_log, read_ios_log
@@ -28,7 +26,7 @@ def get_config():
     previous_step = 0
     previous_status = False
     use_cuda = True if torch.cuda.is_available() == True else False
-    model_config = open(os.path.join('model', 'config.json'))
+    model_config = open(os.path.join(config_file['model_dir'], 'config.json'))
     model_config = json.load(model_config)
     labels = [key for key, _ in model_config['label2id'].items()]
 
@@ -299,8 +297,11 @@ def main():
                         print("No input received, exit program...")
                         sys.exit(0)
                 else:
+                    print(config['model_dir'])
                     droner = NERModel(
-                        "bert", config['model_dir'], labels=config['labels'], use_cuda=config['use_cuda']
+                        "bert", 
+                        config['model_dir'],
+                        use_cuda=config['use_cuda']
                     )
                     print("Model is loaded successfully\n")
                     # Load the forensic timeline
