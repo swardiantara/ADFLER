@@ -495,14 +495,14 @@ def build_tr(records, report_html):
           content = content + """
               <span class="{tag}">{token}</span>
           """.format(tag='outside', token=word)
-        elif 'Event' in tag:
-          content = content + """
-              <span class="{tag}">{token}</span>
-          """.format(tag='component', token=word)
         elif 'NonEvent' in tag:
           content = content + """
               <span class="{tag}">{token}</span>
           """.format(tag='outside', token=word)
+        elif 'Event' in tag:
+          content = content + """
+              <span class="{tag}">{token}</span>
+          """.format(tag='component', token=word)
         # elif tag == 'B-ISSUE' or tag == 'I-ISSUE':
         #   content = content + """
         #       <span class="{tag}">{token}</span>
