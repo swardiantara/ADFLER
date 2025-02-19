@@ -18,11 +18,17 @@ def create_heatmap(data, filename):
     predicted_tags = []
     
     for item in data:
-        # if token not in ['<s>', '</s>']:  # skip special tokens if needed
-        tokens.append(item['token'])
-        scores = [score[1] for score in item['attribution_scores']]
-        attribution_matrix.append(scores)
-        predicted_tags.append(item['label'])
+        if item['token'] not in ['<s>', '</s>', '[CLS]', '[SEP]']:
+            if not '##' in item['token'] and not 'Ġ' in item['token']:
+                tokens.append(item['token'])
+                scores = [score[1] for score in item['attribution_scores']]
+                attribution_matrix.append(scores)
+                predicted_tags.append(item['label'])
+            else:
+                if '##' in item['token']:
+                    tokens[-1] = tokens[-1] + item['token'][2:]
+                if 'Ġ' in item['token']:
+                    tokens[-1] = tokens[-1] + item['token'][1:]
     
     # transpose for easier interpretability
     scores_matrix = np.array(attribution_matrix).transpose()
@@ -74,21 +80,21 @@ def main():
         )
 
         samples = [
-            "Unknown Error, Cannot Takeoff. Contact DJI support.",
-            "Battery cell broken, please replace the battery.",
-            "Strong Interference. Fly with caution.",
-            "Low power, please replace the battery.",
-            "Compass error, calibration required.",
-            "Unknown Error Cannot Takeoff Contact DJI support.",
-            "Battery cell broken please replace the battery.",
-            "Strong Interference Fly with caution.",
-            "Low power please replace the battery.",
-            "Compass error calibration required.",
-            "unknown error cannot takeoff contact dji support.",
-            "battery cell broken please replace the battery.",
-            "strong interference fly with caution.",
-            "low power please replace the battery.",
-            "compass error calibration required.",
+            "Unknown", "Error", ",", "Cannot", "Takeoff", ".", "Contact", "DJI", "support", "."
+            # "Battery cell broken, please replace the battery.",
+            # "Strong Interference. Fly with caution.",
+            # "Low power, please replace the battery.",
+            # "Compass error, calibration required.",
+            # "Unknown Error Cannot Takeoff Contact DJI support.",
+            # "Battery cell broken please replace the battery.",
+            # "Strong Interference Fly with caution.",
+            # "Low power please replace the battery.",
+            # "Compass error calibration required.",
+            # "unknown error cannot takeoff contact dji support.",
+            # "battery cell broken please replace the battery.",
+            # "strong interference fly with caution.",
+            # "low power please replace the battery.",
+            # "compass error calibration required.",
         ]
 
         for idx, sample in tqdm(enumerate(samples)):
