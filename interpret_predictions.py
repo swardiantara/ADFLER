@@ -81,20 +81,20 @@ def main():
 
         samples = [
             "Unknown", "Error", ",", "Cannot", "Takeoff", ".", "Contact", "DJI", "support", "."
-            # "Battery cell broken, please replace the battery.",
-            # "Strong Interference. Fly with caution.",
-            # "Low power, please replace the battery.",
-            # "Compass error, calibration required.",
-            # "Unknown Error Cannot Takeoff Contact DJI support.",
-            # "Battery cell broken please replace the battery.",
-            # "Strong Interference Fly with caution.",
-            # "Low power please replace the battery.",
-            # "Compass error calibration required.",
-            # "unknown error cannot takeoff contact dji support.",
-            # "battery cell broken please replace the battery.",
-            # "strong interference fly with caution.",
-            # "low power please replace the battery.",
-            # "compass error calibration required.",
+            "Battery cell broken, please replace the battery.",
+            "Strong Interference. Fly with caution.",
+            "Low power, please replace the battery.",
+            "Compass error, calibration required.",
+            "Unknown Error Cannot Takeoff Contact DJI support.",
+            "Battery cell broken please replace the battery.",
+            "Strong Interference Fly with caution.",
+            "Low power please replace the battery.",
+            "Compass error calibration required.",
+            "unknown error cannot takeoff contact dji support.",
+            "battery cell broken please replace the battery.",
+            "strong interference fly with caution.",
+            "low power please replace the battery.",
+            "compass error calibration required.",
         ]
 
         for idx, sample in tqdm(enumerate(samples)):
