@@ -80,7 +80,7 @@ def main():
         )
 
         samples = [
-            "Unknown", "Error", ",", "Cannot", "Takeoff", ".", "Contact", "DJI", "support", "."
+            "Unknown Error, Cannot Takeoff. Contact DJI support."
             "Battery cell broken, please replace the battery.",
             "Strong Interference. Fly with caution.",
             "Low power, please replace the battery.",
