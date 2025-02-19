@@ -16,22 +16,28 @@ def create_heatmap(data, filename):
     tokens = []
     attribution_matrix = []
     predicted_tags = []
-    
-    for item in data:
+    indices_to_remove = []
+    for i, item in enumerate(data):
+        scores = [score[1] for score in item['attribution_scores']]
+        attribution_matrix.append(scores)
         if item['token'] not in ['<s>', '</s>', '[CLS]', '[SEP]']:
             if not '##' in item['token'] and not 'Ġ' in item['token']:
                 tokens.append(item['token'])
-                scores = [score[1] for score in item['attribution_scores']]
-                attribution_matrix.append(scores)
                 predicted_tags.append(item['label'])
             else:
                 if '##' in item['token']:
+                    indices_to_remove.append(i)
                     tokens[-1] = tokens[-1] + item['token'][2:]
                 if 'Ġ' in item['token']:
+                    indices_to_remove.append(i)
                     tokens[-1] = tokens[-1] + item['token'][1:]
-    
+        else:
+             indices_to_remove.append(i)
+    attribution_matrix = np.array(attribution_matrix)
+    rows_to_keep = list(set(range(len(data))) - set(indices_to_remove))
+    reduced_matrix = attribution_matrix[np.ix_(rows_to_keep, rows_to_keep)]
     # transpose for easier interpretability
-    scores_matrix = np.array(attribution_matrix).transpose()
+    scores_matrix = reduced_matrix.transpose()
 
     # create the heatmap
     plt.figure(figsize=(10, 8))
@@ -80,7 +86,7 @@ def main():
         )
 
         samples = [
-            "Unknown Error, Cannot Takeoff. Contact DJI support."
+            "Unknown Error, Cannot Takeoff. Contact DJI support.",
             "Battery cell broken, please replace the battery.",
             "Strong Interference. Fly with caution.",
             "Low power, please replace the battery.",
