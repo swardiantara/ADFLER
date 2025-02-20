@@ -657,7 +657,7 @@ def main():
         metrics = evaluate_model(true_labels, pred_labels)
 
         with open(os.path.join(output_dir, f"raw_preds_{args.seed}.json"), "w") as f:
-            json.dump(raw_preds, f, indent=4)
+            json.dump(eval(str(raw_preds)), f, indent=4)
         with open(os.path.join(output_dir, f"evaluation_score_{args.seed}.json"), "w") as f:
             json.dump(metrics, f, indent=4)
         with open(os.path.join(output_dir, f"true_labels_{args.seed}.json"), "w") as f:
