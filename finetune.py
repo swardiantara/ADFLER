@@ -41,8 +41,6 @@ def init_args():
                         help="Whether to train the model")
     parser.add_argument('--do_eval', action='store_true',
                         help="Whether to eval the model")
-    parser.add_argument('--dp_interpret', action='store_true',
-                        help="Whether to interpret the model")
 
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
