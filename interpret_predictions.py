@@ -6,13 +6,12 @@ from tqdm import tqdm
 import seaborn as sns
 import matplotlib.pyplot as plt
 from transformers import AutoModelForTokenClassification, AutoTokenizer
-from bs4 import BeautifulSoup 
 
+from finetune import init_args, seed_everything
 from src.token_classification import TokenClassificationExplainer
 
 
-def create_heatmap(data, filename):
-    # extract tokens and their attribution scores
+def handle_bert(data):
     tokens = []
     attribution_matrix = []
     predicted_tags = []
@@ -20,20 +19,110 @@ def create_heatmap(data, filename):
     for i, item in enumerate(data):
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
-        if item['token'] not in ['<s>', '</s>', '[CLS]', '[SEP]']:
-            if not '##' in item['token'] and not 'Ġ' in item['token']:
+        if item['token'] not in ['[CLS]', '[SEP]']:
+            if not '##' in item['token']:
                 tokens.append(item['token'])
                 predicted_tags.append(item['label'])
             else:
-                if '##' in item['token']:
-                    indices_to_remove.append(i)
-                    tokens[-1] = tokens[-1] + item['token'][2:]
-                if 'Ġ' in item['token']:
-                    indices_to_remove.append(i)
-                    tokens[-1] = tokens[-1] + item['token'][1:]
+                # if '##' in item['token']:
+                indices_to_remove.append(i)
+                tokens[-1] = tokens[-1] + item['token'][2:]
+                # if 'Ġ' in item['token']:
+                #     indices_to_remove.append(i)
+                #     tokens[-1] = tokens[-1] + item['token'][1:]
         else:
              indices_to_remove.append(i)
-    attribution_matrix = np.array(attribution_matrix)
+    return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
+
+
+def handle_roberta(data):
+    tokens = []
+    attribution_matrix = []
+    predicted_tags = []
+    indices_to_remove = []
+    for i, item in enumerate(data):
+        scores = [score[1] for score in item['attribution_scores']]
+        attribution_matrix.append(scores)
+        if item['token'] not in ['<s>', '</s>']:
+            if i == 0:
+                tokens.append(item['token'])
+                predicted_tags.append(item['label'])
+            if 'Ġ' in item['token']:
+                tokens.append(item['token'][1:])
+                predicted_tags.append(item['label'])
+            else:
+                indices_to_remove.append(i)
+                tokens[-1] = tokens[-1] + item['token'][1:]
+        else:
+             indices_to_remove.append(i)
+    return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
+
+
+def handle_xlnet(data):
+    tokens = []
+    attribution_matrix = []
+    predicted_tags = []
+    indices_to_remove = []
+    for i, item in enumerate(data):
+        scores = [score[1] for score in item['attribution_scores']]
+        attribution_matrix.append(scores)
+        if '_' in item['token']:
+            predicted_tags.append(item['label'])
+        else:
+            tokens.append(item['token'][1:])
+            indices_to_remove.append(i)
+            tokens[-1] = tokens[-1] + item['token']
+
+    return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
+
+
+def handle_albert(data):
+    tokens = []
+    attribution_matrix = []
+    predicted_tags = []
+    indices_to_remove = []
+    for i, item in enumerate(data):
+        scores = [score[1] for score in item['attribution_scores']]
+        attribution_matrix.append(scores)
+        if '_' in item['token']:
+            predicted_tags.append(item['label'])
+            tokens.append(item['token'][1:])
+        else:
+            indices_to_remove.append(i)
+            tokens[-1] = tokens[-1] + item['token']
+
+    return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
+
+
+def create_heatmap(data, model_name: str, filename: str):
+    handlers = {
+        "bert-base-cased": handle_bert,
+        "bert-base-uncased": handle_bert,
+        "distilbert-base-cased": handle_bert,
+        "distilbert-base-uncased": handle_bert,
+        "roberta-base": handle_roberta,
+        "distilroberta-base": handle_roberta,
+        "xlnet-base-cased": handle_xlnet,
+        # "albert-base-v2": handle_albert
+    }
+    # extract tokens and their attribution scores
+    tokens = []
+    attribution_matrix = []
+    predicted_tags = []
+    indices_to_remove = []
+    if model_name != 'xlnet-base-cased':
+        # choose handler based on model_type 
+        handler = handlers.get(model_name, lambda: print(f"The model {model_name} is not supported"))
+        tokens, attribution_matrix, predicted_tags, indices_to_remove = handler()
+    else:
+        # electra-base-discriminator handler
+        for i, item in enumerate(data):
+            scores = [score[1] for score in item['attribution_scores']]
+            attribution_matrix.append(scores)
+            tokens.append(item['token'])
+            predicted_tags.append(item['label'])
+            attribution_matrix = np.array(attribution_matrix)
+
     rows_to_keep = list(set(range(len(data))) - set(indices_to_remove))
     reduced_matrix = attribution_matrix[np.ix_(rows_to_keep, rows_to_keep)]
     # transpose for easier interpretability
@@ -64,55 +153,58 @@ def create_heatmap(data, filename):
 
 
 def main():
-    model_paths = [
-         os.path.join('experiments', 'llm-seed', 'bert-base-cased_15'),         # bert-base-cased trained on original
-         os.path.join('experiments', 'capital', 'bert-base-uncased_15'),        # bert-base-uncased trained on original
-         os.path.join('experiments', 'llm-seed-rem-100', 'bert-base-cased_15'), # bert-base-cased trained on rem-100
-         os.path.join('experiments', 'capital-rem-100', 'bert-base-uncased_15'),# bert-base-uncased trained on rem-100
-         os.path.join('experiments', 'llm-seed', 'roberta-base_15'),            # roberta-base trained on original
-         os.path.join('experiments', 'llm-seed-rem-100', 'roberta-base_15'),    # roberta-base trained on rem-100
+    args = init_args()
+    seed_everything(args.seed)
+
+    # model_paths = [
+    #      os.path.join('experiments', 'llm-seed', 'bert-base-cased_15'),         # bert-base-cased trained on original
+    #      os.path.join('experiments', 'capital', 'bert-base-uncased_15'),        # bert-base-uncased trained on original
+    #      os.path.join('experiments', 'llm-seed-rem-100', 'bert-base-cased_15'), # bert-base-cased trained on rem-100
+    #      os.path.join('experiments', 'capital-rem-100', 'bert-base-uncased_15'),# bert-base-uncased trained on rem-100
+    #      os.path.join('experiments', 'llm-seed', 'roberta-base_15'),            # roberta-base trained on original
+    #      os.path.join('experiments', 'llm-seed-rem-100', 'roberta-base_15'),    # roberta-base trained on rem-100
+    # ]
+    # for model_path in tqdm(model_paths):
+    # output_dir = os.path.join('visualization', 'interpretability', model_path)
+    model = AutoModelForTokenClassification.from_pretrained(args.output_dir)
+    tokenizer = AutoTokenizer.from_pretrained(args.output_dir)
+
+    output_dir = os.path.join(args.output_dir, f"interpretability_{args.seed}")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    ner_explainer = TokenClassificationExplainer(
+        model,
+        tokenizer,
+    )
+
+    samples = [
+        "Unknown Error, Cannot Takeoff. Contact DJI support.",
+        "Battery cell broken, please replace the battery.",
+        "Strong Interference. Fly with caution.",
+        "Low power, please replace the battery.",
+        "Compass error, calibration required.",
+        "Unknown Error Cannot Takeoff Contact DJI support.",
+        "Battery cell broken please replace the battery.",
+        "Strong Interference Fly with caution.",
+        "Low power please replace the battery.",
+        "Compass error calibration required.",
+        "unknown error cannot takeoff contact dji support.",
+        "battery cell broken please replace the battery.",
+        "strong interference fly with caution.",
+        "low power please replace the battery.",
+        "compass error calibration required.",
     ]
-
-    for model_path in tqdm(model_paths):
-        output_dir = os.path.join('visualization', 'interpretability', model_path)
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        model = AutoModelForTokenClassification.from_pretrained(model_path)
-        tokenizer = AutoTokenizer.from_pretrained(model_path)
-
-        ner_explainer = TokenClassificationExplainer(
-            model,
-            tokenizer,
-        )
-
-        samples = [
-            "Unknown Error, Cannot Takeoff. Contact DJI support.",
-            "Battery cell broken, please replace the battery.",
-            "Strong Interference. Fly with caution.",
-            "Low power, please replace the battery.",
-            "Compass error, calibration required.",
-            "Unknown Error Cannot Takeoff Contact DJI support.",
-            "Battery cell broken please replace the battery.",
-            "Strong Interference Fly with caution.",
-            "Low power please replace the battery.",
-            "Compass error calibration required.",
-            "unknown error cannot takeoff contact dji support.",
-            "battery cell broken please replace the battery.",
-            "strong interference fly with caution.",
-            "low power please replace the battery.",
-            "compass error calibration required.",
-        ]
-
-        for idx, sample in tqdm(enumerate(samples)):
-            filename = os.path.join(output_dir, f'sample_{idx}.pdf')
-            word_attributions = ner_explainer(sample)
-            create_heatmap(word_attributions, filename)
-            html = ner_explainer.visualize()
-            soup = BeautifulSoup(html.data, "html.parser")
-            with open(os.path.join(output_dir, f"sample_{idx}.json"), "w") as f:
-                    json.dump(word_attributions, f, indent=4)
-            with open(os.path.join(output_dir, f"sample_{idx}.html"), "w", encoding = 'utf-8') as f:
-                    f.write(str(soup.prettify()))
+    model_name = args.model_name_or_path.split('/')[-1]
+    for idx, sample in tqdm(enumerate(samples)):
+        filename = os.path.join(output_dir, f'sample_{idx}.pdf')
+        word_attributions = ner_explainer(sample)
+        create_heatmap(word_attributions, model_name, filename)
+        # html = ner_explainer.visualize()
+        # soup = BeautifulSoup(html.data, "html.parser")
+        with open(os.path.join(output_dir, f"sample_{idx}.json"), "w") as f:
+                json.dump(word_attributions, f, indent=4)
+        # with open(os.path.join(output_dir, f"sample_{idx}.html"), "w", encoding = 'utf-8') as f:
+        #         f.write(str(soup.prettify()))
 
 
 if __name__ == "__main__":
