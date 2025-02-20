@@ -1,4 +1,5 @@
 import os
+import sys
 import random
 import json
 import argparse
@@ -40,6 +41,8 @@ def init_args():
                         help="Whether to train the model")
     parser.add_argument('--do_eval', action='store_true',
                         help="Whether to eval the model")
+    parser.add_argument('--dp_interpret', action='store_true',
+                        help="Whether to interpret the model")
 
     args = parser.parse_args()
     model_name = args.model_name_or_path.split('/')[-1]
@@ -48,7 +51,8 @@ def init_args():
     print(f"current scenario - {output_folder}")
     if args.do_train:
         if os.path.exists(os.path.join(output_folder, f'evaluation_score_{args.seed}.json')):
-            raise ValueError('This scenario has been executed.')
+            print('This scenario has been executed.')
+            sys.exit(0)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
     args.output_dir = output_folder
@@ -599,7 +603,7 @@ def main():
             'save_steps': -1,
             'save_model_every_epoch': False
         }
-        
+
         if 'uncased' in args.model_name_or_path:
             model_args['do_lower_case'] = True
         # Initialize model (can use any transformer model)
@@ -643,7 +647,7 @@ def main():
             val_sentences = read_conll_file(eval_path)
             output_dir = args.eval_output
 
-        predictions, _ = model.predict([words for words, _ in val_sentences], split_on_space=False)
+        predictions, raw_preds = model.predict([words for words, _ in val_sentences], split_on_space=False)
 
         # Process predictions to get labels
         pred_labels = process_predictions(predictions)
@@ -652,6 +656,8 @@ def main():
         true_labels = [labels for _, labels in val_sentences]
         metrics = evaluate_model(true_labels, pred_labels)
 
+        with open(os.path.join(output_dir, f"raw_preds_{args.seed}.json"), "w") as f:
+            json.dump(raw_preds, f, indent=4)
         with open(os.path.join(output_dir, f"evaluation_score_{args.seed}.json"), "w") as f:
             json.dump(metrics, f, indent=4)
         with open(os.path.join(output_dir, f"true_labels_{args.seed}.json"), "w") as f:
@@ -674,6 +680,8 @@ def main():
             pred_labels=pred_labels,
             output_dir=output_dir
         )
+    
+    sys.exit(0)
 
 if __name__ == '__main__':
     main()
