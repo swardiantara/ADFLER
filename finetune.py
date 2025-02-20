@@ -66,7 +66,8 @@ def init_args():
         train_eval = args.train_dataset + '_' + aug_eval
         args.eval_output = os.path.join("experiments", 'evaluation', args.scenario, f"{model_name}_{str(args.train_epochs)}", train_eval, args.eval_dataset, str(args.seed))
         if os.path.exists(os.path.join(args.eval_output, f'evaluation_score_{args.seed}.json')):
-            raise ValueError('This scenario has been executed.')
+            print('This scenario has been executed.')
+            sys.exit(0)
         if not os.path.exists(args.eval_output):
             os.makedirs(args.eval_output)
     return args
