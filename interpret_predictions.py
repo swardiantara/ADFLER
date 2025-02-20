@@ -198,7 +198,7 @@ def main():
     for idx, sample in tqdm(enumerate(samples), desc="Generating word importance heatmap..."):
         filename = os.path.join(output_dir, f'sample_{idx}.pdf')
         if os.path.exists(filename):
-            print('sample_{idx} has been generated.')
+            print(f'sample_{idx} has been generated.')
             continue
         word_attributions = ner_explainer(sample)
         create_heatmap(word_attributions, model_name, filename)
