@@ -27,9 +27,9 @@ def init_args():
                         help="Whether to use original or augmented dataset. Options: [`original`, `rem1`, `rem2`, `rem3`, `rem4`, `ori1`, `low1`]. Default: `original`")
     parser.add_argument('--scenario',  default='llm-based', type=str)
     parser.add_argument("--max_seq_length", default=128, type=int)
-    parser.add_argument("--train_batch_size", default=16, type=int,
+    parser.add_argument("--train_batch_size", default=64, type=int,
                         help="Batch size per GPU/CPU for training.")
-    parser.add_argument("--eval_batch_size", default=16, type=int,
+    parser.add_argument("--eval_batch_size", default=64, type=int,
                         help="Batch size per GPU/CPU for evaluation.")
     parser.add_argument("--learning_rate", default=5e-5, type=float)
     parser.add_argument("--train_epochs", default=15, type=int, 
