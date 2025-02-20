@@ -11,12 +11,12 @@ from finetune import init_args, seed_everything
 from src.token_classification import TokenClassificationExplainer
 
 
-def handle_bert(data):
+def handle_bert(word_attributions):
     tokens = []
     attribution_matrix = []
     predicted_tags = []
     indices_to_remove = []
-    for i, item in enumerate(data):
+    for i, item in enumerate(word_attributions):
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
         if item['token'] not in ['[CLS]', '[SEP]']:
@@ -35,12 +35,12 @@ def handle_bert(data):
     return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
 
 
-def handle_roberta(data):
+def handle_roberta(word_attributions):
     tokens = []
     attribution_matrix = []
     predicted_tags = []
     indices_to_remove = []
-    for i, item in enumerate(data):
+    for i, item in enumerate(word_attributions):
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
         if item['token'] not in ['<s>', '</s>']:
@@ -58,12 +58,12 @@ def handle_roberta(data):
     return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
 
 
-def handle_xlnet(data):
+def handle_xlnet(word_attributions):
     tokens = []
     attribution_matrix = []
     predicted_tags = []
     indices_to_remove = []
-    for i, item in enumerate(data):
+    for i, item in enumerate(word_attributions):
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
         if '_' in item['token']:
@@ -76,12 +76,12 @@ def handle_xlnet(data):
     return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
 
 
-def handle_albert(data):
+def handle_albert(word_attributions):
     tokens = []
     attribution_matrix = []
     predicted_tags = []
     indices_to_remove = []
-    for i, item in enumerate(data):
+    for i, item in enumerate(word_attributions):
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
         if '_' in item['token']:
@@ -94,7 +94,7 @@ def handle_albert(data):
     return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
 
 
-def create_heatmap(data, model_name: str, filename: str):
+def create_heatmap(word_attributions, model_name: str, filename: str):
     handlers = {
         "bert-base-cased": handle_bert,
         "bert-base-uncased": handle_bert,
@@ -113,17 +113,17 @@ def create_heatmap(data, model_name: str, filename: str):
     if model_name != 'xlnet-base-cased':
         # choose handler based on model_type 
         handler = handlers.get(model_name, lambda: print(f"The model {model_name} is not supported"))
-        tokens, attribution_matrix, predicted_tags, indices_to_remove = handler()
+        tokens, attribution_matrix, predicted_tags, indices_to_remove = handler(word_attributions)
     else:
         # electra-base-discriminator handler
-        for i, item in enumerate(data):
+        for i, item in enumerate(word_attributions):
             scores = [score[1] for score in item['attribution_scores']]
             attribution_matrix.append(scores)
             tokens.append(item['token'])
             predicted_tags.append(item['label'])
             attribution_matrix = np.array(attribution_matrix)
 
-    rows_to_keep = list(set(range(len(data))) - set(indices_to_remove))
+    rows_to_keep = list(set(range(len(word_attributions))) - set(indices_to_remove))
     reduced_matrix = attribution_matrix[np.ix_(rows_to_keep, rows_to_keep)]
     # transpose for easier interpretability
     scores_matrix = reduced_matrix.transpose()
@@ -195,7 +195,7 @@ def main():
         "compass error calibration required.",
     ]
     model_name = args.model_name_or_path.split('/')[-1]
-    for idx, sample in tqdm(enumerate(samples)):
+    for idx, sample in tqdm(enumerate(samples), desc="Generating word importance heatmap..."):
         filename = os.path.join(output_dir, f'sample_{idx}.pdf')
         word_attributions = ner_explainer(sample)
         create_heatmap(word_attributions, model_name, filename)
