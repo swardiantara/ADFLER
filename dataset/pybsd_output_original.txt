@@ -1,0 +1,1023 @@
+1 ## A passenger aircraft is approaching.
+1 ## Descend as soon as possible.
+2 ## A passenger aircraft is nearby.
+2 ## Fly with caution.
+3 ## Abnormal compass function or GPS signal detected.
+3 ## Aircraft switched to ATTI mode.
+4 ## Accelerator is Over Range.
+5 ## Account not logged in.
+5 ## Flight altitude and distance restricted to nnn and nnn.
+5 ## Check and log in.
+6 ## ActiveTrack Flight Ended: Aircraft is entering a restricted area.
+7 ## ActiveTrack Flight Ended: Cannot find subject.
+8 ## ActiveTrack Flight Ended: Control Signal Timeout (RC).
+9 ## ActiveTrack Flight Paused.
+10 ## ActiveTrack Flight Stopped.
+10 ## Aircraft Entering Restricted Area.
+11 ## Advanced RTH Image Transmission Recovered.
+11 ## Aircraft is returning home.
+12 ## AE Locked.
+12 ## Metering disabled.
+13 ## Aircraft ActiveTrack available at max speed.
+13 ## Obstacle Avoidance is not available.
+14 ## Aircraft ActiveTrack available at max speed.
+14 ## When exceeding nnn, Obstacle Avoidance is not available.
+15 ## Aircraft ActiveTrack max speed of nnn and Obstacle Avoidance functions normally.
+16 ## Aircraft ActiveTrack max speed of nnn.
+16 ## Left and right Obstacle Sensing systems are available.
+17 ## Aircraft antenna satellite signal searching error.
+17 ## Fly with caution.
+18 ## Aircraft approaching obstacle sensing blind spot and may be unable to detect obstacles.
+18 ## Fly with caution.
+19 ## Aircraft battery level low.
+19 ## Return to home promptly.
+20 ## Aircraft close to Home Point.
+20 ## go home shifts to landing.
+21 ## Aircraft Core Board Overheated.
+22 ## Aircraft entered Fixed-Wing Mode.
+22 ## Current flight speed is nnn.
+22 ## Press C2 to exit.
+23 ## Aircraft exceeded distance limit and has exited Hyperlapse mode.
+24 ## Aircraft flight control locked.
+25 ## Aircraft flight control obtained by remote controller A.
+26 ## Aircraft flight control obtained by remote controller B.
+27 ## Aircraft flight control obtained by remote controller UNKNOWN.
+28 ## Aircraft flight control unlocked.
+29 ## Aircraft GPS interference.
+29 ## Aircraft unable to fly stably.
+29 ## Land or return to home promptly.
+30 ## Aircraft GPS signal too weak.
+30 ## Home Point not updated.
+31 ## Aircraft in Altitude Zone.
+31 ## Max altitude set to nnn.
+32 ## Aircraft in Attitude mode.
+32 ## Unable to hover.
+32 ## Fly with caution.
+33 ## Aircraft in Authorization Zone.
+33 ## Unable to take off before unlocking.
+34 ## Aircraft in high interference environment.
+34 ## Fly with caution.
+35 ## Aircraft in high interference environment.
+35 ## Manually adjust flight route or return to home.
+36 ## Aircraft in Restricted Zone.
+36 ## Unable to take off.
+36 ## Check map to find Recommended Zones.
+37 ## Aircraft in Restricted Zones.
+37 ## Check map to find Recommended Zones.
+38 ## Aircraft is close to Home Point.
+38 ## Return-to-Home Mode is now Auto Landing Mode.
+39 ## Aircraft is close to the Home Point.
+39 ## Initiating Return to Home will now trigger Auto Landing.
+40 ## Aircraft is entering a restricted area.
+41 ## Aircraft is flying back to the start point.
+42 ## Aircraft is in Attitude mode, so that it will not hover.
+42 ## Please fly with caution.
+43 ## Aircraft is in QuickShot Mode.
+43 ## Ensure your enviornment is free of potential obstacles.
+44 ## Aircraft is in Sport Mode.
+44 ## Exit this mode and try again.
+45 ## Aircraft is in Tripod Mode.
+45 ## Exit this mode and try again.
+46 ## Aircraft is landing due to low voltage, which cannot be stopped.
+46 ## You can decelerate the descending speed and avoid obstacles using sticks.
+47 ## Aircraft is now following you.
+48 ## Aircraft is returning to the Home Point.
+48 ## Minimum RTH Altitude is 30m.
+48 ## You can reset the RTH Altitude in Remote Controller Settings after cancelling RTH if necessary.
+49 ## Aircraft is returning to the Home Point.
+49 ## Minimum RTH Altitude is 30m.
+49 ## You can reset the RTH Altitude in Remote Controller Settings after cancelling RTH.
+50 ## Aircraft is returning to the Home Point.
+50 ## Minimum RTH Altitude is 98ft.
+50 ## You can reset the RTH Altitude in Remote Controller Settings after cancelling RTH.
+51 ## Aircraft is returning to the Home Point.
+51 ## RTH Altitude is 30m.
+51 ## You can reset the RTH Altitude in Remote Controller Settings after cancelling RTH if necessary.
+52 ## Aircraft is returning to the Home Point.
+52 ## RTH Altitude is nnn.
+52 ## You can reset the RTH Altitude in Remote Controller Settings after cancelling RTH if necessary.
+53 ## Aircraft is returning to the starting point.
+54 ## Aircraft is tilted, please keep the aircraft stationary and level before flight.
+55 ## Aircraft is too far away.
+56 ## Aircraft max power load reached.
+56 ## Decrease altitude and fly with caution.
+56 ## If this issue persists, land immediately.
+57 ## Aircraft not in flight.
+57 ## Vision system and obstacle sensing unavailable.
+58 ## Aircraft not linked to phone number.
+58 ## Flight range restricted.
+58 ## Check and link phone number.
+59 ## Aircraft out of Range.
+60 ## Aircraft pitch angle too large.
+60 ## Ensure aircraft is level before taking off.
+61 ## Aircraft power insufficient.
+61 ## Fly with caution.
+62 ## Aircraft processor chip overheated.
+62 ## Power off aircraft and wait for temperature to return to normal.
+63 ## Aircraft processor overheated.
+63 ## Automatically returning to home.
+64 ## Aircraft propulsion system error.
+64 ## Forced landing.
+64 ## Manually control the aircraft and land in an open area.
+65 ## Aircraft settings updated to comply with national regulations.
+66 ## Aircraft switched to ATTI mode.
+67 ## Aircraft takeoff altitude error.
+67 ## Restart aircraft.
+68 ## Aircraft too Far.
+68 ## Cannot enter Follow Me Mode.
+69 ## Aircraft unable to return to home automatically.
+69 ## Lower altitude immediately and return to home manually.
+70 ## Aircraft will automatically descend in nnn.
+71 ## Aircraft will not enter S-mode if powered on with the remote controller set to S-mode.
+71 ## Please switch to Normal mode, then back to S-mode to enable it.
+72 ## AirSense communication error.
+72 ## Unable to display nearby manned aircraft and anti-collision warnings.
+72 ## Fly with caution.
+73 ## Altitude above the takeoff point exceeds nnn.
+73 ## Always fly in compliance with altitude limitations.
+74 ## Altitude Less than nnn.
+74 ## Cannot enable Follow Me Mode.
+75 ## Altitude Zone nnn.
+76 ## Ambient Light is too weak.
+77 ## Ambient light too low.
+77 ## Vision system and obstacle sensing unavailable.
+77 ## Fly with caution.
+78 ## Ambient Light too Weak, Backward obstacle sensing is unavailable.
+78 ## please ensure safety during the flight.
+79 ## Ambient Light too Weak, Forward obstacle sensing is unavailable.
+79 ## please ensure safety during the flight.
+80 ## Ambient Light too Weak, Vision Positioning obstacle sensing is unavailable.
+80 ## please ensure safety during the flight.
+81 ## Ambient Light too Weak.
+82 ## Another aircraft is dangerously close, please descend to a safer altitude.
+83 ## Another aircraft is nearby.
+83 ## Another aircraft is approaching.
+83 ## Descend as soon as possible.
+84 ## Another aircraft is nearby.
+84 ## Fly with caution.
+85 ## APAS has been enabled.
+86 ## API Automatic Return Home.
+87 ## API Automatic Takeoff.
+88 ## Approaching a No-Fly Zone.
+88 ## RTH may be affected.
+88 ## Fly with caution.
+89 ## Approaching NFZ or pre-set distance limit of (nnn).
+89 ## Revise Flight Route.
+90 ## Arrived at destination.
+91 ## Arrived at End Point.
+92 ## Arrived at Start Point.
+92 ## Starting Waypoint Mission.
+93 ## At least two Waypoints are needed.
+94 ## At Least Two Waypoints Required.
+95 ## Attitude is too large.
+96 ## Attitude is too large.
+96 ## Backward Obstacle Sensing is not functioning.
+97 ## Attitude is too large.
+97 ## Backward obstacle sensing is unavailable.
+98 ## Attitude is too large.
+98 ## Forward obstacle sensing is unavailable.
+99 ## Attitude is too large.
+99 ## Backward Obstacle Sensing is not functioning.
+100 ## Auto Landing in nnn(s).
+101 ## Auto landing initiated.
+102 ## Auxiliary Bottom Light set to automatic mode.
+103 ## Auxiliary Bottom Light turned off.
+104 ## Auxiliary Bottom Light turned on.
+105 ## Away and Follow in progress.
+106 ## Backward ambient light too low.
+106 ## Backward obstacle avoidance unavailable.
+106 ## Only infrared sensors available.
+106 ## Fly with caution.
+107 ## Backward Obstacle Sensing is not functioning.
+108 ## Backward Obstacle Sensing is not functioning.
+108 ## Ambient Light is too weak.
+109 ## Backward sensor(s) blocked.
+109 ## Obstacle avoidance unavailable.
+109 ## Fly with caution.
+110 ## Barometer Dead in Air.
+111 ## Barometer initialization failed.
+111 ## Restart aircraft.
+112 ## Battery Alert Battery installation error.
+112 ## Please check the batteries are inserted correctly.
+113 ## Battery cell broken, please replace the battery.
+114 ## Battery cells undervoltage.
+115 ## Battery communication malfunction.
+115 ## Reinstall battery.
+115 ## If the issue persists, replace battery.
+116 ## Battery error.
+116 ## Aircraft returning to home automatically.
+117 ## Battery installed incorrectly.
+117 ## Detach battery and reinstall it.
+118 ## Battery level low.
+118 ## Charge battery.
+119 ## Battery nnn requires maintenance.
+120 ## Battery not installed properly.
+120 ## Return to home immediately.
+120 ## Check and re-install battery.
+121 ## Battery overheating.
+121 ## Stop flying and wait for battery temperature to return to normal.
+122 ## Battery power limit will automatically reduce the aircraft's mobility to ensure flight safety.
+123 ## Battery power low.
+123 ## Check battery status and charge or warm up battery.
+124 ## Battery power restricted.
+124 ## Aircraft performance decreased to ensure flight safety.
+124 ## Return to home promptly.
+125 ## Battery Signal Error.
+125 ## Check battery connection.
+126 ## Battery temperature is below 15 degrees Celsius.
+126 ## Warm up the battery temperature to above 25 degree Celsius to ensure a safe flight.
+127 ## Battery temperature too low.
+127 ## Fly with caution.
+128 ## Battery Voltage Difference too large.
+128 ## Check Battery Status.
+129 ## Battery: Battery Error.
+129 ## Return home and land soon.
+129 ## View the checklist after landing.
+130 ## Battery: Connection Error.
+131 ## Battery: Low Voltage Protection.
+132 ## Battery: Overcurrent During Discharge.
+133 ## Braking now!
+133 ## No use to move the stick right.
+133 ## Avoid the obstacle.
+134 ## Braking now!
+134 ## Return sticks to midpoints first.
+135 ## Braking now.
+135 ## Return sticks to midpoints, then continue flying.
+136 ## Cache Space Full.
+137 ## Calibration subject is too close.
+137 ## Recalibrate using a subject that is farther away.
+138 ## Calibration target not far away enough.
+138 ## Please calibrate using infinity.
+139 ## Camera busy, cannot enter playback.
+140 ## Camera error.
+140 ## AI Spot-Check failed.
+140 ## Restart camera.
+141 ## Camera Error.
+141 ## Solution: Restart the aircraft, if the problem persists, contact DJI Support.
+142 ## Camera not calibrated.
+142 ## Image quality affected.
+142 ## Contact DJI Support for assistance.
+143 ## Camera RCAM not connected.
+143 ## Image quality affected.
+143 ## Contact DJI Support for assistance.
+144 ## Camera sensor error.
+144 ## Hardware malfunction: Contact DJI Support to arrange for repairs.
+145 ## Camera Settings ActiveTrack Optimized.
+146 ## Camera Settings Adjusted to ActiveTrack.
+147 ## Camera Settings Adjusted.
+148 ## Camera storage full.
+149 ## Cancel Landing Failed.
+150 ## Cancel Return-to-Home Failed.
+151 ## Cannot change current flight mode.
+151 ## Enable Multiple Flight Modes in Settings menu to change.
+152 ## Cannot enable Intelligent Flight Mode: Low Battery.
+153 ## Cannot enter ActiveTrack.
+153 ## Ambient Light is too weak.
+154 ## Cannot Enter TapFly Cannot fly in that direction.
+155 ## Cannot enter TapFly Mode: Max Flight Altitude Reached.
+155 ## Adjust in Main Controller Settings if necessary.
+156 ## Cannot enter the selected flight mode.
+156 ## Try again later.
+157 ## Cannot exit ActiveTrack.
+158 ## Cannot Identify Subject.
+159 ## Cannot send ActiveTrack command.
+160 ## Cannot start Return to Home due to weak GPS signal.
+161 ## Cannot start Self-Timer.
+161 ## Exposure time is too long.
+162 ## Cannot switch flight mode.
+162 ## Turn on "Multiple Flight Modes" to enable Atti and Sport Modes.
+163 ## Cannot takeoff in a no-fly zone.
+164 ## Cannot Takeoff in Travel Mode.
+164 ## Exit Travel Mode.
+165 ## Cannot takeoff.
+165 ## Ensure the aircraft battery is properly connected.
+166 ## Cannot Track Subject.
+166 ## Cannot Identify Subject.
+167 ## Cannot track subject: Forward Obstacle Sensing not Responding.
+168 ## Cannot track subject: Gimbal Tilt too Large.
+169 ## Cannot track subject: No image.
+169 ## Please retry.
+170 ## Cannot track subject: Subject too Large.
+170 ## Move Away and retry.
+171 ## Cannot track subject: Subject too Small.
+171 ## Get Closer and retry.
+172 ## Capture Failed.
+172 ## Cannot enter Pano mode.
+173 ## Capture Failed.
+173 ## Distance limit exceeded.
+173 ## Cannot shoot panorama.
+174 ## Capture Failed.
+174 ## Insufficient storage space.
+174 ## Cannot shoot panorama.
+175 ## Capture Failed.
+175 ## Shooting interrupted.
+176 ## Capture Failed.
+176 ## Shooting is currently not permitted.
+177 ## Capture Failed.
+177 ## Stick movement detected.
+177 ## Panorama has stopped.
+178 ## Capture Failed.
+178 ## The aircraft is moving.
+178 ## Cannot shoot panorama.
+179 ## Capture Failed.
+179 ## The gimbal is moving.
+179 ## Cannot shoot panorama.
+180 ## Check whether propellers are installed correctly.
+180 ## If the propellers are installed correctly and the aircraft still cannot takeoff, a motor error may exist.
+180 ## Contact DJI Support for assistance.
+181 ## Check whether the propellers are attached to the correct motors based on their markings.
+181 ## Incorrect installation will cause the aircraft to roll over during takeoff.
+182 ## Color display in Liveview is enhanced.
+182 ## Videos and photos will still be shot in D-Log mode.
+183 ## Color display in the Liveview has been enhanced.
+183 ## Videos and photos will still be shot in D-Log mode.
+184 ## Command Failed.
+185 ## Command Timeout.
+186 ## Compass abnormal.
+186 ## Solution:
+186 ## 1. Ensure there are no magnets or metal objects near the aircraft.
+186 ## The ground or walls may contain metal.
+186 ## Move away from sources of interference before attempting flight.
+186 ## 2. Calibrate Compass Before Takeoff.
+187 ## Compass data error.
+187 ## Please contact DJI Support.
+188 ## Compass direction is not the same with IMU.
+189 ## Compass error.
+189 ## Solution: Move away from ground magnetic interference.
+190 ## Compass error, calibration required.
+191 ## Compass Error.
+192 ## Compass Error.
+192 ## Compass data error.
+192 ## Please check the Compass installation and interference.
+193 ## Compass Error.
+193 ## Compass data error.
+193 ## Please contact DJI Support.
+194 ## Compass Error.
+194 ## Compass data error.
+194 ## Please contact DJI Support.
+194 ## Compass disconnected.
+195 ## Compass Error.
+195 ## Compass direction is not the same with IMU.
+196 ## Compass Error.
+196 ## Compass disconnected.
+197 ## Compass Error.
+197 ## Compass error.
+197 ## Solution: Move away from ground magnetic interference.
+198 ## Compass Error.
+198 ## Compass Error.
+198 ## Compass data error.
+198 ## Please contact DJI Support.
+199 ## Compass Error.
+199 ## Compass Error.
+199 ## Compass disconnected.
+200 ## Compass Error.
+200 ## Compass interference.
+200 ## Please move the aircraft away from potential interference source or calibrate the compass.
+201 ## Compass Error.
+201 ## Compass Redundancy Switch.
+202 ## Compass error.
+202 ## Ensure there are no metal or magnetic objects near the aircraft and calibrate it before use.
+203 ## Compass Error.
+203 ## Exit P-GPS Mode.
+204 ## Compass Error.
+204 ## Magnetic Field Interference.
+204 ## Exit P-GPS Mode.
+205 ## Compass initialization failed.
+205 ## Restart aircraft.
+206 ## Compass interference.
+206 ## Please move the aircraft away from potential interference source or calibrate the compass.
+207 ## Compass Interference.
+207 ## Temp Max Altitude : 98ft.
+208 ## Compass Interference.
+208 ## Temp Max Altitude: nnn.
+209 ## Compass Redundancy Switch.
+210 ## Compass Stuck.
+210 ## Restart Aircraft.
+210 ## Contact DJI Support if this persists.
+211 ## Correcting Landing Position.
+212 ## Critical low battery voltage.
+213 ## Critical Low Battery.
+214 ## Critical low battery.
+214 ## Aircraft in Auto Power Off Protection.
+214 ## Forced landing in progress.
+215 ## Critical low battery.
+215 ## Aircraft landing automatically.
+216 ## Critical low battery.
+216 ## Aircraft returning to home.
+217 ## Critical low battery.
+217 ## Recharge promptly.
+218 ## Critical low battery.
+218 ## Return to home or land promptly.
+219 ## Critical low battery.
+219 ## Unable to take off.
+219 ## Recharge promptly.
+220 ## Critically low power.
+220 ## Aircraft is landing.
+221 ## Critically Low Power.
+221 ## Aircraft Landing.
+222 ## Critically Low Power.
+222 ## Aircraft Landing.
+222 ## Throttle up to reduce the speed of descent and use sticks to avoid obstacles.
+223 ## Critically Low Voltage Warning Aircraft will be forced to land.
+224 ## Critically Low Voltage Warning Land as soon as possible, otherwise the battery will be damaged.
+225 ## Critically Low Voltage.
+225 ## Aircraft will land.
+226 ## CrystalSky is too hot.
+226 ## Cool down the monitor to prevent overheating.
+227 ## Current elevation above nnn.
+227 ## Fly with caution.
+228 ## Current RTH route will pass a No-Fly zone.
+228 ## Pay attention to the aircraft's position to avoid RTH failure.
+229 ## Data Recorder File Index is 12.
+230 ## Data Recorder File Index is 13.
+231 ## Data Recorder File Index is 15.
+232 ## Data Recorder File Index is 17.
+233 ## Data Recorder File Index is 18.
+234 ## Data Recorder File Index is 19.
+235 ## Data Recorder File Index is 2.
+236 ## Data Recorder File Index is 21.
+237 ## Data Recorder File Index is 29.
+238 ## Data Recorder File Index is 3.
+239 ## Data Recorder File Index is 30.
+240 ## Data Recorder File Index is 4.
+241 ## Data Recorder File Index is 45.
+242 ## Data Recorder File Index is 46.
+243 ## Data Recorder File Index is 5.
+244 ## Data Recorder File Index is 57.
+245 ## Data Recorder File Index is 65.
+246 ## Data Recorder File Index is 7.
+247 ## Data Recorder File Index is 8.
+248 ## Descending.
+248 ## Exited Visual Avoidance System.
+249 ## Detecting subject.
+250 ## Disable SD card read and write protection or change card.
+251 ## Distance limit enabled.
+251 ## Fly safely.
+252 ## Downlink data connection lost for nnn seconds.
+253 ## Downlink Lost.
+254 ## Downlink Restored (after 0m 0.9s).
+255 ## Downlink Restored (after 0m 1.1s).
+256 ## Downlink Restored (after 0m 1.2s).
+257 ## Downlink Restored (after 0m 1.4s).
+258 ## Downlink Restored (after 0m 1.5s).
+259 ## Downlink Restored (after 0m 1.6s).
+260 ## Downlink Restored (after 0m 1.7s).
+261 ## Downlink Restored (after 0m 11.3s).
+262 ## Downlink Restored (after 0m 11s).
+263 ## Downlink Restored (after 0m 1s).
+264 ## Downlink Restored (after 0m 2.2s).
+265 ## Downlink Restored (after 0m 2.3s).
+266 ## Downlink Restored (after 0m 2.9s).
+267 ## Downlink Restored (after 0m 5.6s).
+268 ## Downlink Restored (after 0m 5.8s).
+269 ## Downward altitude sensor data error.
+269 ## Please contact DJI Support for help.
+270 ## Downward ambient light too low.
+270 ## Obstacle avoidance unavailable.
+270 ## Fly with caution.
+271 ## Downward ambient light too low.
+271 ## Obstacle avoidance unavailable.
+271 ## Fly with caution.
+271 ## Backward ambient light too low.
+271 ## Backward obstacle avoidance unavailable.
+271 ## Only infrared sensors available.
+271 ## Fly with caution.
+272 ## Downward infrared sensor failure.
+272 ## Land as soon as possible.
+273 ## Downward Obstacle Sensing is not functioning.
+273 ## Ambient Light is too weak.
+274 ## Downward sensor error.
+274 ## Aircraft unstable at low altitude.
+274 ## Please fly with caution.
+275 ## Downward vision sensor calibration error.
+275 ## Auto calibration in progress.
+276 ## Downward vision sensor error.
+276 ## Contact DJI Support for assistance.
+277 ## Drag a box around or tap a target on screen.
+277 ## Then tap Go.
+278 ## Drone is Vibrating.
+279 ## During Smart Track, you can control lens zoom within a certain limit.
+280 ## EMMC is full.
+281 ## Ensure control sticks are centered during takeoff.
+282 ## Entered Cruise Control mode.
+282 ## Press C1 or C2 to exit.
+283 ## Error: Course angle control error.
+283 ## Please ensure the propellers are installed on the correct motors.
+284 ## Excessive attitude angle detected, forward obstacle avoidance has stopped working.
+285 ## Excessive gimbal vibration.
+285 ## Check whether gimbal can rotate freely.
+286 ## Executing waypoint mission.
+287 ## Exit Backward Forward Downward Upward Sensing system, Ambient Light is too weak.
+288 ## Exited Cruise Control mode.
+289 ## Exited Hyperlapse mode.
+290 ## Exited Visual Avoidance System.
+291 ## Exiting GPS mode: Unknown Error.
+292 ## Extended flight distance detected.
+292 ## Always maintain visual line of sight unless otherwise authorized.
+293 ## Extra payload detected.
+293 ## Flight performance will be affected.
+293 ## Fly with caution.
+294 ## Extra payload detected.
+294 ## Max altitude and distance set.
+294 ## Fly with caution.
+295 ## Extra payload detected.
+295 ## Max altitude set to nnn and max distance set to nnn to ensure flight safety.
+296 ## Extra payload detected.
+296 ## Return aircraft to an area nearby the home point promptly and fly in a wind-free environment to ensure flight safety.
+297 ## Extra payload detected.
+297 ## Return the aircraft to an area nearby the home point promptly to ensure flight safety.
+298 ## Failed to cancel landing.
+299 ## Failed to cancel Return to Home.
+300 ## Failed to lower or pack up landing gear.
+300 ## Take care of your gimbal when landing.
+301 ## Failed to take off.
+301 ## Check the USB connection with aircraft.
+301 ## Contact DJI Support if this error persists after restarting.
+302 ## File system error.
+302 ## Change SD card.
+303 ## Flight altitude exceeds nnn.
+303 ## Aircraft may be in violation of local laws and regulations.
+303 ## Check and make sure you have obtained proper authorization to fly in this airspace.
+304 ## Flight altitude exceeds nnn.
+304 ## May violate local policies and regulations.
+304 ## Ensure you have obtained proper airspace authorization.
+305 ## Flight control mode error, cannot start recording QuickShot.
+306 ## Flight distance may exceed line-of-sight.
+306 ## Fly with caution.
+307 ## Flight height too low.
+308 ## Flight Mode Set to Attitude.
+309 ## Fly with caution and ensure the aircraft remains within your line of sight.
+310 ## Fly with caution.
+310 ## Compass abnormal.
+310 ## Solution: 1.
+310 ## Ensure there are no magnets or metal objects near the aircraft.
+310 ## The ground or walls may contain metal.
+310 ## Move away from sources of interference before.
+311 ## Forward Obstacle Sensing is not functioning.
+312 ## Forward Obstacle Sensing is not functioning.
+312 ## Ambient Light is too weak.
+313 ## Forward Obstacle Sensing not Responding.
+314 ## Forward Obstacle Sensing not Working.
+315 ## Forward vision sensor calibration error.
+315 ## Auto calibration in progress.
+316 ## Forward vision sensor error.
+316 ## Contact DJI Support for assistance.
+317 ## GEO Zone Info: The target area is in an Altitude Zone.
+317 ## Flight altitude restricted to nnn.
+318 ## GEO: You are in a Warning Zone (Airport Class Airspace Unpaved Airports Power Plant).
+318 ## Fly with caution.
+319 ## Gimbal calibrating.
+320 ## Gimbal calibration error.
+320 ## Restart aircraft or contact DJI Support if the issue persists.
+321 ## Gimbal IMU data error.
+321 ## Contact DJI Support for assistance.
+322 ## Gimbal motor overloaded.
+322 ## Check whether gimbal can rotate freely.
+323 ## Gimbal nnn pan axis endpoint reached.
+324 ## Gimbal nnn pitch axis endpoint reached.
+325 ## Gimbal nnn roll axis endpoint reached.
+326 ## Gimbal Pitch Limit Reached.
+327 ## Gimbal Pitch Reached Movement Limit.
+328 ## Gimbal Recenter.
+329 ## Gimbal Roll Limit Reached.
+330 ## Gimbal stuck.
+330 ## Check whether gimbal lock is removed and ensure gimbal can rotate freely.
+331 ## Gimbal Yaw Limit Reached.
+332 ## GPS module error.
+332 ## Restart aircraft.
+333 ## GPS Position Mismatch.
+334 ## GPS signal low.
+334 ## Aircraft unable to auto hover and takeoff restricted.
+334 ## Move to environment with adequate light.
+334 ## Unlocking takeoff restrictions not recommended.
+335 ## GPS signal weak.
+335 ## Fly with caution.
+335 ## Aircraft in Altitude Zone.
+335 ## Max altitude set to nnn.
+336 ## GPS signal weak.
+336 ## Hovering unstable.
+336 ## Fly with caution.
+337 ## GPS signal weak.
+337 ## Positioning accuracy affected.
+337 ## Fly with caution.
+338 ## Ground Plain.
+338 ## Safe to Land.
+339 ## Gyroscope initialization failed.
+339 ## Restart aircraft.
+340 ## High altitude.
+340 ## Aircraft braking distance increased and flight time decreased.
+340 ## Fly with caution.
+341 ## High wind velocity.
+341 ## Ensure the aircraft remains within your line of sight and fly with caution.
+342 ## High wind velocity.
+342 ## Ensure the aircraft remains within your line of sight and fly with caution.
+342 ## Downlink Lost.
+343 ## High wind velocity.
+343 ## Ensure the aircraft remains within your line of sight and fly with caution.
+343 ## High wind velocity.
+343 ## Fly with caution and land in a safe place ASAP.
+344 ## High wind velocity.
+344 ## Fly with caution and land in a safe place ASAP.
+345 ## High wind velocity.
+345 ## Fly with caution.
+346 ## High Wind Velocity: Fly with caution and ensure the aircraft remains within your line of sight.
+347 ## High-altitude flight, aircraft braking distance is extended, flight time is shortened.
+347 ## Fly with caution.
+348 ## Home Point Recorded, Return-to-Home Altitude : 98FT.
+349 ## Home Point Recorded.
+350 ## Home Point recorded.
+350 ## Return-to-Home Altitude : 98FT.
+351 ## Home Point Recorded.
+351 ## RTH Altitude : 30m.
+352 ## Home Point Recorded.
+352 ## Taking off.
+353 ## Home Point Updated.
+354 ## Home Point updated.
+354 ## RTH altitude adjusted to nnn.
+355 ## Image Transmission Recovered.
+355 ## Aircraft is returning home.
+356 ## Image transmission signal lost.
+357 ## Impact detected.
+357 ## Aircraft stopped.
+357 ## Restart aircraft.
+358 ## Impact detected.
+358 ## Restart aircraft.
+359 ## IMU attitude restricted.
+359 ## Ensure aircraft is level.
+360 ## IMU calibration required.
+360 ## Calibrate IMU.
+361 ## IMU not calibrated.
+361 ## Calibrate IMU.
+362 ## IMU warming up.
+362 ## Wait before taking off.
+363 ## In Flight.
+364 ## Incompatible firmware version.
+364 ## Go to Profile > Settings to update firmware.
+365 ## Insufficient SD card space.
+365 ## Change card or delete files.
+366 ## Intelligent Flight Modes have not been enabled.
+366 ## Enable this option in Main Controller Settings if needed.
+367 ## Landing Canceled.
+368 ## Landing gear function restored.
+369 ## Landing Gear Lowered.
+370 ## Landing gear lowered.
+370 ## Obstacle Avoidance Disabled.
+371 ## Landing gear lowered.
+371 ## Obstacle Avoidance has been disabled.
+372 ## Landing Gear Lowering.
+373 ## Landing Gear Paused.
+374 ## Landing Gear Raised.
+375 ## Landing Gear Raising.
+376 ## Landing Gear Raising.
+376 ## Home Point Recorded.
+377 ## Landing Protection Activated.
+377 ## Aircraft will decelerate during landing.
+378 ## Landing.
+379 ## Large Wind Velocity.
+380 ## Large Wind Velocity.
+380 ## Fly with caution.
+381 ## Lens not connected.
+382 ## Lighting environment too dark.
+382 ## Vision System unavailable.
+382 ## Fly with caution.
+383 ## Lighting environment too dark.
+383 ## Visual positioning inaccurate.
+383 ## Fly with caution.
+384 ## Live stream video frame rate less than 9Hz.
+384 ## Fly with caution.
+385 ## Loading database failed.
+385 ## Geo-awareness function degraded.
+386 ## Locating Landing Point.
+387 ## Low battery voltage.
+387 ## Fly with caution.
+388 ## Low battery.
+388 ## Recharge promptly.
+389 ## Low battery.
+389 ## Return to home promptly.
+390 ## Low power, please replace the battery.
+391 ## Low Power.
+391 ## Aircraft is returning to the Home Point.
+392 ## Low Power.
+392 ## Returning home.
+393 ## Magnetic Field Interference.
+393 ## Exit P-GPS Mode.
+394 ## Magnetic Field Interference.
+394 ## Exit P-GPS Mode.
+394 ## Yaw Error.
+395 ## Manned aircraft approaching.
+395 ## Fly at a safe altitude.
+396 ## Manned aircraft detected nearby.
+396 ## Fly with caution.
+397 ## Manned aircraft too close.
+397 ## Fly at a safe altitude.
+398 ## Max Altitude Approached.
+398 ## Wait for the GPS satellite signal recovery before ascend.
+399 ## Max altitude reached (Altitude limit: nnn) .
+400 ## Max Flight Altitude Reached.
+400 ## Adjust in Main Controller Settings if necessary.
+401 ## Max Flight Distance Reached.
+401 ## Adjust in Main Controller Settings if necessary.
+402 ## Maximum Flight Altitude Reached.
+403 ## Maximum Flight Altitude Reached.
+403 ## Adjust altitude in MC Settings if required.
+404 ## Maximum Flight Distance Reached.
+404 ## Adjust distance in MC Settings if required.
+405 ## Maximum flight distance reached.
+405 ## Adjust the distance in MC Settings if required.
+406 ## Min Waypoint Distance: nnn.
+407 ## Mobile device CPU fully loaded.
+407 ## Related performance will be affected.
+408 ## Mobile device version too old to support HD image transmission and the image transmission mode has been switch to normal mode.
+409 ## Motor error.
+409 ## Check propellers and fly with caution.
+410 ## Motor idle.
+410 ## Check whether propellers are installed.
+411 ## Motor is Blocked.
+412 ## Motor is Blocked.
+412 ## Motor stuck.
+412 ## Check for objects blocking motor or contact DJI Support for assistance.
+413 ## Motor is idling (lost or missing propeller).
+414 ## Motor nnn propeller detached or installed incorrectly.
+415 ## Motor nnn stalled.
+415 ## Land aircraft immediately.
+416 ## Motor Obstructed.
+416 ## Propulsion output is limited to ensure the health of the battery.
+417 ## Motor or propeller error.
+417 ## Check the motors and propellers.
+418 ## Motor speed error.
+418 ## Land or return to home promptly.
+418 ## After powering off the aircraft, replace the propeller on the beeping ESC.
+418 ## If the issue persists, contact DJI Support.
+419 ## Motor stuck.
+419 ## Check for objects blocking motor or contact DJI Support for assistance .
+420 ## Motor unable to rotate.
+420 ## Check for objects blocking motor or contact DJI Support for assistance .
+421 ## Motor unable to rotate.
+421 ## Check motor.
+422 ## Motors Started.
+423 ## Navigation system error.
+423 ## Restart aircraft.
+424 ## No GPS signal.
+424 ## Aircraft unable to hover.
+424 ## Fly with caution.
+425 ## No GPS signal.
+425 ## Unable to hover.
+425 ## Fly with caution.
+426 ## No GPS signal.
+426 ## Unable to take off.
+426 ## Move to an open area or exit flight tutorial.
+427 ## No GPS.
+427 ## Return to Home failed.
+427 ## Return the aircraft to home manually.
+428 ## No SD card.
+428 ## Insert card.
+429 ## Not Allowed to change Aircraft Mode.
+429 ## If needed, enable it in Main Controller Settings.
+430 ## Not Allowed to change Aircraft Mode.
+430 ## If needed.
+431 ## Not Enough Force/ESC Error.
+432 ## Object too close to laser rangefinder.
+433 ## Object too far for laser rangefinder.
+434 ## Obstacle Avoidance Disabled.
+435 ## Obstacle Avoidance disabled.
+435 ## Fly with caution.
+436 ## Obstacle Avoidance Disabled.
+436 ## Landing gear lowered.
+436 ## Obstacle Avoidance Disabled.
+437 ## Obstacle Avoidance disabled.
+437 ## Landing gear lowered.
+437 ## Obstacle Avoidance has been disabled.
+438 ## Obstacle Avoidance will be disabled in landing.
+439 ## Obstacle Avoided.
+439 ## Revise Flight Route.
+440 ## Obstacle sensing not available at night.
+440 ## Adjust RTH altitude to above tallest surrounding building before flying.
+441 ## Obstacle Sensing will be disabled when aircraft is landing.
+441 ## Fly with caution.
+442 ## PalmControl in Process.
+443 ## Pano shooting completed.
+443 ## The sky part is filled automatically.
+444 ## Pano successful.
+445 ## Panorama Captured Successfully.
+446 ## Payload mode enabled.
+446 ## Max altitude and distance set.
+446 ## Fly with caution.
+447 ## Payload mode enabled.
+447 ## Max altitude set to nnn and max distance set to nnn to ensure flight safety.
+448 ## Payload mode enabled.
+448 ## Max altitude set to nnn and max distance set to nnn.
+448 ## Fly in a wind-free environment to ensure flight safety.
+449 ## Payload mode enabled.
+449 ## Return the aircraft to an area nearby the home point promptly to ensure flight safety.
+450 ## Precision Landing.
+451 ## Precision Landing.
+451 ## Correcting Landing Position.
+452 ## Precision Landing.
+452 ## Locating Landing Point.
+453 ## Precision Landing.
+453 ## Rectifying aircraft position.
+454 ## Propeller Fell Off.
+455 ## Propeller Fell Off.
+455 ## Motor idle.
+455 ## Check whether propellers are installed.
+456 ## Propeller Guard Mounted Propeller Guard mounted.
+456 ## Forward Obstacle Sensing will be automatically switched off.
+457 ## Propeller guard or extra payload detected.
+457 ## Flight performance will be affected.
+457 ## Fly with caution.
+458 ## Propeller rotating too fast.
+458 ## Wind resistance affected.
+458 ## Return to home and land promptly.
+458 ## Check whether propeller on beeping ESC is warped or damaged.
+459 ## Propellers not installed.
+460 ## Propulsion output has been limited to ensure battery health.
+461 ## QuickShot has ended.
+462 ## Reaching maximum altitude.
+463 ## Recenter Gimbal Pan.
+464 ## Recharge promptly.
+465 ## Rectifying aircraft position.
+466 ## Remote controller assisted takeoff initiated.
+467 ## Remote controller battery level low.
+467 ## Recharge promptly.
+468 ## Remote controller disconnected from aircraft.
+469 ## Remote controller in high interference environment.
+469 ## Manually adjust flight route or return to home.
+470 ## Remote Controller Right Dial Locked.
+470 ## Lightly press it to adjust.
+471 ## Remote controller signal lost.
+472 ## Remote controller signal weak.
+472 ## Adjust remote controller antennas.
+473 ## Remote ID error.
+473 ## Connect to network to obtain mobile device location.
+473 ## Flying without broadcasting required remote ID messages may violate local regulations.
+474 ## Remote ID functionality normal.
+475 ## Restart aircraft and DJI Fly.
+476 ## Restart aircraft.
+477 ## Returning to the Home Point.
+478 ## Return-to-Home Altitude : 65FT.
+479 ## Return-to-Home Altitude : 98FT.
+480 ## Right Dial Locked.
+480 ## Lightly press to adjust.
+481 ## RTH : Ascending to RTH altitude.
+482 ## RTH : Cruise.
+483 ## RTH : Heading alignment.
+484 ## RTH : Preascending.
+485 ## RTH Altitude : 65FT.
+486 ## RTH Altitude : 98FT.
+487 ## RTH Altitude : 98FT.
+487 ## Data Recorder File Index is 1.
+488 ## RTH altitude adjusted to nnn.
+489 ## RTK Base Station Data Not Received.
+490 ## RTK Base Station Data Not Received.
+490 ## Please make sure base station antenna is connected to the correct port.
+491 ## RTK signal weak.
+491 ## Move to an open area for takeoff or turn off RTK.
+492 ## Running Flight Simulator.
+492 ## Restart aircraft to take off.
+493 ## Satellite positioning off.
+493 ## Fly with Caution.
+494 ## SD card full.
+494 ## Change card or delete files.
+495 ## SD card malfunction.
+495 ## Change card.
+496 ## SD card speed low.
+496 ## Change card.
+497 ## SD card write speed is too slow.
+497 ## Not suitable for shooting a 4K video.
+498 ## Sensing system is blocked or too close to the obstacle.
+499 ## Set Flight Mode to GPS to fly safe.
+500 ## Setting new Maximum Flight Altitude to nnn.
+501 ## Setting new Return-To-Home altitude to nnn.
+502 ## Signal Lost.
+502 ## Aircraft returning to Home Point.
+503 ## Sprayer turned OFF, sprayed nnn at nnn liters/min.
+504 ## Sprayer turned ON.
+505 ## Starting Smart Track.
+506 ## Strong Aircraft Interference.
+507 ## Strong Interference Detected.
+507 ## Be careful when flying long distances.
+508 ## Strong Interference Now.
+508 ## Fly with caution.
+509 ## Strong Interference to Aircraft.
+509 ## Signal interruption may be more likely.
+509 ## Fly with caution.
+510 ## Strong Interference to Remote Controller.
+510 ## Signal interruption maybe more likely.
+510 ## Fly with caution.
+511 ## Strong Interference.
+511 ## Fly with caution.
+512 ## Strong Remote Controller Interference.
+513 ## Strong wind warning.
+513 ## Aircraft unable to fly stably.
+513 ## Lower altitude immediately and manually return to home.
+514 ## Strong wind warning.
+514 ## Aircraft unable to return to home automatically.
+514 ## Lower altitude immediately and return to home manually.
+515 ## Strong wind.
+515 ## Fly with caution.
+516 ## Strong wireless interference.
+516 ## Please fly with caution.
+517 ## Strong wireless interference.
+517 ## Please fly with caution.
+517 ## Obstacle Avoidance Disabled.
+517 ## Landing gear lowered.
+517 ## Obstacle Avoidance Disabled.
+518 ## Subject lost.
+518 ## Reselect subject.
+519 ## Subject lost.
+519 ## Searching ….
+520 ## Subject too Large.
+520 ## Move Away and retry.
+521 ## Subject too Small.
+521 ## Get Closer and retry.
+522 ## Switched to A (Attitude)-mode.
+523 ## Switched to gimbal free mode.
+523 ## Use the RC to control aircraft yaw.
+524 ## Switched to P (Positioning)-mode.
+525 ## Switched to S (Sport)-mode.
+526 ## Switched to T (Tripod)-mode.
+527 ## Take off and retry this function.
+528 ## Take off in P-Mode.
+529 ## Taking Off.
+530 ## Tap Fly Flight Ended Landing Gear Lowered.
+531 ## Tap the screen lightly to focus.
+532 ## Tap the screen to focus.
+533 ## Tap to choose a valid zone.
+534 ## Target lost.
+534 ## QuickShots stopped.
+535 ## The aircraft is flying back to the start point.
+536 ## The flight attitude angle is larger in Sport mode.
+536 ## The gimbal will rotate when the aircraft starts or stops.
+536 ## Use Normal mode if required for stable shooting.
+537 ## The remaining battery is only enough for RTH.
+537 ## Return home now.
+538 ## Tip: Aircraft reached maximum distance, please pay attention to flight safety.
+539 ## Tip: Only the first camera can tap-zoom in dual gimbal control mode.
+540 ## Tip: When multi-gimbals are controlled together, only the first gimbal spotlight feature is available.
+541 ## To take off in non-P mode, toggle Flight Mode Switch to another mode and then toggle it back.
+542 ## Unable to take off in low light environment.
+542 ## Ensure there are no metal and magnetic objects near the aircraft and calibrate compass.
+543 ## Unable to take off.
+544 ## Unknown Error, Cannot Takeoff.
+544 ## Contact DJI support.
+545 ## Upward Obstacle Detected.
+546 ## Video cache has stopped because there is not enough storage space.
+546 ## You can enable Auto Cache Clear or manually delete cache to get enough space.
+547 ## Vision sensor error.
+547 ## Contact DJI Support for assistance.
+548 ## Vision sensor(s) blocked.
+548 ## Fly with caution.
+549 ## Vision systems and obstacle avoidance disabled.
+550 ## Visual positioning inaccurate.
+550 ## Fly with caution.
+551 ## Warning.
+552 ## Warning: Aircraft is less than nnn (minimum) away from the object below.
+553 ## Warning: Battery Temperature Below 15°C (59F).
+553 ## Warm battery to above 25°C (77F) before flying.
+554 ## Warning: Command Failed.
+555 ## Warning: Command Timeout.
+556 ## Warning: Critically low battery.
+556 ## Please change the battery.
+557 ## Warning: Max Flight Altitude Reached.
+557 ## Adjust in Main Controller Settings if necessary.
+558 ## Warning: Motor Obstructed.
+559 ## Warning: Motor Overloaded.
+559 ## Aircraft will decelerate to ensure safety.
+560 ## Warning.
+560 ## The remaining battery is only enough for RTH.
+560 ## Return home now.
+561 ## Waypoint Mission Paused.
+562 ## Waypoint Mission Resumed.
+563 ## Waypoint Mission Start.
+564 ## Weak GPS signal.
+564 ## Aircraft is in Attitude mode and hovering may be unstable.
+564 ## Fly with caution.
+565 ## Weak GPS signal.
+565 ## Positioning accuracy may be compromised.
+565 ## Please fly with caution.
+566 ## Weak image transmission signal.
+566 ## Adjust antennas.
+567 ## Weak signal.
+567 ## Adjust antenna and avoid signal block.
+568 ## Weak signal.
+568 ## Adjust antennas.
+569 ## Weak signal.
+569 ## Avoid blocking the antennas and keep the antennas parallel to and facing toward the aircraft during flight.
+570 ## Weak signal.
+570 ## Avoid blocking the antennas and keep the antennas parallel to and facing toward the aircraft during flight.
+570 ## Downlink Lost.
+571 ## Weak signal.
+571 ## Make sure the remote controller is facing aircraft and avoid blocking the signal.
+572 ## Yaw Error.
+573 ## Your aircraft has entered a Warning Zone (Class D).
+573 ## Please fly with caution.
+574 ## Your aircraft is at the boundary of an Altitude Zone.
+574 ## Please fly away or land with caution.
+575 ## Your aircraft is at the boundary of an Authorization Zone.
+575 ## Please fly away with caution.
+576 ## Your aircraft is flying in an Altitude Zone (nnn).
+576 ## Please fly with caution.
+577 ## Your palm is too close to the aircraft.
+577 ## Please step farther away.
+578 ## Your palm is too far away from the aircraft.
+578 ## Please step closer.
