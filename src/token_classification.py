@@ -90,7 +90,7 @@ class TokenClassificationExplainer(BaseExplainer):
 
         if self.attributions is not None:
             word_attr = []
-            tokens = [token.replace("Ġ", "") for token in self.decode(self.input_ids)]
+            tokens = [token for token in self.decode(self.input_ids)]
             labels = self.predicted_class_names
             for index in self._selected_indexes:
                 try:
