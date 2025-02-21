@@ -41,6 +41,8 @@ def handle_roberta(word_attributions):
     predicted_tags = []
     indices_to_remove = []
     for i, item in enumerate(word_attributions):
+        print(f"curr_token: {item['token']}")
+        print(f"tokens: {tokens}")
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
         if item['token'] not in ['<s>', '</s>']:
@@ -64,6 +66,8 @@ def handle_xlnet(word_attributions):
     predicted_tags = []
     indices_to_remove = []
     for i, item in enumerate(word_attributions):
+        print(f"curr_token: {item['token']}")
+        print(f"tokens: {tokens}")
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
         if '_' in item['token']:
@@ -117,6 +121,8 @@ def create_heatmap(word_attributions, model_name: str, filename: str):
     else:
         # electra-base-discriminator handler
         for i, item in enumerate(word_attributions):
+            print(f"curr_token: {item['token']}")
+            print(f"tokens: {tokens}")
             scores = [score[1] for score in item['attribution_scores']]
             attribution_matrix.append(scores)
             tokens.append(item['token'])
