@@ -46,7 +46,7 @@ def handle_roberta(word_attributions):
         scores = [score[1] for score in item['attribution_scores']]
         attribution_matrix.append(scores)
         if item['token'] not in ['<s>', '</s>']:
-            if i == 0:
+            if len(tokens) == 0:
                 tokens.append(item['token'])
                 predicted_tags.append(item['label'])
             if 'Ġ' in item['token']:
