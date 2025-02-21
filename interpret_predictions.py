@@ -24,12 +24,8 @@ def handle_bert(word_attributions):
                 tokens.append(item['token'])
                 predicted_tags.append(item['label'])
             else:
-                # if '##' in item['token']:
                 indices_to_remove.append(i)
                 tokens[-1] = tokens[-1] + item['token'][2:]
-                # if 'Ġ' in item['token']:
-                #     indices_to_remove.append(i)
-                #     tokens[-1] = tokens[-1] + item['token'][1:]
         else:
              indices_to_remove.append(i)
     return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
@@ -56,7 +52,7 @@ def handle_roberta(word_attributions):
                 indices_to_remove.append(i)
             else:
                 indices_to_remove.append(i)
-                tokens[-1] = tokens[-1] + item['token'][1:]
+                tokens[-1] = tokens[-1] + item['token']
         else:
              indices_to_remove.append(i)
     return tokens, np.array(attribution_matrix), predicted_tags, indices_to_remove
