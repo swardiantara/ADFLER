@@ -49,9 +49,11 @@ def handle_roberta(word_attributions):
             if len(tokens) == 0:
                 tokens.append(item['token'])
                 predicted_tags.append(item['label'])
-            elif 'Ġ' in item['token']:
+            elif 'Ġ' in item['token'] and len(item['token'] > 1):
                 tokens.append(item['token'][1:])
                 predicted_tags.append(item['label'])
+            elif item['token'] == 'Ġ':
+                indices_to_remove.append(i)
             else:
                 indices_to_remove.append(i)
                 tokens[-1] = tokens[-1] + item['token'][1:]
